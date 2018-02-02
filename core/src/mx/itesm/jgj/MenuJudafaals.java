@@ -30,7 +30,7 @@ class MenuJudafaals implements Screen {
         this.jdj = judafaalsGreatJourney;
     }
 
-    // Método que se encarga de... (preguntarle al profesor).
+    // Método que se encarga de mostrar en la pantalla.
     @Override
     public void show() {
 
