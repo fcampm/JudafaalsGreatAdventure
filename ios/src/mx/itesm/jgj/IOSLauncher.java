@@ -5,13 +5,12 @@ import org.robovm.apple.uikit.UIApplication;
 
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
-import mx.itesm.jgj.JudafaalsGreatJourney;
 
 public class IOSLauncher extends IOSApplication.Delegate {
     @Override
     protected IOSApplication createApplication() {
         IOSApplicationConfiguration config = new IOSApplicationConfiguration();
-        return new IOSApplication(new JudafaalsGreatJourney(), config);
+        return new IOSApplication(new JudafaalsGreatAdventure(), config);
     }
 
     public static void main(String[] argv) {

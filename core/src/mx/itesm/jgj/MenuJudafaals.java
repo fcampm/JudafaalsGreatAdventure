@@ -12,7 +12,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 class MenuJudafaals implements Screen {
 
     // Variables de instancia
-    private JudafaalsGreatJourney jdj;
+    private JudafaalsGreatAdventure jdj;
 
     // Camara
     private OrthographicCamera camara;
@@ -25,9 +25,9 @@ class MenuJudafaals implements Screen {
     // Batch
     private SpriteBatch batch;
 
-    public MenuJudafaals(JudafaalsGreatJourney judafaalsGreatJourney) {
+    public MenuJudafaals(JudafaalsGreatAdventure judafaalsGreatAdventure) {
 
-        this.jdj = judafaalsGreatJourney;
+        this.jdj = judafaalsGreatAdventure;
     }
 
     // Método que se encarga de mostrar en la pantalla.
