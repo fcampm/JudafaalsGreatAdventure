@@ -12,7 +12,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 class MenuJudafaals implements Screen {
 
     // Variables de instancia
-    private JudafaalsGreatJourney jdj;
+    public JudafaalsGreatJourney jdj;
 
     // Camara
     private OrthographicCamera camara;
@@ -40,7 +40,7 @@ class MenuJudafaals implements Screen {
     }
 
     private void crearMenu() {
-        //todo
+
 
     }
 
@@ -71,21 +71,21 @@ class MenuJudafaals implements Screen {
 
     @Override
     public void pause() {
-        //todo
+
     }
 
     @Override
     public void resume() {
-        //todo
+
     }
 
     @Override
     public void hide() {
-        //todo
+
     }
 
     @Override
     public void dispose() {
-        //todo
+
     }
 }
