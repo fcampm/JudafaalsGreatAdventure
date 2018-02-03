@@ -8,6 +8,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+/*
+* Participantes del código:
+* 1. Fabián Camp Mussa - A10378565.
+* */
+
 
 class MenuJudafaals implements Screen {
 
