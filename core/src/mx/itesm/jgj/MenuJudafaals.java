@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 * Participantes del código:
 * 1. Fabián Camp Mussa - A10378565.
 * 2. Darwin Jomair Chavez Salas - A01373791
+* 3. Prueba1 - A01234567.
 * */
 
 
