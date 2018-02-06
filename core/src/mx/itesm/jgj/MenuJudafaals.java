@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 * 2. Darwin Jomair Chavez Salas - A01373791
 * 3. Prueba1 - A01234567.
 * 4.- Nombre 4
+* 5. Juan José Aguilar
 * */
 
 
