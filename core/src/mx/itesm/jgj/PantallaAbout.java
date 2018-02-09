@@ -12,9 +12,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import static mx.itesm.jgj.MenuJudafaals.ALTO;
 import static mx.itesm.jgj.MenuJudafaals.ANCHO;
 
-/**
- * Created by fcamp on 07/02/2018.
- */
 
 class PantallaAbout implements Screen {
 

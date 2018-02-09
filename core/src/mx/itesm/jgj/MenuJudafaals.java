@@ -60,9 +60,11 @@ class MenuJudafaals implements Screen {
 
         escenaMenu = new Stage(vista);
 
+        // Creación de las texturas de los bótones.
         TextureRegionDrawable trdPlay = new TextureRegionDrawable(new TextureRegion(new Texture("play.png")));
         TextureRegionDrawable trdOnClick = new TextureRegionDrawable(new TextureRegion(new Texture("playOnClick.png")));
 
+        // Creación del botón con su cambio al hacer click.
         ImageButton btnPlay = new ImageButton(trdPlay, trdOnClick);
         btnPlay.setPosition(ANCHO/2 - btnPlay.getWidth()/2, ALTO/2 - btnPlay.getHeight()/2); //Centramos el botón en la pantalla.
 
@@ -97,6 +99,7 @@ class MenuJudafaals implements Screen {
 
         batch.setProjectionMatrix(camara.combined); // Escala los objetos.
 
+        // Dibuja en pantalla el stage llamado escenaMenu.
         escenaMenu.draw();
 
     }
