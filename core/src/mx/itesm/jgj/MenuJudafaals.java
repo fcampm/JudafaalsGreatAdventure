@@ -39,6 +39,9 @@ class MenuJudafaals implements Screen {
     // Batch
     private SpriteBatch batch;
 
+    // Fondo del menú principal
+    private Texture fondoMenu;
+
     // Escenas
     private Stage escenaMenu;
 
@@ -57,6 +60,7 @@ class MenuJudafaals implements Screen {
     }
 
     private void crearMenu() {
+
 
         escenaMenu = new Stage(vista);
 
@@ -94,12 +98,18 @@ class MenuJudafaals implements Screen {
     @Override
     public void render(float delta) {
 
+        // Inicialización del fondo de pantalla.
+        fondoMenu = new Texture("Pantalla principal.jpg");
+
         Gdx.gl.glClearColor(1,1,1,1); // Borra la pantalla con el color blanco en RGB.
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.setProjectionMatrix(camara.combined); // Escala los objetos.
 
         // Dibuja en pantalla el stage llamado escenaMenu.
+        batch.begin();
+        batch.draw(fondoMenu, 0,0);
+        batch.end();
         escenaMenu.draw();
 
     }
