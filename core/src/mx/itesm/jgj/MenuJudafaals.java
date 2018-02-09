@@ -68,9 +68,17 @@ class MenuJudafaals implements Screen {
         TextureRegionDrawable trdPlay = new TextureRegionDrawable(new TextureRegion(new Texture("play.png")));
         TextureRegionDrawable trdOnClick = new TextureRegionDrawable(new TextureRegion(new Texture("playOnClick.png")));
 
+        //Creacion de botones de Ayuda
+        TextureRegionDrawable botonAyuda = new TextureRegionDrawable(new TextureRegion(new Texture("botonAyuda.png")));
+        TextureRegionDrawable botonAyudaClick = new TextureRegionDrawable(new TextureRegion(new Texture("botonAyudaClick.png")));
+
         // Creación del botón con su cambio al hacer click.
         ImageButton btnPlay = new ImageButton(trdPlay, trdOnClick);
         btnPlay.setPosition(ANCHO/2 - btnPlay.getWidth()/2, ALTO/2 - btnPlay.getHeight()/2); //Centramos el botón en la pantalla.
+
+        // Creación del botón ayuda con su cambio al hacer click.
+        ImageButton btnAyuda = new ImageButton(botonAyuda, botonAyudaClick);
+        btnAyuda.setPosition(ANCHO/2 - btnPlay.getWidth()/2, ALTO/2 - btnPlay.getHeight()/2-btnAyuda.getHeight()); //Centramos el botón en la pantalla debajo del boton play.
 
         btnPlay.addListener(new ClickListener(){
             @Override
@@ -82,7 +90,19 @@ class MenuJudafaals implements Screen {
             }
         }); // Click y touch son equivalentes.
 
+        btnAyuda.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                Gdx.app.log("ClickListener","Hizo click el usuario");
+                // Cambia de pantalla, solo lo puede hacer 'juego' una escena no.
+                jdj.setScreen(new PantallaAyuda(jdj));
+            }
+        }); // Click y touch son equivalentes.
+
+
         escenaMenu.addActor(btnPlay);
+        escenaMenu.addActor(btnAyuda);
         Gdx.input.setInputProcessor(escenaMenu);
     }
 
