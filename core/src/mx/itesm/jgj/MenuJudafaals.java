@@ -72,7 +72,7 @@ class MenuJudafaals implements Screen {
         TextureRegionDrawable botonAyuda = new TextureRegionDrawable(new TextureRegion(new Texture("botonAyuda.png")));
         TextureRegionDrawable botonAyudaClick = new TextureRegionDrawable(new TextureRegion(new Texture("botonAyudaClick.png")));
 
-        // Creación del botón con su cambio al hacer click.
+        // Creación del botón con su cambio al hacer click
         ImageButton btnPlay = new ImageButton(trdPlay, trdOnClick);
         btnPlay.setPosition(ANCHO/2 - btnPlay.getWidth()/2, ALTO/2 - btnPlay.getHeight()/2); //Centramos el botón en la pantalla.
 
