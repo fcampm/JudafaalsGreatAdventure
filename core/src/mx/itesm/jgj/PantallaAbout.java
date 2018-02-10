@@ -5,9 +5,15 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
+import javax.swing.UIManager;
 
 import static mx.itesm.jgj.MenuJudafaals.ALTO;
 import static mx.itesm.jgj.MenuJudafaals.ANCHO;
@@ -17,18 +23,28 @@ class PantallaAbout implements Screen {
 
     private final JudafaalsGreatAdventure jdj;
 
+
+
     // Camara
     private OrthographicCamera camara;
     private Viewport vista;
+    private Texto texto;
 
     // Batch
     private SpriteBatch batch;
+
+    //Imagenes
+    private Texture foto1,foto2,foto3,foto4;
 
     public PantallaAbout(JudafaalsGreatAdventure judafaalsGreatAdventure) {
 
         this.jdj = judafaalsGreatAdventure;
     }
 
+    public void CrearObjetos(){
+        texto = new Texto();
+
+    }
 
     @Override
     public void show() {
@@ -37,6 +53,17 @@ class PantallaAbout implements Screen {
         batch = new SpriteBatch();
 
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
+        CrearObjetos();
+        crearImages();
+    }
+
+    private void crearImages(){
+
+        foto1= new Texture("GokuNormalicon.png");
+        foto2= new Texture("GokuNormalicon.png");
+        foto3= new Texture("GokuNormalicon.png");
+        foto4= new Texture("GokuNormalicon.png");
+
     }
 
     private void crearCamara() {
@@ -54,6 +81,21 @@ class PantallaAbout implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.setProjectionMatrix(camara.combined);
+        //MUESTRA TEXTOS
+        batch.begin();
+        batch.draw(foto1,ANCHO-ANCHO/6,2.8f*ALTO/4);
+        batch.draw(foto2,ANCHO-ANCHO/6,2.1f*ALTO/4);
+        batch.draw(foto3,ANCHO-ANCHO/6,1.4f*ALTO/4);
+        batch.draw(foto4,ANCHO-ANCHO/6,0.7f*ALTO/4);
+
+        texto.mostrarMensaje(batch,"Desarrolladores:", ANCHO/2-ANCHO/6, 3.8f*ALTO/4 );
+        texto.mostrarMensaje(batch,"Fabian Camp Mussa - Programador", ANCHO/2-ANCHO/6, 3.2f*ALTO/4 );
+        texto.mostrarMensaje(batch,"Darwin Chavez Salas - Programador", ANCHO/2-ANCHO/6, 2.5f*ALTO/4 );
+        texto.mostrarMensaje(batch,"Juan Jose Aguilar Hernandez - Diseñador", ANCHO/2-ANCHO/6, 1.8f*ALTO/4 );
+        texto.mostrarMensaje(batch,"Alfonso Alquicer Mendez - Programador", ANCHO/2-ANCHO/6, 1.1f*ALTO/4 );
+
+        batch.end();
+
 
     }
 
