@@ -1,7 +1,9 @@
 package mx.itesm.jgj;
 
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -46,6 +48,10 @@ class MenuJudafaals implements Screen {
     // Escenas
     private Stage escenaMenu;
 
+    // Música de fondo.
+    private Music musicaFondo;
+    private float volumen = 0.5f;
+
     public MenuJudafaals(JudafaalsGreatAdventure judafaalsGreatAdventure) {
 
         this.jdj = judafaalsGreatAdventure;
@@ -57,7 +63,15 @@ class MenuJudafaals implements Screen {
 
         crearCamara();
         crearMenu();
+        crearMusica();
         batch = new SpriteBatch();
+    }
+
+    private void crearMusica() {
+        musicaFondo = Gdx.audio.newMusic(Gdx.files.getFileHandle("message.mp3", Files.FileType.Internal));
+        musicaFondo.setVolume(volumen);
+        musicaFondo.play();
+        musicaFondo.setLooping(true);
     }
 
     private void crearMenu() {
@@ -87,6 +101,7 @@ class MenuJudafaals implements Screen {
                 super.clicked(event, x, y);
                 Gdx.app.log("ClickListener","Hizo click el usuario");
                 // Cambia de pantalla, solo lo puede hacer 'juego' una escena no.
+                musicaFondo.stop();
                 jdj.setScreen(new PantallaAbout(jdj));
             }
         }); // Click y touch son equivalentes.
@@ -97,6 +112,7 @@ class MenuJudafaals implements Screen {
                 super.clicked(event, x, y);
                 Gdx.app.log("ClickListener","Hizo click el usuario");
                 // Cambia de pantalla, solo lo puede hacer 'juego' una escena no.
+                musicaFondo.stop();
                 jdj.setScreen(new PantallaAyuda(jdj));
             }
         }); // Click y touch son equivalentes.
@@ -104,6 +120,7 @@ class MenuJudafaals implements Screen {
 
         escenaMenu.addActor(btnPlay);
         escenaMenu.addActor(btnAyuda);
+
         Gdx.input.setInputProcessor(escenaMenu);
     }
 
@@ -159,5 +176,7 @@ class MenuJudafaals implements Screen {
     @Override
     public void dispose() {
 
+        musicaFondo.dispose();
+        escenaMenu.dispose();
     }
 }
