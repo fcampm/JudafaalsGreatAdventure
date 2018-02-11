@@ -78,7 +78,7 @@ class MenuJudafaals implements Screen {
 
 
         escenaMenu = new Stage(vista);
-
+        /*
         // Creación de las texturas de los bótones.
         TextureRegionDrawable trdPlay = new TextureRegionDrawable(new TextureRegion(new Texture("play.png")));
         TextureRegionDrawable trdOnClick = new TextureRegionDrawable(new TextureRegion(new Texture("playOnClick.png")));
@@ -93,7 +93,11 @@ class MenuJudafaals implements Screen {
 
         // Creación del botón ayuda con su cambio al hacer click.
         ImageButton btnAyuda = new ImageButton(botonAyuda, botonAyudaClick);
-        btnAyuda.setPosition(ANCHO/2 - btnPlay.getWidth()/2, ALTO/2 - btnPlay.getHeight()/2-btnAyuda.getHeight()); //Centramos el botón en la pantalla debajo del boton play.
+        btnAyuda.setPosition(ANCHO/2 - btnAyuda.getWidth()/2, ALTO/2 - btnAyuda.getHeight()/2-btnAyuda.getHeight()-20); //Centramos el botón en la pantalla debajo del boton play.
+
+
+
+
 
         btnPlay.addListener(new ClickListener(){
             @Override
@@ -103,6 +107,7 @@ class MenuJudafaals implements Screen {
                 // Cambia de pantalla, solo lo puede hacer 'juego' una escena no.
                 musicaFondo.stop(); // Para la reproducción de la música al entrar en la siguiente pantalla.
                 jdj.setScreen(new PantallaAbout(jdj));
+
             }
         }); // Click y touch son equivalentes.
 
@@ -118,10 +123,68 @@ class MenuJudafaals implements Screen {
         }); // Click y touch son equivalentes.
 
 
+
         escenaMenu.addActor(btnPlay);
         escenaMenu.addActor(btnAyuda);
+        */
+        ImageButton btnPlay=iniciarBoton("play.png","playOnClick.png");
+        configurarBoton(btnPlay,ANCHO/2 - btnPlay.getWidth()/2, ALTO/2 - btnPlay.getHeight()/2,new PantallaAbout(jdj));
+
+        ImageButton btnAyuda= crearBotonTodo("botonAyuda.png","botonAyudaClick.png",ANCHO/2 - 65,ALTO/2 - 65-130-20, new PantallaAyuda(jdj));
 
         Gdx.input.setInputProcessor(escenaMenu);
+    }
+
+    private void configurarBoton(ImageButton btn,float x, float y, final Screen screen) {
+        btn.setPosition(x, y);
+
+        btn.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                Gdx.app.log("ClickListener","Hizo click el usuario");
+                // Cambia de pantalla, solo lo puede hacer 'juego' una escena no.
+                musicaFondo.stop(); // Para la reproducción de la música al entrar en la siguiente pantalla.
+                jdj.setScreen(screen);
+            }
+        }); // Click y touch son equivalentes.
+
+        this.escenaMenu.addActor(btn);
+    }
+
+    private ImageButton iniciarBoton(String texturaNormal, String texturaOnClick) {
+        TextureRegionDrawable boton = new TextureRegionDrawable(new TextureRegion(new Texture(texturaNormal)));
+        TextureRegionDrawable botonClick = new TextureRegionDrawable(new TextureRegion(new Texture(texturaOnClick)));
+
+        ImageButton btn = new ImageButton(boton, botonClick);
+        return btn;
+    }
+
+    private ImageButton crearBotonTodo(String texturaNormal, String texturaOnClick, float x, float y, final Screen screen) {
+        TextureRegionDrawable boton = new TextureRegionDrawable(new TextureRegion(new Texture(texturaNormal)));
+        TextureRegionDrawable botonClick = new TextureRegionDrawable(new TextureRegion(new Texture(texturaOnClick)));
+
+        ImageButton btn = new ImageButton(boton, botonClick);
+        btn.setPosition(x, y);
+
+        btn.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                Gdx.app.log("ClickListener","Hizo click el usuario");
+                // Cambia de pantalla, solo lo puede hacer 'juego' una escena no.
+                musicaFondo.stop(); // Para la reproducción de la música al entrar en la siguiente pantalla.
+                jdj.setScreen(screen);
+            }
+        }); // Click y touch son equivalentes.
+
+        this.escenaMenu.addActor(btn);
+
+        return btn;
+
+
+
+
     }
 
     // Método que se encarga de crear a la cámara a usar.
