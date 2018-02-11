@@ -23,8 +23,6 @@ class PantallaAbout implements Screen {
 
     private final JudafaalsGreatAdventure jdj;
 
-
-
     // Camara
     private OrthographicCamera camara;
     private Viewport vista;
@@ -34,7 +32,7 @@ class PantallaAbout implements Screen {
     private SpriteBatch batch;
 
     //Imagenes
-    private Texture foto1,foto2,foto3,foto4;
+    private Texture foto1,foto2,foto3,foto4, fondoAbout;
 
     public PantallaAbout(JudafaalsGreatAdventure judafaalsGreatAdventure) {
 
@@ -63,6 +61,7 @@ class PantallaAbout implements Screen {
         foto2= new Texture("GokuNormalicon.png");
         foto3= new Texture("GokuNormalicon.png");
         foto4= new Texture("GokuNormalicon.png");
+        fondoAbout = new Texture("Pantalla Principal.jpg");
 
     }
 
@@ -83,6 +82,7 @@ class PantallaAbout implements Screen {
         batch.setProjectionMatrix(camara.combined);
         //MUESTRA TEXTOS
         batch.begin();
+        batch.draw(fondoAbout,0,0);
         batch.draw(foto1,ANCHO-ANCHO/6,2.8f*ALTO/4);
         batch.draw(foto2,ANCHO-ANCHO/6,2.1f*ALTO/4);
         batch.draw(foto3,ANCHO-ANCHO/6,1.4f*ALTO/4);
@@ -123,6 +123,12 @@ class PantallaAbout implements Screen {
     @Override
     public void dispose() {
 
+        batch.dispose();
+        fondoAbout.dispose();
+        foto1.dispose();
+        foto2.dispose();
+        foto3.dispose();
+        foto4.dispose();
     }
 
     private class ProcesadorEntrada implements InputProcessor{

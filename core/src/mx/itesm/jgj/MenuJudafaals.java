@@ -257,6 +257,8 @@ class MenuJudafaals implements Screen {
 
         musicaFondo.dispose();
         escenaMenu.dispose();
-
+        fondoMenu.dispose();
+        batch.dispose();
+        
     }
 }
