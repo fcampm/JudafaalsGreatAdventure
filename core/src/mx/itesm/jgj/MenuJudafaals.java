@@ -127,14 +127,26 @@ class MenuJudafaals implements Screen {
         escenaMenu.addActor(btnPlay);
         escenaMenu.addActor(btnAyuda);
         */
-        ImageButton btnPlay=iniciarBoton("play.png","playOnClick.png");
-        configurarBoton(btnPlay,ANCHO/2 - btnPlay.getWidth()/2, ALTO/2 - btnPlay.getHeight()/2,new PantallaAbout(jdj));
 
+        //Crear boton, inicializarlo
+        ImageButton btnPlay=iniciarBoton("play.png","playOnClick.png");
+        //poner las posiciones y detalles del boton
+        configurarBoton(btnPlay,ANCHO/2 - btnPlay.getWidth()/2, ALTO/2 - btnPlay.getHeight()/2,new PantallaAbout(jdj));
+        //usar otro metodo para hacer todos los metodos de otro boton
         ImageButton btnAyuda= crearBotonTodo("botonAyuda.png","botonAyudaClick.png",ANCHO/2 - 65,ALTO/2 - 65-130-20, new PantallaAyuda(jdj));
 
         Gdx.input.setInputProcessor(escenaMenu);
     }
+    //Metodo para iniciar el boton
+    private ImageButton iniciarBoton(String texturaNormal, String texturaOnClick) {
+        TextureRegionDrawable boton = new TextureRegionDrawable(new TextureRegion(new Texture(texturaNormal)));
+        TextureRegionDrawable botonClick = new TextureRegionDrawable(new TextureRegion(new Texture(texturaOnClick)));
 
+        ImageButton btn = new ImageButton(boton, botonClick);
+        return btn;
+    }
+
+    // metodo para configurar el boton
     private void configurarBoton(ImageButton btn,float x, float y, final Screen screen) {
         btn.setPosition(x, y);
 
@@ -151,15 +163,7 @@ class MenuJudafaals implements Screen {
 
         this.escenaMenu.addActor(btn);
     }
-
-    private ImageButton iniciarBoton(String texturaNormal, String texturaOnClick) {
-        TextureRegionDrawable boton = new TextureRegionDrawable(new TextureRegion(new Texture(texturaNormal)));
-        TextureRegionDrawable botonClick = new TextureRegionDrawable(new TextureRegion(new Texture(texturaOnClick)));
-
-        ImageButton btn = new ImageButton(boton, botonClick);
-        return btn;
-    }
-
+    //metodo para crear todos los componentes del boton en uno
     private ImageButton crearBotonTodo(String texturaNormal, String texturaOnClick, float x, float y, final Screen screen) {
         TextureRegionDrawable boton = new TextureRegionDrawable(new TextureRegion(new Texture(texturaNormal)));
         TextureRegionDrawable botonClick = new TextureRegionDrawable(new TextureRegion(new Texture(texturaOnClick)));
