@@ -129,16 +129,23 @@ class MenuJudafaals implements Screen {
         */
 
         //Crear boton, inicializarlo
-        ImageButton btnPlay=iniciarBoton("play.png","playOnClick.png");
+        ImageButton btnPlay = crearBotonTodo("play.png", "playOnClick.png", ANCHO/2 - 256/2, ALTO/2-128/2,  new PantallaJugar(jdj));
+        //ImageButton btnPlay=iniciarBoton("play.png","playOnClick.png");
         //poner las posiciones y detalles del boton
-        configurarBoton(btnPlay,ANCHO/2 - btnPlay.getWidth()/2, ALTO/2 - btnPlay.getHeight()/2,new PantallaAbout(jdj));
+        //configurarBoton(btnPlay,ANCHO/2 - btnPlay.getWidth()/2, ALTO/2 - btnPlay.getHeight()/2,new PantallaJugar(jdj));
+
         //usar otro metodo para hacer todos los metodos de otro boton
         ImageButton btnAyuda= crearBotonTodo("botonAyuda.png","botonAyudaClick.png",ANCHO/2 - 65,ALTO/2 - 65-130-20, new PantallaAyuda(jdj));
+
         //crear boton para pntalla LeaderBoard
-        ImageButton btnLeader=iniciarBoton("play.png","playOnClick.png");
-        configurarBoton(btnLeader,ANCHO-btnLeader.getWidth()-5,5,new PantallaLeaderboard(jdj));
+        //ImageButton btnLeader=iniciarBoton("play.png","playOnClick.png");
+        //configurarBoton(btnLeader,ANCHO-btnLeader.getWidth()-5,5,new PantallaLeaderboard(jdj));
+        ImageButton btnLeader = crearBotonTodo("leaderBoard.png", "leaderBoardClicked.png", ANCHO-150, 5,new PantallaLeaderboard(jdj));
+        ImageButton btnAbout = crearBotonTodo("about.png", "aboutClicked.png", 5, 5, new PantallaAbout(jdj));
+
         Gdx.input.setInputProcessor(escenaMenu);
     }
+
     //Metodo para iniciar el boton
     private ImageButton iniciarBoton(String texturaNormal, String texturaOnClick) {
         TextureRegionDrawable boton = new TextureRegionDrawable(new TextureRegion(new Texture(texturaNormal)));
@@ -167,10 +174,13 @@ class MenuJudafaals implements Screen {
     }
     //metodo para crear todos los componentes del boton en uno
     private ImageButton crearBotonTodo(String texturaNormal, String texturaOnClick, float x, float y, final Screen screen) {
+
         TextureRegionDrawable boton = new TextureRegionDrawable(new TextureRegion(new Texture(texturaNormal)));
         TextureRegionDrawable botonClick = new TextureRegionDrawable(new TextureRegion(new Texture(texturaOnClick)));
 
         ImageButton btn = new ImageButton(boton, botonClick);
+        float botonWitdh = btn.getWidth();
+        float botonHeigth = btn.getHeight();
         btn.setPosition(x, y);
 
         btn.addListener(new ClickListener(){
@@ -247,5 +257,6 @@ class MenuJudafaals implements Screen {
 
         musicaFondo.dispose();
         escenaMenu.dispose();
+
     }
 }
