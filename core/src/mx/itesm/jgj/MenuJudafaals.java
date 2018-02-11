@@ -134,7 +134,7 @@ class MenuJudafaals implements Screen {
         configurarBoton(btnPlay,ANCHO/2 - btnPlay.getWidth()/2, ALTO/2 - btnPlay.getHeight()/2,new PantallaAbout(jdj));
         //usar otro metodo para hacer todos los metodos de otro boton
         ImageButton btnAyuda= crearBotonTodo("botonAyuda.png","botonAyudaClick.png",ANCHO/2 - 65,ALTO/2 - 65-130-20, new PantallaAyuda(jdj));
-
+        //crear boton para pntalla LeaderBoard
         ImageButton btnLeader=iniciarBoton("play.png","playOnClick.png");
         configurarBoton(btnLeader,ANCHO-btnLeader.getWidth()-5,5,new PantallaLeaderboard(jdj));
         Gdx.input.setInputProcessor(escenaMenu);
