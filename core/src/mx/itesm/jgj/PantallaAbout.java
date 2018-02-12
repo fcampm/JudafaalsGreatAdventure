@@ -61,7 +61,7 @@ class PantallaAbout implements Screen {
         foto2= new Texture("GokuNormalicon.png");
         foto3= new Texture("GokuNormalicon.png");
         foto4= new Texture("GokuNormalicon.png");
-        fondoAbout = new Texture("Pantalla Principal.jpg");
+        fondoAbout = new Texture("prueba1about.jpg");
 
     }
 

@@ -189,7 +189,7 @@ class MenuJudafaals implements Screen {
                 super.clicked(event, x, y);
                 Gdx.app.log("ClickListener","Hizo click el usuario");
                 // Cambia de pantalla, solo lo puede hacer 'juego' una escena no.
-                musicaFondo.stop(); // Para la reproducción de la música al entrar en la siguiente pantalla.
+                musicaFondo.pause(); // Para la reproducción de la música al entrar en la siguiente pantalla.
                 jdj.setScreen(screen);
             }
         }); // Click y touch son equivalentes.
@@ -257,7 +257,7 @@ class MenuJudafaals implements Screen {
 
         musicaFondo.dispose();
         escenaMenu.dispose();
-        fondoMenu.dispose();
+        //fondoMenu.dispose();
         batch.dispose();
         
     }
