@@ -81,6 +81,7 @@ class PantallaSettings implements Screen {
                 // Cambia de pantalla, solo lo puede hacer 'juego' una escena no.
                 //btnSonido.setStyle(btnNoSonido.getStyle());
                 btnSonido.remove();
+
                 escenaSettings.addActor(btnNoSonido);
 
             }
@@ -93,6 +94,7 @@ class PantallaSettings implements Screen {
                 // Cambia de pantalla, solo lo puede hacer 'juego' una escena no.
                 //btnSonido.setStyle(btnNoSonido.getStyle());
                 btnNoSonido.remove();
+
                 escenaSettings.addActor(btnSonido);
 
             }
