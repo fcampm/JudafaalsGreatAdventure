@@ -71,7 +71,7 @@ class PantallaSettings implements Screen {
         final ImageButton btnTemp = new ImageButton(trdSonido);
 
         // Button Styles
-
+        btnNoSonido.setPosition(ANCHO / 2 - btnSonido.getWidth()/2, ALTO / 2 - btnSonido.getHeight()/2);
         btnSonido.setPosition(ANCHO / 2 - btnSonido.getWidth()/2, ALTO / 2 - btnSonido.getHeight()/2);
         btnSonido.addListener(new ClickListener() {
             @Override
@@ -79,7 +79,21 @@ class PantallaSettings implements Screen {
                 super.clicked(event, x, y);
                 Gdx.app.log("ClickListener", "Hizo click el usuario");
                 // Cambia de pantalla, solo lo puede hacer 'juego' una escena no.
-                btnSonido.setStyle(btnNoSonido.getStyle());
+                //btnSonido.setStyle(btnNoSonido.getStyle());
+                btnSonido.remove();
+                escenaSettings.addActor(btnNoSonido);
+
+            }
+        });
+        btnNoSonido.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                Gdx.app.log("ClickListener", "Hizo click el usuario");
+                // Cambia de pantalla, solo lo puede hacer 'juego' una escena no.
+                //btnSonido.setStyle(btnNoSonido.getStyle());
+                btnNoSonido.remove();
+                escenaSettings.addActor(btnSonido);
 
             }
         });
