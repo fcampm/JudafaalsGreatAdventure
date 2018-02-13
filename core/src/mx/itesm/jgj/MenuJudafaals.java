@@ -129,13 +129,13 @@ class MenuJudafaals implements Screen {
         */
 
         //Crear boton, inicializarlo
-        ImageButton btnPlay = crearBotonTodo("play.png", "playOnClick.png", ANCHO/2 - 256/2, ALTO/2-128/2,  new PantallaJugar(jdj));
+        ImageButton btnPlay = crearBotonTodo("BottonPlayP.png", "BottonPlayTP.png", ANCHO/2 - 256/2, ALTO/2-128/2,  new PantallaJugar(jdj));
         //ImageButton btnPlay=iniciarBoton("play.png","playOnClick.png");
         //poner las posiciones y detalles del boton
         //configurarBoton(btnPlay,ANCHO/2 - btnPlay.getWidth()/2, ALTO/2 - btnPlay.getHeight()/2,new PantallaJugar(jdj));
 
         //usar otro metodo para hacer todos los metodos de otro boton
-        ImageButton btnAyuda= crearBotonTodo("botonAyuda.png","botonAyudaClick.png",ANCHO/2 - 65,ALTO/2 - 65-130-20, new PantallaAyuda(jdj));
+        ImageButton btnAyuda= crearBotonTodo("ButtonHelpP.png","ButtonHelpTP.png",ANCHO/2 - 65,ALTO/2 - 65-130-20, new PantallaAyuda(jdj));
 
         //crear boton para pntalla LeaderBoard
         //ImageButton btnLeader=iniciarBoton("play.png","playOnClick.png");

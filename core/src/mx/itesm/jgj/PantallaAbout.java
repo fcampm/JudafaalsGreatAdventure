@@ -93,7 +93,7 @@ class PantallaAbout implements Screen {
         foto2 = new Texture("GokuNormalicon.png");
         foto3 = new Texture("GokuNormalicon.png");
         foto4 = new Texture("GokuNormalicon.png");
-        fondoAbout = new Texture("prueba1about.jpg");
+        fondoAbout = new Texture("FondoAcercaDe.png");
 
     }
 
@@ -122,10 +122,10 @@ class PantallaAbout implements Screen {
         batch.draw(foto4, ANCHO - ANCHO / 6, 0.0f * ALTO / 4);
 
         texto.mostrarMensaje(batch, "Desarrolladores:", ANCHO / 2 - ANCHO / 6, 3.5f * ALTO / 4);
-        texto.mostrarMensaje(batch, "Fabian Camp Mussa - Programador", ANCHO / 2 - ANCHO / 6, 2.5f * ALTO / 4);
-        texto.mostrarMensaje(batch, "Darwin Chavez Salas - Programador", ANCHO / 2 - ANCHO / 6, 1.8f * ALTO / 4);
-        texto.mostrarMensaje(batch, "Juan Jose Aguilar Hernandez - Diseñador", ANCHO / 2 - ANCHO / 6, 1.1f * ALTO / 4);
-        texto.mostrarMensaje(batch, "Alfonso Alquicer Mendez - Programador", ANCHO / 2 - ANCHO / 6, 0.4f * ALTO / 4);
+        texto.mostrarMensaje(batch, "Fabian Camp Mussa - ISC", ANCHO / 2 - ANCHO / 6 - 30, 2.5f * ALTO / 4);
+        texto.mostrarMensaje(batch, "Darwin Chavez Salas - ISC", ANCHO / 2 - ANCHO / 6, 1.8f * ALTO / 4);
+        texto.mostrarMensaje(batch, "Juan Jose Aguilar Hernandez - LAD", ANCHO / 2 - ANCHO / 6, 1.1f * ALTO / 4);
+        texto.mostrarMensaje(batch, "Alfonso Alquicer Mendez - ISC", ANCHO / 2 - ANCHO / 6, 0.4f * ALTO / 4);
 
         batch.end();
 
