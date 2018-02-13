@@ -8,12 +8,16 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import javax.swing.UIManager;
+import javax.xml.soap.Text;
 
 import static mx.itesm.jgj.MenuJudafaals.ALTO;
 import static mx.itesm.jgj.MenuJudafaals.ANCHO;
@@ -32,14 +36,17 @@ class PantallaAbout implements Screen {
     private SpriteBatch batch;
 
     //Imagenes
-    private Texture foto1,foto2,foto3,foto4, fondoAbout;
+    private Texture foto1, foto2, foto3, foto4, fondoAbout;
+
+    // Escena
+    private Stage escenaAbout;
 
     public PantallaAbout(JudafaalsGreatAdventure judafaalsGreatAdventure) {
 
         this.jdj = judafaalsGreatAdventure;
     }
 
-    public void CrearObjetos(){
+    public void CrearObjetos() {
         texto = new Texto();
 
     }
@@ -49,18 +56,43 @@ class PantallaAbout implements Screen {
 
         crearCamara();
         batch = new SpriteBatch();
-
-        Gdx.input.setInputProcessor(new ProcesadorEntrada());
         CrearObjetos();
         crearImages();
+        crearMenu();
     }
 
-    private void crearImages(){
+    private void crearMenu() {
+        escenaAbout = new Stage(vista);
 
-        foto1= new Texture("GokuNormalicon.png");
-        foto2= new Texture("GokuNormalicon.png");
-        foto3= new Texture("GokuNormalicon.png");
-        foto4= new Texture("GokuNormalicon.png");
+        // Creación de las texturas del botón de back
+        TextureRegionDrawable trdBack = new TextureRegionDrawable(new TextureRegion(new Texture("homeNegro.png")));
+        TextureRegionDrawable trdBackOnClick = new TextureRegionDrawable(new TextureRegion(new Texture("homeGris.png")));
+
+        // Creción del botón back.
+        ImageButton backButton = new ImageButton(trdBack, trdBackOnClick);
+        backButton.setPosition(0, ALTO - backButton.getHeight());
+        backButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                Gdx.app.log("ClickListener", "Hizo click el usuario");
+                // Cambia de pantalla, solo lo puede hacer 'juego' una escena no.
+                jdj.setScreen(new MenuJudafaals(jdj));
+
+            }
+        });
+
+        escenaAbout.addActor(backButton);
+        Gdx.input.setInputProcessor(escenaAbout);
+
+    }
+
+    private void crearImages() {
+
+        foto1 = new Texture("GokuNormalicon.png");
+        foto2 = new Texture("GokuNormalicon.png");
+        foto3 = new Texture("GokuNormalicon.png");
+        foto4 = new Texture("GokuNormalicon.png");
         fondoAbout = new Texture("prueba1about.jpg");
 
     }
@@ -68,7 +100,7 @@ class PantallaAbout implements Screen {
     private void crearCamara() {
 
         camara = new OrthographicCamera(ANCHO, ALTO);
-        camara.position.set(ANCHO/2,ALTO/2, 0);
+        camara.position.set(ANCHO / 2, ALTO / 2, 0);
         camara.update();
         vista = new StretchViewport(ANCHO, ALTO, camara);
     }
@@ -76,27 +108,28 @@ class PantallaAbout implements Screen {
     @Override
     public void render(float delta) {
 
-        Gdx.gl.glClearColor(1,0,0,1);
+        Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.setProjectionMatrix(camara.combined);
+
         //MUESTRA TEXTOS
         batch.begin();
-        batch.draw(fondoAbout,0,0);
-        batch.draw(foto1,ANCHO-ANCHO/6,2.8f*ALTO/4);
-        batch.draw(foto2,ANCHO-ANCHO/6,2.1f*ALTO/4);
-        batch.draw(foto3,ANCHO-ANCHO/6,1.4f*ALTO/4);
-        batch.draw(foto4,ANCHO-ANCHO/6,0.7f*ALTO/4);
+        batch.draw(fondoAbout, 0, 0);
+        batch.draw(foto1, ANCHO - ANCHO / 6, 2.1f * ALTO / 4);
+        batch.draw(foto2, ANCHO - ANCHO / 6, 1.4f * ALTO / 4);
+        batch.draw(foto3, ANCHO - ANCHO / 6, 0.7f * ALTO / 4);
+        batch.draw(foto4, ANCHO - ANCHO / 6, 0.0f * ALTO / 4);
 
-        texto.mostrarMensaje(batch,"Desarrolladores:", ANCHO/2-ANCHO/6, 3.8f*ALTO/4 );
-        texto.mostrarMensaje(batch,"Fabian Camp Mussa - Programador", ANCHO/2-ANCHO/6, 3.2f*ALTO/4 );
-        texto.mostrarMensaje(batch,"Darwin Chavez Salas - Programador", ANCHO/2-ANCHO/6, 2.5f*ALTO/4 );
-        texto.mostrarMensaje(batch,"Juan Jose Aguilar Hernandez - Diseñador", ANCHO/2-ANCHO/6, 1.8f*ALTO/4 );
-        texto.mostrarMensaje(batch,"Alfonso Alquicer Mendez - Programador", ANCHO/2-ANCHO/6, 1.1f*ALTO/4 );
+        texto.mostrarMensaje(batch, "Desarrolladores:", ANCHO / 2 - ANCHO / 6, 3.5f * ALTO / 4);
+        texto.mostrarMensaje(batch, "Fabian Camp Mussa - Programador", ANCHO / 2 - ANCHO / 6, 2.5f * ALTO / 4);
+        texto.mostrarMensaje(batch, "Darwin Chavez Salas - Programador", ANCHO / 2 - ANCHO / 6, 1.8f * ALTO / 4);
+        texto.mostrarMensaje(batch, "Juan Jose Aguilar Hernandez - Diseñador", ANCHO / 2 - ANCHO / 6, 1.1f * ALTO / 4);
+        texto.mostrarMensaje(batch, "Alfonso Alquicer Mendez - Programador", ANCHO / 2 - ANCHO / 6, 0.4f * ALTO / 4);
 
         batch.end();
 
-
+        escenaAbout.draw();
     }
 
     @Override
@@ -129,50 +162,7 @@ class PantallaAbout implements Screen {
         foto2.dispose();
         foto3.dispose();
         foto4.dispose();
+        escenaAbout.dispose();
     }
 
-    private class ProcesadorEntrada implements InputProcessor{
-
-        @Override
-        public boolean keyDown(int keycode) {
-            return false;
-        }
-
-        @Override
-        public boolean keyUp(int keycode) {
-            return false;
-        }
-
-        @Override
-        public boolean keyTyped(char character) {
-            return false;
-        }
-
-        @Override
-        public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-
-            jdj.setScreen(new MenuJudafaals(jdj));
-            return true; //Ya fue procesado el evento.
-        }
-
-        @Override
-        public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-            return false;
-        }
-
-        @Override
-        public boolean touchDragged(int screenX, int screenY, int pointer) {
-            return false;
-        }
-
-        @Override
-        public boolean mouseMoved(int screenX, int screenY) {
-            return false;
-        }
-
-        @Override
-        public boolean scrolled(int amount) {
-            return false;
-        }
-    }
 }

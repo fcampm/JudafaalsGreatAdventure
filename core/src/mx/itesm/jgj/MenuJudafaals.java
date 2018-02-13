@@ -142,7 +142,6 @@ class MenuJudafaals implements Screen {
         //configurarBoton(btnLeader,ANCHO-btnLeader.getWidth()-5,5,new PantallaLeaderboard(jdj));
         ImageButton btnLeader = crearBotonTodo("leaderBoard.png", "leaderBoardClicked.png", ANCHO-150, 5,new PantallaLeaderboard(jdj));
         ImageButton btnAbout = crearBotonTodo("about.png", "aboutClicked.png", 5, 5, new PantallaAbout(jdj));
-
         Gdx.input.setInputProcessor(escenaMenu);
     }
 
@@ -197,9 +196,6 @@ class MenuJudafaals implements Screen {
         this.escenaMenu.addActor(btn);
 
         return btn;
-
-
-
 
     }
 
@@ -257,7 +253,7 @@ class MenuJudafaals implements Screen {
 
         musicaFondo.dispose();
         escenaMenu.dispose();
-        //fondoMenu.dispose();
+        fondoMenu.dispose();
         batch.dispose();
         
     }
