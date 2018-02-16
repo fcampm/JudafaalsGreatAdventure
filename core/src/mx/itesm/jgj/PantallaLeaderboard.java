@@ -5,7 +5,15 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -21,8 +29,14 @@ public class PantallaLeaderboard implements Screen{
     private OrthographicCamera camara;
     private Viewport vista;
 
+    // Definimos imágenes
+    private Texture fondoLeaderBoard;
+
     // Batch
     private SpriteBatch batch;
+
+    // Escenas
+    private Stage escenaLeaderBoard;
 
     public PantallaLeaderboard(JudafaalsGreatAdventure judafaalsGreatAdventure) {
 
@@ -33,11 +47,36 @@ public class PantallaLeaderboard implements Screen{
     @Override
     public void show() {
         crearCamara();
+        crearEscena();
         batch = new SpriteBatch();
+        fondoLeaderBoard = new Texture("FondoLeadboard.png");
 
-        Gdx.input.setInputProcessor(new PantallaLeaderboard.ProcesadorEntrada());
 
+    }
 
+    private void crearEscena() {
+
+        escenaLeaderBoard = new Stage(vista);
+
+        TextureRegionDrawable trdBack = new TextureRegionDrawable(new TextureRegion(new Texture("homeNegro.png")));
+        TextureRegionDrawable trdBackOnClick = new TextureRegionDrawable(new TextureRegion(new Texture("homeGris.png")));
+
+        // Creción del botón back.
+        ImageButton backButton = new ImageButton(trdBack, trdBackOnClick);
+        backButton.setPosition(0, ALTO - backButton.getHeight());
+        backButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                Gdx.app.log("ClickListener", "Hizo click el usuario");
+                // Cambia de pantalla, solo lo puede hacer 'juego' una escena no.
+                jdj.setScreen(new MenuJudafaals(jdj));
+
+            }
+        });
+
+        escenaLeaderBoard.addActor(backButton);
+        Gdx.input.setInputProcessor(escenaLeaderBoard);
     }
 
     private void crearCamara() {
@@ -49,11 +88,15 @@ public class PantallaLeaderboard implements Screen{
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0,0,1,1);
+        Gdx.gl.glClearColor(1,1,1,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.setProjectionMatrix(camara.combined);
 
+        batch.begin();
+        batch.draw(fondoLeaderBoard,0,0);
+        batch.end();
+        escenaLeaderBoard.draw();
     }
 
     @Override
@@ -81,50 +124,9 @@ public class PantallaLeaderboard implements Screen{
     @Override
     public void dispose() {
 
+        escenaLeaderBoard.dispose();
+        batch.dispose();
+        fondoLeaderBoard.dispose();
     }
 
-    private class ProcesadorEntrada implements InputProcessor{
-
-        @Override
-        public boolean keyDown(int keycode) {
-            return false;
-        }
-
-        @Override
-        public boolean keyUp(int keycode) {
-            return false;
-        }
-
-        @Override
-        public boolean keyTyped(char character) {
-            return false;
-        }
-
-        @Override
-        public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-
-            jdj.setScreen(new MenuJudafaals(jdj));
-            return true; //Ya fue procesado el evento.
-        }
-
-        @Override
-        public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-            return false;
-        }
-
-        @Override
-        public boolean touchDragged(int screenX, int screenY, int pointer) {
-            return false;
-        }
-
-        @Override
-        public boolean mouseMoved(int screenX, int screenY) {
-            return false;
-        }
-
-        @Override
-        public boolean scrolled(int amount) {
-            return false;
-        }
-    }
 }

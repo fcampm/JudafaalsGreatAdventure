@@ -77,10 +77,10 @@ class MenuJudafaals implements Screen {
     private void crearMenu() {
 
         escenaMenu = new Stage(vista);
-        ImageButton btnPlay = crearBotonTodo("BottonPlayP.png", "BottonPlayTP.png", ANCHO/2 - 256/2, ALTO/2-128/2,  new PantallaJugar(jdj));
-        ImageButton btnAyuda= crearBotonTodo("ButtonHelpP.png","ButtonHelpTP.png",ANCHO/2 - 45,ALTO/2 - 65-200, new PantallaAyuda(jdj));
-        ImageButton btnLeader = crearBotonTodo("leaderBoard.png", "leaderBoardClicked.png", ANCHO-150, 5,new PantallaLeaderboard(jdj));
-        ImageButton btnAbout = crearBotonTodo("about.png", "aboutClicked.png", 5, 5, new PantallaAbout(jdj));
+        ImageButton btnPlay = crearBotonTodo("BottonPlayP.png", "BottonPlayTP.png", ANCHO/2 + 256/2, ALTO - 300,  new PantallaJugar(jdj));
+        ImageButton btnAyuda= crearBotonTodo("ButtonHelpP.png","ButtonHelpTP.png",ANCHO/2 - 45,ALTO/2 -200, new PantallaAyuda(jdj));
+        ImageButton btnLeader = crearBotonTodo("ButtonLeadboardTP.PNG", "ButtonLeadboardP.png", ANCHO/2-120, 5,new PantallaLeaderboard(jdj));
+        ImageButton btnAbout = crearBotonTodo("ButtonManualTP.png", "ButtonManualP.PNG", ANCHO/2-200, ALTO/2 -180, new PantallaAbout(jdj));
         ImageButton btnSetting = crearBotonTodo("ajustes.png", "ajustesOnClick.png", 0, ALTO - 128, new PantallaSettings(jdj));
         Gdx.input.setInputProcessor(escenaMenu);
     }
@@ -196,6 +196,7 @@ class MenuJudafaals implements Screen {
         escenaMenu.dispose();
         fondoMenu.dispose();
         batch.dispose();
+
         
     }
 }

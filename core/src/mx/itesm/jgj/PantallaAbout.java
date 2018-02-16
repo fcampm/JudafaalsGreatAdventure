@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -36,8 +37,8 @@ class PantallaAbout implements Screen {
     private SpriteBatch batch;
 
     //Imagenes
-    private Texture foto1, foto2, foto3, foto4, fondoAbout;
-
+    private Texture foto1, foto2, foto3, foto4;
+    private Texture fondoAbout;
     // Escena
     private Stage escenaAbout;
 
@@ -91,7 +92,7 @@ class PantallaAbout implements Screen {
 
         foto1 = new Texture("IMG_1862.png");
         foto2 = new Texture("dar.png");
-        foto3 = new Texture("GokuNormalicon.png");
+        foto3 = new Texture("FotoJuan.png");
         foto4 = new Texture("bloggif_5a8615b78e32e.png");
         fondoAbout = new Texture("FondoAcercaDe.png");
 
@@ -157,11 +158,11 @@ class PantallaAbout implements Screen {
     public void dispose() {
 
         batch.dispose();
-        fondoAbout.dispose();
         foto1.dispose();
         foto2.dispose();
         foto3.dispose();
         foto4.dispose();
+        fondoAbout.dispose();
         escenaAbout.dispose();
     }
 

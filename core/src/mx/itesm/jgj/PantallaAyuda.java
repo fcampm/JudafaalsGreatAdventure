@@ -5,6 +5,8 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -24,6 +26,9 @@ public class PantallaAyuda implements Screen {
     // Batch
     private SpriteBatch batch;
 
+    // Creación imágenes
+    private Texture ayudaImg;
+
     public PantallaAyuda(JudafaalsGreatAdventure judafaalsGreatAdventure) {
 
         this.jdj = judafaalsGreatAdventure;
@@ -34,7 +39,7 @@ public class PantallaAyuda implements Screen {
     public void show() {
         crearCamara();
         batch = new SpriteBatch();
-
+        ayudaImg = new Texture("howToPlay.jpg");
         Gdx.input.setInputProcessor(new PantallaAyuda.ProcesadorEntrada());
 
 
@@ -49,11 +54,14 @@ public class PantallaAyuda implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0,1,0,1);
+        Gdx.gl.glClearColor(1,1,1,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.setProjectionMatrix(camara.combined);
 
+        batch.begin();
+        batch.draw(ayudaImg,0,0);
+        batch.end();
     }
 
     @Override
@@ -81,6 +89,8 @@ public class PantallaAyuda implements Screen {
     @Override
     public void dispose() {
 
+        batch.dispose();
+        ayudaImg.dispose();
     }
 
     private class ProcesadorEntrada implements InputProcessor{

@@ -5,12 +5,12 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -34,7 +34,7 @@ class PantallaSettings implements Screen {
     private SpriteBatch batch;
 
     // Imágenes
-
+    private Texture fondoAjustes;
 
     // Escena
     private Stage escenaSettings;
@@ -52,6 +52,7 @@ class PantallaSettings implements Screen {
         crearCamara();
         crearEscena();
         batch = new SpriteBatch();
+        fondoAjustes = new Texture("FondoConfig.png");
     }
 
     private void crearEscena() {
@@ -68,7 +69,6 @@ class PantallaSettings implements Screen {
         // Creación del botón
         final ImageButton btnSonido = new ImageButton(trdSonido);
         final ImageButton btnNoSonido = new ImageButton(trdNoSonido);
-        final ImageButton btnTemp = new ImageButton(trdSonido);
 
         // Button Styles
         btnNoSonido.setPosition(ANCHO / 2 - btnSonido.getWidth()/2, ALTO / 2 - btnSonido.getHeight()/2);
@@ -135,6 +135,9 @@ class PantallaSettings implements Screen {
 
         batch.setProjectionMatrix(camara.combined);
 
+        batch.begin();
+        batch.draw(fondoAjustes,0,0);
+        batch.end();
         escenaSettings.draw();
     }
 
@@ -164,6 +167,6 @@ class PantallaSettings implements Screen {
 
         escenaSettings.dispose();
         batch.dispose();
-
+        fondoAjustes.dispose();
     }
 }

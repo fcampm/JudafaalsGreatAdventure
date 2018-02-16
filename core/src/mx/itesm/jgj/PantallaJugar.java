@@ -5,6 +5,8 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -12,9 +14,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import static mx.itesm.jgj.MenuJudafaals.ALTO;
 import static mx.itesm.jgj.MenuJudafaals.ANCHO;
 
-/**
- * Created by fcamp on 10/02/2018.
- */
 
 public class PantallaJugar implements Screen {
 
@@ -27,6 +26,9 @@ public class PantallaJugar implements Screen {
     // Batch
     private SpriteBatch batch;
 
+    // Crear Imágenes.
+    private Texture primerNivel;
+
     public PantallaJugar(JudafaalsGreatAdventure judafaalsGreatAdventure) {
 
         this.jdj = judafaalsGreatAdventure;
@@ -35,7 +37,7 @@ public class PantallaJugar implements Screen {
     public void show() {
         crearCamara();
         batch = new SpriteBatch();
-
+        primerNivel = new Texture("nivel1.PNG");
         Gdx.input.setInputProcessor(new PantallaJugar.ProcesadorEntrada());
 
 
@@ -50,11 +52,14 @@ public class PantallaJugar implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1,0,0,1);
+        Gdx.gl.glClearColor(1,1,1,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.setProjectionMatrix(camara.combined);
 
+        batch.begin();
+        batch.draw(primerNivel,0,0);
+        batch.end();
     }
 
     @Override
@@ -82,6 +87,8 @@ public class PantallaJugar implements Screen {
     @Override
     public void dispose() {
 
+        batch.dispose();
+        primerNivel.dispose();
     }
 
     private class ProcesadorEntrada implements InputProcessor {
