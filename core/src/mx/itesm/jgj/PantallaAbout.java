@@ -90,7 +90,7 @@ class PantallaAbout implements Screen {
     private void crearImages() {
 
         foto1 = new Texture("IMG_1862.png");
-        foto2 = new Texture("GokuNormalicon.png");
+        foto2 = new Texture("dar.png");
         foto3 = new Texture("GokuNormalicon.png");
         foto4 = new Texture("bloggif_5a8615b78e32e.png");
         fondoAbout = new Texture("FondoAcercaDe.png");
