@@ -77,10 +77,9 @@ class MenuJudafaals implements Screen {
     private void crearMenu() {
 
         escenaMenu = new Stage(vista);
-        ImageButton btnPlay = crearBotonTodo("BottonPlayP.png", "BottonPlayTP.png", ANCHO/2 + 256/2, ALTO - 300,  new menu3(jdj));
-        ImageButton btnAyuda= crearBotonTodo("ButtonHelpP.png","ButtonHelpTP.png",ANCHO/2 - 45,ALTO/2 -200, new PantallaAyuda(jdj));
-        ImageButton btnLeader = crearBotonTodo("ButtonLeadboardTP.PNG", "ButtonLeadboardP.png", ANCHO/2-120, 5,new PantallaLeaderboard(jdj));
-        ImageButton btnAbout = crearBotonTodo("ButtonManualTP.png", "ButtonManualP.PNG", ANCHO/2-200, ALTO/2 -180, new PantallaAbout(jdj));
+        ImageButton btnPlay = crearBotonTodo("BotonPlay.png", "BotonPlayPado.png", ANCHO/2 - 95, ALTO/2 - 85,  new menu3(jdj));
+        ImageButton btnAyuda= crearBotonTodo("BotonAyuda3.2.png","BotonAyudaPado.png",ANCHO - 240,ALTO/2 -350, new PantallaAyuda(jdj));
+        ImageButton btnMas = crearBotonTodo("BotonMas.png", "BotonMasPado.png", ANCHO/24 - 50, ALTO/2 -350, new PantallaMas(jdj));
         ImageButton btnSetting = crearBotonTodo("ajustes.png", "ajustesOnClick.png", 0, ALTO - 128, new PantallaSettings(jdj));
         Gdx.input.setInputProcessor(escenaMenu);
     }
