@@ -66,8 +66,8 @@ class PantallaAbout implements Screen {
         escenaAbout = new Stage(vista);
 
         // Creación de las texturas del botón de back
-        TextureRegionDrawable trdBack = new TextureRegionDrawable(new TextureRegion(new Texture("homeNegro.png")));
-        TextureRegionDrawable trdBackOnClick = new TextureRegionDrawable(new TextureRegion(new Texture("homeGris.png")));
+        TextureRegionDrawable trdBack = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/homeNegro.png")));
+        TextureRegionDrawable trdBackOnClick = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/homeGris.png")));
 
         // Creción del botón back.
         ImageButton backButton = new ImageButton(trdBack, trdBackOnClick);
@@ -90,11 +90,11 @@ class PantallaAbout implements Screen {
 
     private void crearImages() {
 
-        foto1 = new Texture("IMG_1862.png");
-        foto2 = new Texture("dar.png");
-        foto3 = new Texture("FotoJuan.png");
-        foto4 = new Texture("bloggif_5a8615b78e32e.png");
-        fondoAbout = new Texture("FondoAcercaDe.png");
+        foto1 = new Texture("AboutFotos/IMG_1862.png");
+        foto2 = new Texture("AboutFotos/dar.png");
+        foto3 = new Texture("AboutFotos/FotoJuan.png");
+        foto4 = new Texture("AboutFotos/bloggif_5a8615b78e32e.png");
+        fondoAbout = new Texture("Fondos/FondoAcercaDe.png");
 
     }
 

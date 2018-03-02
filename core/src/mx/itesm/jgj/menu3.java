@@ -49,7 +49,7 @@ public class menu3 implements Screen {
     public void show() {
         crearCamara();
         batch = new SpriteBatch();
-        primerNivel = new Texture("fondo2.png");
+        primerNivel = new Texture("Fondos/fondo2.png");
         crearMenu();
 
 
@@ -60,8 +60,8 @@ public class menu3 implements Screen {
         escenaAbout = new Stage(vista);
 
         // Creación de las texturas del botón de back
-        TextureRegionDrawable trdBack = new TextureRegionDrawable(new TextureRegion(new Texture("BottonPlayP.png")));
-        TextureRegionDrawable trdBackOnClick = new TextureRegionDrawable(new TextureRegion(new Texture("BottonPlayTP.png")));
+        TextureRegionDrawable trdBack = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/BottonPlayP.png")));
+        TextureRegionDrawable trdBackOnClick = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/BottonPlayTP.png")));
 
         // Creción del botón back.
         ImageButton backButton = new ImageButton(trdBack, trdBackOnClick);

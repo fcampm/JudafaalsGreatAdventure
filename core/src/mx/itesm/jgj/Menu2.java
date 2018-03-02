@@ -40,7 +40,7 @@ public class Menu2 implements Screen {
     public void show() {
         crearCamara();
         batch = new SpriteBatch();
-        primerNivel = new Texture("fondo2.png");
+        primerNivel = new Texture("Fondos/fondo2.png");
         Gdx.input.setInputProcessor(new Menu2.ProcesadorEntrada());
 
 

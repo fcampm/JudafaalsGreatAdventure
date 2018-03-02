@@ -14,7 +14,7 @@ public class Texto {
     private BitmapFont font;
 
     public Texto()  {
-        font = new BitmapFont(Gdx.files.internal("FuenteCuadro.fnt"));
+        font = new BitmapFont(Gdx.files.internal("Textos/FuenteCuadro.fnt"));
     }
 
     public void mostrarMensaje(SpriteBatch batch, String mensaje, float x , float y){

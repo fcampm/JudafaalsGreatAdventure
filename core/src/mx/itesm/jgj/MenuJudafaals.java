@@ -68,7 +68,7 @@ class MenuJudafaals implements Screen {
     }
 
     private void crearMusica() {
-        musicaFondo = Gdx.audio.newMusic(Gdx.files.getFileHandle("message.mp3", Files.FileType.Internal));
+        musicaFondo = Gdx.audio.newMusic(Gdx.files.getFileHandle("Musica/message.mp3", Files.FileType.Internal));
         musicaFondo.setVolume(volumen);
         musicaFondo.play();
         musicaFondo.setLooping(true);
@@ -77,10 +77,10 @@ class MenuJudafaals implements Screen {
     private void crearMenu() {
 
         escenaMenu = new Stage(vista);
-        ImageButton btnPlay = crearBotonTodo("BotonPlay.png", "BotonPlayPado.png", ANCHO/2 - 95, ALTO/2 - 85,  new menu3(jdj));
-        ImageButton btnAyuda= crearBotonTodo("BotonAyuda3.2.png","BotonAyudaPado.png",ANCHO - 240,ALTO/2 -350, new PantallaAyuda(jdj));
-        ImageButton btnMas = crearBotonTodo("BotonMas.png", "BotonMasPado.png", ANCHO/24 - 50, ALTO/2 -350, new PantallaMas(jdj));
-        ImageButton btnSetting = crearBotonTodo("ajustes.png", "ajustesOnClick.png", 0, ALTO - 128, new PantallaSettings(jdj));
+        ImageButton btnPlay = crearBotonTodo("Botones/BotonPlay.png", "Botones/BotonPlayPado.png", ANCHO/2 - 95, ALTO/2 - 85,  new menu3(jdj));
+        ImageButton btnAyuda= crearBotonTodo("Botones/BotonAyuda3.2.png","Botones/BotonAyudaPado.png",ANCHO - 240,ALTO/2 -350, new PantallaAyuda(jdj));
+        ImageButton btnMas = crearBotonTodo("Botones/BotonMas.png", "Botones/BotonMasPado.png", ANCHO/24 - 50, ALTO/2 -350, new PantallaMas(jdj));
+        ImageButton btnSetting = crearBotonTodo("Botones/ajustes.png", "Botones/ajustesOnClick.png", 0, ALTO - 128, new PantallaSettings(jdj));
         Gdx.input.setInputProcessor(escenaMenu);
     }
     //metodo para crear todos los componentes del boton en uno
@@ -152,7 +152,7 @@ class MenuJudafaals implements Screen {
     public void render(float delta) {
 
         // Inicialización del fondo de pantalla.
-        fondoMenu = new Texture("Pantalla principal.jpg");
+        fondoMenu = new Texture("Fondos/Pantalla principal.jpg");
 
         Gdx.gl.glClearColor(1,1,1,1); // Borra la pantalla con el color blanco en RGB.
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

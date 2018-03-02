@@ -52,7 +52,7 @@ class PantallaSettings implements Screen {
         crearCamara();
         crearEscena();
         batch = new SpriteBatch();
-        fondoAjustes = new Texture("FondoConfig.png");
+        fondoAjustes = new Texture("Fondos/FondoConfig.png");
     }
 
     private void crearEscena() {
@@ -60,10 +60,10 @@ class PantallaSettings implements Screen {
         escenaSettings = new Stage(vista);
 
         // Creación de las texturas del botón de sonido
-        TextureRegionDrawable trdSonido = new TextureRegionDrawable(new TextureRegion(new Texture("sonido.png")));
-        TextureRegionDrawable trdNoSonido = new TextureRegionDrawable(new TextureRegion(new Texture("noSonido.png")));
-        TextureRegionDrawable trdBack = new TextureRegionDrawable(new TextureRegion(new Texture("homeNegro.png")));
-        TextureRegionDrawable trdBackOnClick = new TextureRegionDrawable(new TextureRegion(new Texture("homeGris.png")));
+        TextureRegionDrawable trdSonido = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/sonido.png")));
+        TextureRegionDrawable trdNoSonido = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/noSonido.png")));
+        TextureRegionDrawable trdBack = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/homeNegro.png")));
+        TextureRegionDrawable trdBackOnClick = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/homeGris.png")));
 
 
         // Creación del botón

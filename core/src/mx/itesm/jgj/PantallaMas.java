@@ -47,15 +47,15 @@ import static mx.itesm.jgj.MenuJudafaals.ANCHO;
         crearCamara();
         crearEscena();
         batch = new SpriteBatch();
-        fondoMas = new Texture("FondoMasS.png");
+        fondoMas = new Texture("Fondos/FondoMasS.png");
 
     }
 
     private void crearEscena() {
         escenaMas = new Stage(vista);
 
-        TextureRegionDrawable trdBack = new TextureRegionDrawable(new TextureRegion(new Texture("homeNegro.png")));
-        TextureRegionDrawable trdBackOnClick = new TextureRegionDrawable(new TextureRegion(new Texture("homeGris.png")));
+        TextureRegionDrawable trdBack = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/homeNegro.png")));
+        TextureRegionDrawable trdBackOnClick = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/homeGris.png")));
 
         // Creción del botón back.
         ImageButton backButton = new ImageButton(trdBack, trdBackOnClick);

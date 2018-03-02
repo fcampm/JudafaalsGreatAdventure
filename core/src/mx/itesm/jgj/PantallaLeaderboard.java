@@ -49,7 +49,7 @@ public class PantallaLeaderboard implements Screen{
         crearCamara();
         crearEscena();
         batch = new SpriteBatch();
-        fondoLeaderBoard = new Texture("FondoLeadboard.png");
+        fondoLeaderBoard = new Texture("Fondos/FondoLeadboard.png");
 
 
     }
@@ -58,8 +58,8 @@ public class PantallaLeaderboard implements Screen{
 
         escenaLeaderBoard = new Stage(vista);
 
-        TextureRegionDrawable trdBack = new TextureRegionDrawable(new TextureRegion(new Texture("homeNegro.png")));
-        TextureRegionDrawable trdBackOnClick = new TextureRegionDrawable(new TextureRegion(new Texture("homeGris.png")));
+        TextureRegionDrawable trdBack = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/homeNegro.png")));
+        TextureRegionDrawable trdBackOnClick = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/homeGris.png")));
 
         // Creción del botón back.
         ImageButton backButton = new ImageButton(trdBack, trdBackOnClick);
