@@ -29,7 +29,7 @@ public class Menu2 implements Screen {
     // Crear Imágenes.
     private Texture primerNivel;
     private int DX=1, DY=2;
-    Texture foto4 = new Texture("nave2.png");
+    Texture foto4 = new Texture("Naveinicio.png");
     Texture foto3 = new Texture("nave3.png");
 
     public Menu2(JudafaalsGreatAdventure judafaalsGreatAdventure) {

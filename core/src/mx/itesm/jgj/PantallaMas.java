@@ -42,6 +42,8 @@ import static mx.itesm.jgj.MenuJudafaals.ANCHO;
         this.jdj = JudafaalsGreatAdventure;
     }
 
+
+
     @Override
     public void show() {
         crearCamara();

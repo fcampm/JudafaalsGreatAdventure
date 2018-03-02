@@ -34,10 +34,10 @@ public class menu3 implements Screen {
 
     // Crear Imágenes.
     private Texture primerNivel;
-    Texture foto4 = new Texture("nave2.png");
-    Texture foto3 =new Texture("text3.png");
-    Texture foto2 =new Texture("text2.png");
-    Texture foto1 =new Texture("text1.png");
+    Texture foto4 = new Texture("Naveinicio.png");
+    Texture foto3 =new Texture("Botones/BotonNivelTres.png");
+    Texture foto2 =new Texture("Botones/BotonNivelDos.png");
+    Texture foto1 =new Texture("Botones/BotonNivelUno.png");
     private Stage escenaAbout;
     private Texto texto=new Texto();
 
