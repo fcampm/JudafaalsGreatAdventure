@@ -41,6 +41,12 @@ public class PantallaJugar implements Screen {
     // Crear Imágenes.
     private Texture primerNivel;
 
+    //Personaje
+    private Nave nave;
+    private float vxNave = 0;
+    private final float VX_NAVE = 5;
+
+
     public PantallaJugar(JudafaalsGreatAdventure judafaalsGreatAdventure) {
 
         this.jdj = judafaalsGreatAdventure;
