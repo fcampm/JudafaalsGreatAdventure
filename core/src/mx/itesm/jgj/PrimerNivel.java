@@ -26,7 +26,7 @@ class PrimerNivel extends Pantalla
 
 
     private Personaje nave;
-    private static final float ANCHO_MAPA=3260;
+    private static final float ANCHO_MAPA=5120;
 
     private TiledMap mapa;
     private OrthogonalTiledMapRenderer render;

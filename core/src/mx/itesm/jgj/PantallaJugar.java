@@ -25,7 +25,7 @@ public class PantallaJugar implements Screen {
     private final JudafaalsGreatAdventure jdj;
 
     // Tamaño total del nivel 1
-    private final float ANCHO_MAPA = 2560;
+    private final float ANCHO_MAPA = 5120;
 
     // Mapas
     private TiledMap mapa;
@@ -82,7 +82,7 @@ public class PantallaJugar implements Screen {
     @Override
     public void render(float delta) {
 
-        moverCamara(delta);
+        moverCamara();
 
         Gdx.gl.glClearColor(1,1,1,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -94,7 +94,7 @@ public class PantallaJugar implements Screen {
 
     }
 
-    private void moverCamara(float dx) {
+    private void moverCamara() {
 
         camara.position.set(camara.position.x + 2, camara.position.y, 0);
         camara.update();
