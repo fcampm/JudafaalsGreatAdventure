@@ -27,8 +27,8 @@ class Personaje {
 
     public Personaje(Texture textura){
         TextureRegion region=new TextureRegion(textura);
-        TextureRegion[][] frames=region.split(50,66);
-        animacion=new Animation(0.2f,frames[0][3],frames[0][2],frames[0][1]);
+        TextureRegion[][] frames=region.split(146,153);
+        animacion=new Animation(0.2f,frames[0][0],frames[0][1],frames[0][2]);
         animacion.setPlayMode(Animation.PlayMode.LOOP);
         x=Pantalla.ANCHO/5;
         y=Pantalla.ALTO/2;

@@ -40,7 +40,7 @@ class PrimerNivel extends Pantalla
 
     @Override
     public void show() {
-        nave=new Personaje(new Texture("PrimerNivel/marioFrames.png"));
+        nave=new Personaje(new Texture("PrimerNivel/animacionNaveMover.png"));
         cargarMapa();
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
     }
