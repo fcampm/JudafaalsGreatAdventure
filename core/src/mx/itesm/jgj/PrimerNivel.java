@@ -34,7 +34,10 @@ class PrimerNivel extends Pantalla
 
     private int vida = 100;
     private String cadenaVida = "Life : "+vida;
+
+    //Textos
     private Texto texto;
+    private Texto texto2;
 
     //Vidas extra del juego
     private cruz cross;
@@ -46,6 +49,7 @@ class PrimerNivel extends Pantalla
     private Estructura struct2;
     private Estructura struct3;
     private Estructura struct4;
+    private Estructura struct5;
 
 
     public PrimerNivel(JudafaalsGreatAdventure judafaalsGreatAdventure) {
@@ -58,6 +62,7 @@ class PrimerNivel extends Pantalla
     public void show() {
         nave=new Personaje(new Texture("PrimerNivel/animacionNaveMover.png"));
         texto = new Texto();
+        texto2= new Texto();
         cross = new cruz(ANCHO+ANCHO/2, ALTO*0.07f);
         cross2 = new cruz(ANCHO, (ALTO*0.5f)+2);
         cross3 = new cruz(ANCHO, (ALTO*0.2f)+4);
@@ -65,6 +70,7 @@ class PrimerNivel extends Pantalla
         struct2 = new Estructura(ANCHO/2+880, ALTO*0.8f);
         struct3 = new Estructura(ANCHO/2+1680, ALTO*0.8f);
         struct4 = new Estructura(ANCHO/2+2000, ALTO*0.8f);
+        struct5 = new Estructura(ANCHO/2+2600, ALTO*0.8f);
         cargarMapa();
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
     }
@@ -96,7 +102,15 @@ class PrimerNivel extends Pantalla
         struct2.render(batch);
         struct3.render(batch);
         struct4.render(batch);
+        struct5.render(batch);
         texto.mostrarMensaje(batch, cadenaVida, nave.getX()-500, ALTO*0.9f+4);
+        if(struct1.estaColisionando(nave)||struct2.estaColisionando(nave)||struct3.estaColisionando(nave)
+                ||struct4.estaColisionando(nave)||struct5.estaColisionando(nave)){
+            texto2.mostrarMensaje(batch, "Ouuch!!!",nave.getX(),nave.getY()+10);
+        }
+        if(nave.getX()>=ANCHO_MAPA-100){
+            texto2.mostrarMensaje(batch,"Level Passed",4500,ALTO*0.9f);
+        }
         batch.end();
 
     }
@@ -166,9 +180,15 @@ class PrimerNivel extends Pantalla
         if(struct3.estaColisionando(nave)){
             vida-=5;
             cadenaVida = "Life : "+vida;
-
         }
         if(struct4.estaColisionando(nave)){
+            vida-=2;
+            cadenaVida = "Life : "+vida;
+
+
+        }
+
+        if(struct5.estaColisionando(nave)){
             vida-=2;
             cadenaVida = "Life : "+vida;
 
