@@ -81,7 +81,7 @@ class PrimerNivel extends Pantalla
         cross.render(batch);
         cross2.render(batch);
         cross3.render(batch);
-        texto.mostrarMensaje(batch, cadenaVida, 150, ALTO*0.9f);
+        texto.mostrarMensaje(batch, cadenaVida, nave.getX()-500, ALTO*0.9f+4);
         batch.end();
 
     }
@@ -124,14 +124,17 @@ class PrimerNivel extends Pantalla
     private void verificarColisionesVidas(){
         if (cross2.estaColisionando(nave)) {
             vida++;
+            cadenaVida = "Vidas : "+vida;
             cross2.set(-50,ALTO*2);
         }
         if (cross.estaColisionando(nave)) {
             vida++;
+            cadenaVida = "Vidas : "+vida;
             cross.set(-50,ALTO*2);
         }
         if (cross3.estaColisionando(nave)) {
             vida++;
+            cadenaVida = "Vidas : "+vida;
             cross3.set(-50,ALTO*2);
         }
 
