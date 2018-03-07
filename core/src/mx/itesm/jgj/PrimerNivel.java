@@ -50,7 +50,8 @@ class PrimerNivel extends Pantalla
     private Estructura struct3;
     private Estructura struct4;
     private Estructura struct5;
-
+    private Fuego fuego;
+    private Fuego fuego2;
 
     public PrimerNivel(JudafaalsGreatAdventure judafaalsGreatAdventure) {
 
@@ -61,6 +62,8 @@ class PrimerNivel extends Pantalla
     @Override
     public void show() {
         nave=new Personaje(new Texture("PrimerNivel/animacionNaveMover.png"));
+        fuego = new Fuego(new Texture("pruebas/fire_01b.png"));
+        fuego2 = new Fuego(new Texture("pruebas/fire_01b.png"));
         texto = new Texto();
         texto2= new Texto();
         cross = new cruz(ANCHO+ANCHO/2, ALTO*0.07f);
@@ -70,7 +73,7 @@ class PrimerNivel extends Pantalla
         struct2 = new Estructura(ANCHO/2+880, ALTO*0.8f);
         struct3 = new Estructura(ANCHO/2+1680, ALTO*0.8f);
         struct4 = new Estructura(ANCHO/2+2000, ALTO*0.8f);
-        struct5 = new Estructura(ANCHO/2+2600, ALTO*0.8f);
+        struct5 = new Estructura(ANCHO/2+2600, ALTO-500);
         cargarMapa();
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
     }
@@ -95,6 +98,17 @@ class PrimerNivel extends Pantalla
         render.render();
         batch.begin();
         nave.render(batch);
+        fuego.render(batch);
+        fuego2.setX(ANCHO_MAPA/4);
+        fuego2.render(batch);
+        if(nave.getX()>=ANCHO_MAPA/2){
+            fuego.setX(ANCHO_MAPA/2+300);
+            fuego.render(batch);
+            fuego2.setX(ANCHO_MAPA/2+1500);
+            fuego2.render(batch);
+        }
+
+
         cross.render(batch);
         cross2.render(batch);
         cross3.render(batch);
@@ -110,6 +124,9 @@ class PrimerNivel extends Pantalla
         }
         if(nave.getX()>=ANCHO_MAPA-100){
             texto2.mostrarMensaje(batch,"Level Passed",4500,ALTO*0.9f);
+        }
+        if(fuego.estaColisionando(nave)||fuego2.estaColisionando(nave)){
+            texto2.mostrarMensaje(batch, "It burns!!!!",nave.getX(),nave.getY()+150);
         }
         batch.end();
 
@@ -184,14 +201,17 @@ class PrimerNivel extends Pantalla
         if(struct4.estaColisionando(nave)){
             vida-=2;
             cadenaVida = "Life : "+vida;
-
-
         }
 
         if(struct5.estaColisionando(nave)){
             vida-=2;
             cadenaVida = "Life : "+vida;
 
+        }
+
+        if(fuego.estaColisionando(nave)||fuego2.estaColisionando(nave)){
+            vida-=25;
+            cadenaVida = "Life : "+vida;
         }
 
     }
