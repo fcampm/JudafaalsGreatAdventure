@@ -35,6 +35,11 @@ public class PantallaJugar implements Screen {
     private OrthographicCamera camara;
     private Viewport vista;
 
+    //Vida
+    private Texto texto;
+    private int vida=3;
+    private String cadenaVida = "Vida: "+vida;
+
     // Batch
     private SpriteBatch batch;
 
@@ -54,12 +59,19 @@ public class PantallaJugar implements Screen {
     @Override
     public void show() {
         crearCamara();
+
+        crearObjetos();
         batch = new SpriteBatch();
         primerNivel = new Texture("nivel1.PNG");
         cargarMapa();
         Gdx.input.setInputProcessor(new PantallaJugar.ProcesadorEntrada());
 
 
+    }
+
+    private void crearObjetos(){
+        texto = new Texto();
+        nave=new Nave(ANCHO/2,ALTO*0.07F);
     }
 
     private void cargarMapa() {
@@ -91,6 +103,11 @@ public class PantallaJugar implements Screen {
 
         render.setView(camara);
         render.render();
+        batch.begin();
+        texto.mostrarMensaje(batch, "HOla", ANCHO/2-ANCHO/6, 3*ALTO/4);
+
+        batch.end();
+
 
     }
 

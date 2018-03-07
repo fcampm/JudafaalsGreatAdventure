@@ -28,8 +28,13 @@ class PrimerNivel extends Pantalla
     private Personaje nave;
     private static final float ANCHO_MAPA=5120;
 
+
     private TiledMap mapa;
     private OrthogonalTiledMapRenderer render;
+
+    private int vida = 3;
+    private String cadenaVida = "Vidas : "+vida;
+    private Texto texto;
 
 
     public PrimerNivel(JudafaalsGreatAdventure judafaalsGreatAdventure) {
@@ -41,6 +46,7 @@ class PrimerNivel extends Pantalla
     @Override
     public void show() {
         nave=new Personaje(new Texture("PrimerNivel/animacionNaveMover.png"));
+        texto = new Texto();
         cargarMapa();
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
     }
@@ -64,6 +70,7 @@ class PrimerNivel extends Pantalla
         render.render();
         batch.begin();
         nave.render(batch);
+        texto.mostrarMensaje(batch, cadenaVida, 150, ALTO*0.9f);
         batch.end();
 
     }

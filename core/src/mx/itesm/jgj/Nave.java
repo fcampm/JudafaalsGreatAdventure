@@ -13,7 +13,7 @@ public class Nave {
     private float x,y;
 
     public Nave(float x, float y){
-        texturanave= new Texture("nave.png");    // ---->  Falta el sprite para nave
+        texturanave= new Texture("nave2.png");    // ---->  Falta el sprite para nave
         this.x=x;
         this.y=y;
 
