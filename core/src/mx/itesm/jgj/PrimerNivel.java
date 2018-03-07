@@ -36,6 +36,10 @@ class PrimerNivel extends Pantalla
     private String cadenaVida = "Vidas : "+vida;
     private Texto texto;
 
+    private cruz cross;
+    private cruz cross2;
+    private cruz cross3;
+
 
     public PrimerNivel(JudafaalsGreatAdventure judafaalsGreatAdventure) {
 
@@ -47,6 +51,9 @@ class PrimerNivel extends Pantalla
     public void show() {
         nave=new Personaje(new Texture("PrimerNivel/animacionNaveMover.png"));
         texto = new Texto();
+        cross = new cruz(ANCHO+ANCHO/2, ALTO*0.07f);
+        cross2 = new cruz(ANCHO, (ALTO*0.5f)+2);
+        cross3 = new cruz(ANCHO, (ALTO*0.2f)+4);
         cargarMapa();
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
     }
@@ -64,12 +71,16 @@ class PrimerNivel extends Pantalla
     public void render(float delta) {
         actualizarObjetos(delta);
         actualizarCamara();
+        verificarColisionesVidas();
         borrarPantalla();
         batch.setProjectionMatrix(camara.combined);
         render.setView(camara);
         render.render();
         batch.begin();
         nave.render(batch);
+        cross.render(batch);
+        cross2.render(batch);
+        cross3.render(batch);
         texto.mostrarMensaje(batch, cadenaVida, 150, ALTO*0.9f);
         batch.end();
 
@@ -107,6 +118,22 @@ class PrimerNivel extends Pantalla
 
     @Override
     public void dispose() {
+
+    }
+
+    private void verificarColisionesVidas(){
+        if (cross2.estaColisionando(nave)) {
+            vida++;
+            cross2.set(-50,ALTO*2);
+        }
+        if (cross.estaColisionando(nave)) {
+            vida++;
+            cross.set(-50,ALTO*2);
+        }
+        if (cross3.estaColisionando(nave)) {
+            vida++;
+            cross3.set(-50,ALTO*2);
+        }
 
     }
 
@@ -155,4 +182,6 @@ class PrimerNivel extends Pantalla
             return false;
         }
     }
+
+
 }
