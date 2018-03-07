@@ -124,6 +124,7 @@ class PrimerNivel extends Pantalla
         }
         if(nave.getX()>=ANCHO_MAPA-100){
             texto2.mostrarMensaje(batch,"Level Passed",4500,ALTO*0.9f);
+            cadenaVida="";
         }
         if(fuego.estaColisionando(nave)||fuego2.estaColisionando(nave)){
             texto2.mostrarMensaje(batch, "It burns!!!!",nave.getX(),nave.getY()+150);
