@@ -32,13 +32,20 @@ class PrimerNivel extends Pantalla
     private TiledMap mapa;
     private OrthogonalTiledMapRenderer render;
 
-    private int vida = 3;
-    private String cadenaVida = "Vidas : "+vida;
+    private int vida = 100;
+    private String cadenaVida = "Life : "+vida;
     private Texto texto;
 
+    //Vidas extra del juego
     private cruz cross;
     private cruz cross2;
     private cruz cross3;
+
+    //Estructuras de la nave
+    private Estructura struct1;
+    private Estructura struct2;
+    private Estructura struct3;
+    private Estructura struct4;
 
 
     public PrimerNivel(JudafaalsGreatAdventure judafaalsGreatAdventure) {
@@ -54,6 +61,10 @@ class PrimerNivel extends Pantalla
         cross = new cruz(ANCHO+ANCHO/2, ALTO*0.07f);
         cross2 = new cruz(ANCHO, (ALTO*0.5f)+2);
         cross3 = new cruz(ANCHO, (ALTO*0.2f)+4);
+        struct1 = new Estructura(ANCHO/2+80, ALTO*0.8f);
+        struct2 = new Estructura(ANCHO/2+880, ALTO*0.8f);
+        struct3 = new Estructura(ANCHO/2+1680, ALTO*0.8f);
+        struct4 = new Estructura(ANCHO/2+2000, ALTO*0.8f);
         cargarMapa();
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
     }
@@ -71,7 +82,7 @@ class PrimerNivel extends Pantalla
     public void render(float delta) {
         actualizarObjetos(delta);
         actualizarCamara();
-        verificarColisionesVidas();
+        verificarColisiones();
         borrarPantalla();
         batch.setProjectionMatrix(camara.combined);
         render.setView(camara);
@@ -81,6 +92,10 @@ class PrimerNivel extends Pantalla
         cross.render(batch);
         cross2.render(batch);
         cross3.render(batch);
+        struct1.render(batch);
+        struct2.render(batch);
+        struct3.render(batch);
+        struct4.render(batch);
         texto.mostrarMensaje(batch, cadenaVida, nave.getX()-500, ALTO*0.9f+4);
         batch.end();
 
@@ -121,21 +136,42 @@ class PrimerNivel extends Pantalla
 
     }
 
-    private void verificarColisionesVidas(){
+    private void verificarColisiones(){
         if (cross2.estaColisionando(nave)) {
-            vida++;
-            cadenaVida = "Vidas : "+vida;
+            vida+=50;
+            cadenaVida = "Life : "+vida;
             cross2.set(-50,ALTO*2);
         }
         if (cross.estaColisionando(nave)) {
-            vida++;
-            cadenaVida = "Vidas : "+vida;
+            vida+=50;
+            cadenaVida = "Life : "+vida;
             cross.set(-50,ALTO*2);
         }
         if (cross3.estaColisionando(nave)) {
-            vida++;
-            cadenaVida = "Vidas : "+vida;
+            vida+=50;
+            cadenaVida = "Life : "+vida;
             cross3.set(-50,ALTO*2);
+        }
+
+        if(struct1.estaColisionando(nave)){
+            vida-=3;
+            cadenaVida = "Life : "+vida;
+
+        }
+        if(struct2.estaColisionando(nave)){
+            vida-=4;
+            cadenaVida = "Life : "+vida;
+
+        }
+        if(struct3.estaColisionando(nave)){
+            vida-=5;
+            cadenaVida = "Life : "+vida;
+
+        }
+        if(struct4.estaColisionando(nave)){
+            vida-=2;
+            cadenaVida = "Life : "+vida;
+
         }
 
     }
