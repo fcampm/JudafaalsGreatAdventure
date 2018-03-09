@@ -26,6 +26,8 @@ class Personaje {
         animacionNormal.setPlayMode(Animation.PlayMode.LOOP);
         animacionSubir=new Animation(0.2f,frames[0][3]);
         animacionSubir.setPlayMode(Animation.PlayMode.LOOP);
+        animacionBajar=new Animation(0.2f,frames[0][4]);
+        animacionBajar.setPlayMode(Animation.PlayMode.LOOP);
         x=Pantalla.ANCHO/5;
         y=Pantalla.ALTO/2;
         estadoNave= EstadoNave.NOMRMAL;
@@ -37,6 +39,10 @@ class Personaje {
             batch.draw(frame,x,y);}
         else if (estadoNave==EstadoNave.SUBIENDO){
             TextureRegion frame=(TextureRegion) animacionSubir.getKeyFrame(timerAnimacion);
+            batch.draw(frame,x,y);
+        }
+        else if(estadoNave==EstadoNave.BAJANDO){
+            TextureRegion frame=(TextureRegion) animacionBajar.getKeyFrame(timerAnimacion);
             batch.draw(frame,x,y);
         }
     }
@@ -76,5 +82,9 @@ class Personaje {
 
     public void subiendo() {
         estadoNave=EstadoNave.SUBIENDO;
+    }
+
+    public void bajando() {
+        estadoNave=EstadoNave.BAJANDO;
     }
 }

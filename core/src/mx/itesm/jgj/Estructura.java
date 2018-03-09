@@ -20,6 +20,7 @@ public class Estructura {
     }
 
     public void render(SpriteBatch batch){
+
         batch.draw(textura,x,y);
     }
 

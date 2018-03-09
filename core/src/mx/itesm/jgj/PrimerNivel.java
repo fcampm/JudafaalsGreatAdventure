@@ -27,9 +27,11 @@ class PrimerNivel extends Pantalla
 
     private Personaje nave;
     private static final float ANCHO_MAPA=5120;
+    private Estructura es;
 
     private TiledMap mapa;
     private OrthogonalTiledMapRenderer render;
+    float yM=ALTO/2;
 
 
     public PrimerNivel(JudafaalsGreatAdventure judafaalsGreatAdventure) {
@@ -41,6 +43,7 @@ class PrimerNivel extends Pantalla
     @Override
     public void show() {
         nave=new Personaje(new Texture("PrimerNivel/animacionNaveMover.png"));
+        es=new Estructura(ANCHO,ALTO);
         cargarMapa();
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
     }
@@ -64,6 +67,7 @@ class PrimerNivel extends Pantalla
         render.render();
         batch.begin();
         nave.render(batch);
+        es.render(batch);
         batch.end();
 
     }
@@ -82,8 +86,12 @@ class PrimerNivel extends Pantalla
     }
 
     private void actualizarObjetos(float dt) {
-        nave.setX(nave.getX()+1);
+        nave.setX(nave.getX()+5);
         nave.actualizar(dt);
+        es.set(ANCHO,0);
+        if(es.estaColisionando(nave)){
+            nave.setY(ALTO);
+        }
 
 
     }
@@ -135,8 +143,17 @@ class PrimerNivel extends Pantalla
         public boolean touchDragged(int screenX, int screenY, int pointer) {
             Vector3 v=new Vector3(screenX,screenY,0);
             camara.unproject(v);
+            if(nave.getY()+2>=v.y && nave.getY()-2<=v.y){
+                nave.normal();}
 
+            else if(v.y>nave.getY()){
+                nave.subiendo();
+            }
+            else if(v.y<nave.getY()){
+                nave.bajando();
+            }
             nave.setY(v.y);
+
 
 
             return true;
