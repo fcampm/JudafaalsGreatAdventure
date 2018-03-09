@@ -28,30 +28,9 @@ class PrimerNivel extends Pantalla
     private Personaje nave;
     private static final float ANCHO_MAPA=5120;
 
-
     private TiledMap mapa;
     private OrthogonalTiledMapRenderer render;
 
-    private int vida = 100;
-    private String cadenaVida = "Life : "+vida;
-
-    //Textos
-    private Texto texto;
-    private Texto texto2;
-
-    //Vidas extra del juego
-    private cruz cross;
-    private cruz cross2;
-    private cruz cross3;
-
-    //Estructuras de la nave
-    private Estructura struct1;
-    private Estructura struct2;
-    private Estructura struct3;
-    private Estructura struct4;
-    private Estructura struct5;
-    private Fuego fuego;
-    private Fuego fuego2;
 
     public PrimerNivel(JudafaalsGreatAdventure judafaalsGreatAdventure) {
 
@@ -61,19 +40,7 @@ class PrimerNivel extends Pantalla
 
     @Override
     public void show() {
-        nave=new Personaje(new Texture("PrimerNivel/animacionNaveMover.png"));
-        fuego = new Fuego(new Texture("pruebas/fire_01b.png"));
-        fuego2 = new Fuego(new Texture("pruebas/fire_01b.png"));
-        texto = new Texto();
-        texto2= new Texto();
-        cross = new cruz(ANCHO+ANCHO/2, ALTO*0.07f);
-        cross2 = new cruz(ANCHO, (ALTO*0.5f)+2);
-        cross3 = new cruz(ANCHO, (ALTO*0.2f)+4);
-        struct1 = new Estructura(ANCHO/2+80, ALTO*0.8f);
-        struct2 = new Estructura(ANCHO/2+880, ALTO*0.8f);
-        struct3 = new Estructura(ANCHO/2+1680, ALTO*0.8f);
-        struct4 = new Estructura(ANCHO/2+2000, ALTO*0.8f);
-        struct5 = new Estructura(ANCHO/2+2600, ALTO-500);
+        nave=new Personaje(new Texture("PrimerNivel/animacionNaveMoverllñlññlllñlll.png"));
         cargarMapa();
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
     }
@@ -91,44 +58,12 @@ class PrimerNivel extends Pantalla
     public void render(float delta) {
         actualizarObjetos(delta);
         actualizarCamara();
-        verificarColisiones();
         borrarPantalla();
         batch.setProjectionMatrix(camara.combined);
         render.setView(camara);
         render.render();
         batch.begin();
         nave.render(batch);
-        fuego.render(batch);
-        fuego2.setX(ANCHO_MAPA/4);
-        fuego2.render(batch);
-        if(nave.getX()>=ANCHO_MAPA/2){
-            fuego.setX(ANCHO_MAPA/2+300);
-            fuego.render(batch);
-            fuego2.setX(ANCHO_MAPA/2+1500);
-            fuego2.render(batch);
-        }
-
-
-        cross.render(batch);
-        cross2.render(batch);
-        cross3.render(batch);
-        struct1.render(batch);
-        struct2.render(batch);
-        struct3.render(batch);
-        struct4.render(batch);
-        struct5.render(batch);
-        texto.mostrarMensaje(batch, cadenaVida, nave.getX()-500, ALTO*0.9f+4);
-        if(struct1.estaColisionando(nave)||struct2.estaColisionando(nave)||struct3.estaColisionando(nave)
-                ||struct4.estaColisionando(nave)||struct5.estaColisionando(nave)){
-            texto2.mostrarMensaje(batch, "Ouuch!!!",nave.getX(),nave.getY()+10);
-        }
-        if(nave.getX()>=ANCHO_MAPA-100){
-            texto2.mostrarMensaje(batch,"Level Passed",4500,ALTO*0.9f);
-            cadenaVida="";
-        }
-        if(fuego.estaColisionando(nave)||fuego2.estaColisionando(nave)){
-            texto2.mostrarMensaje(batch, "It burns!!!!",nave.getX(),nave.getY()+150);
-        }
         batch.end();
 
     }
@@ -165,55 +100,6 @@ class PrimerNivel extends Pantalla
 
     @Override
     public void dispose() {
-
-    }
-
-    private void verificarColisiones(){
-        if (cross2.estaColisionando(nave)) {
-            vida+=50;
-            cadenaVida = "Life : "+vida;
-            cross2.set(-50,ALTO*2);
-        }
-        if (cross.estaColisionando(nave)) {
-            vida+=50;
-            cadenaVida = "Life : "+vida;
-            cross.set(-50,ALTO*2);
-        }
-        if (cross3.estaColisionando(nave)) {
-            vida+=50;
-            cadenaVida = "Life : "+vida;
-            cross3.set(-50,ALTO*2);
-        }
-
-        if(struct1.estaColisionando(nave)){
-            vida-=3;
-            cadenaVida = "Life : "+vida;
-
-        }
-        if(struct2.estaColisionando(nave)){
-            vida-=4;
-            cadenaVida = "Life : "+vida;
-
-        }
-        if(struct3.estaColisionando(nave)){
-            vida-=5;
-            cadenaVida = "Life : "+vida;
-        }
-        if(struct4.estaColisionando(nave)){
-            vida-=2;
-            cadenaVida = "Life : "+vida;
-        }
-
-        if(struct5.estaColisionando(nave)){
-            vida-=2;
-            cadenaVida = "Life : "+vida;
-
-        }
-
-        if(fuego.estaColisionando(nave)||fuego2.estaColisionando(nave)){
-            vida-=25;
-            cadenaVida = "Life : "+vida;
-        }
 
     }
 
@@ -262,6 +148,4 @@ class PrimerNivel extends Pantalla
             return false;
         }
     }
-
-
 }
