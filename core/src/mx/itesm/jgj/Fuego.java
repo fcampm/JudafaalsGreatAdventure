@@ -18,7 +18,7 @@ public class Fuego {
     private float x,y;
     private float timerAnimacion;
 
-    private EstadoSalto estadoSalto;
+    private EstadoNave estadoSalto;
     private final float MAX_ALTURA=150;
     private float yOriginal;
 
@@ -29,7 +29,7 @@ public class Fuego {
         animacion.setPlayMode(Animation.PlayMode.LOOP);
         x=Pantalla.ANCHO/5;
         y=-2;
-        estadoSalto=EstadoSalto.EN_PISO;
+        estadoSalto= EstadoNave.NOMRMAL;
     }
     public void render(SpriteBatch batch){
         timerAnimacion+= Gdx.graphics.getDeltaTime();
@@ -38,17 +38,17 @@ public class Fuego {
     }
     public void actualizar(float delta){
 
-        if(estadoSalto==EstadoSalto.SUBIENDO){
+        if(estadoSalto== EstadoNave.SUBIENDO){
             setY(y+VY*delta-0.5f*G*delta*delta);
             if(y>=yOriginal+MAX_ALTURA){
-                estadoSalto=EstadoSalto.BAJANDO;
+                estadoSalto= EstadoNave.BAJANDO;
 
             }}
-        else if(estadoSalto==EstadoSalto.BAJANDO){
+        else if(estadoSalto== EstadoNave.BAJANDO){
             setY(y-VY*delta);
             if(y<=yOriginal){
                 y=yOriginal;
-                estadoSalto=EstadoSalto.EN_PISO;
+                estadoSalto= EstadoNave.NOMRMAL;
             }
         }
     }
@@ -57,7 +57,7 @@ public class Fuego {
         this.y=y;
     }
     public void saltar(){
-        estadoSalto=EstadoSalto.SUBIENDO;
+        estadoSalto= EstadoNave.SUBIENDO;
         yOriginal=y;
     }
     public float getX(){

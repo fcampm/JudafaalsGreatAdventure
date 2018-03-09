@@ -40,7 +40,7 @@ class PrimerNivel extends Pantalla
 
     @Override
     public void show() {
-        nave=new Personaje(new Texture("PrimerNivel/animacionNaveMoverllñlññlllñlll.png"));
+        nave=new Personaje(new Texture("PrimerNivel/animacionNaveMover.png"));
         cargarMapa();
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
     }
@@ -82,7 +82,7 @@ class PrimerNivel extends Pantalla
     }
 
     private void actualizarObjetos(float dt) {
-        nave.setX(nave.getX()+10);
+        nave.setX(nave.getX()+1);
         nave.actualizar(dt);
 
 
@@ -127,6 +127,7 @@ class PrimerNivel extends Pantalla
 
         @Override
         public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+
             return false;
         }
 
@@ -134,7 +135,10 @@ class PrimerNivel extends Pantalla
         public boolean touchDragged(int screenX, int screenY, int pointer) {
             Vector3 v=new Vector3(screenX,screenY,0);
             camara.unproject(v);
+
             nave.setY(v.y);
+
+
             return true;
         }
 
