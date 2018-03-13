@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 
 /**
  * Created by alfonsoalquicer on 3/6/18.
@@ -80,12 +81,15 @@ public class Fuego {
         return ((TextureRegion) animacion.getKeyFrame(0)).getRegionHeight();
     }
 
-    public boolean estaColisionando(Personaje nave){
-        if(x>=nave.getX() && x<= nave.getX()+nave.getWidth()){
-            if(y>=nave.getY() && y <=nave.getY()+nave.getHeight())
+    public boolean estaColisionando(Personaje nave) {
+        Rectangle rectNave = new Rectangle(nave.getX(),nave.getY(),nave.getWidth(),nave.getHeight());
+        Rectangle rectFuego = new Rectangle(this.getX(),this.getY(),this.getWidth(),this.getHeight());
+        if (rectNave.overlaps(rectFuego)) {
                 return true;
         }
+
         return false;
+
     }
 
 }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -32,6 +33,16 @@ class PrimerNivel extends Pantalla
     private TiledMap mapa;
     private OrthogonalTiledMapRenderer render;
 
+    //TExtos
+    private Texto texto;
+    private int vida = 100;
+    private String cadenaVida = "Vida "+vida;
+
+    //Sonido
+    private Sound choque;
+
+    //Boton pausa
+    private Texture botonPausa;
 
 
     public PrimerNivel(JudafaalsGreatAdventure judafaalsGreatAdventure) {
@@ -43,6 +54,8 @@ class PrimerNivel extends Pantalla
     @Override
     public void show() {
         nave=new Personaje(new Texture("PrimerNivel/animacionNaveMover.png"));
+        texto = new Texto();
+        botonPausa = new Texture("pruebas/pausaa.png");
         cargarMapa();
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
     }
@@ -66,7 +79,9 @@ class PrimerNivel extends Pantalla
         render.render();
         batch.begin();
         nave.render(batch);
-
+        //Puntos
+        texto.mostrarMensaje(batch,cadenaVida,150,ALTO*0.9f);
+        batch.draw(botonPausa, ANCHO*0.75F,ALTO*0.8F);
         batch.end();
 
     }
