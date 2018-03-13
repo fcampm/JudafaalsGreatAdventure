@@ -42,7 +42,7 @@ class PrimerNivel extends Pantalla
 
     @Override
     public void show() {
-        nave=new Personaje(new Texture("PrimerNivel/animacionNaveMover.png"));
+        nave=new Personaje(new Texture("PrimerNivel/naveFrames.png"));
         cargarMapa();
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
     }
