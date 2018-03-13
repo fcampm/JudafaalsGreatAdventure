@@ -191,4 +191,7 @@ public class PantallaJugar implements Screen {
             return false;
         }
     }
+
+
+
 }
