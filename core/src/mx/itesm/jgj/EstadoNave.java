@@ -8,5 +8,6 @@ enum EstadoNave {
     NOMRMAL,
     SUBIENDO,
     BAJANDO,
-    SALTANDO;
+    SALTANDO,
+    SUBIENDO_BAJANDO;
 }

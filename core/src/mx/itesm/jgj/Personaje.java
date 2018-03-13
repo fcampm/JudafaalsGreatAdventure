@@ -13,7 +13,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 class Personaje {
     private static final float G=99.81f;
     private static final float VY = 400;
-    private Animation animacionNormal,animacionSubir,animacionBajar;
+    private Animation animacionNormal,animacionSubir,animacionBajar, animacionPrueba;
     private float x,y;
     private float timerAnimacion;
 
@@ -28,6 +28,8 @@ class Personaje {
         animacionSubir.setPlayMode(Animation.PlayMode.LOOP);
         animacionBajar=new Animation(0.2f,frames[0][4]);
         animacionBajar.setPlayMode(Animation.PlayMode.LOOP);
+        animacionPrueba=new Animation(.5f, frames[0][4]);
+        animacionPrueba.setPlayMode(Animation.PlayMode.NORMAL);
         x=Pantalla.ANCHO/5;
         y=Pantalla.ALTO/2;
         estadoNave= EstadoNave.NOMRMAL;
@@ -43,6 +45,9 @@ class Personaje {
         }
         else if(estadoNave==EstadoNave.BAJANDO){
             TextureRegion frame=(TextureRegion) animacionBajar.getKeyFrame(timerAnimacion);
+            batch.draw(frame,x,y);
+        } else if (estadoNave == EstadoNave.SUBIENDO_BAJANDO) {
+            TextureRegion frame=(TextureRegion) animacionPrueba.getKeyFrame(timerAnimacion);
             batch.draw(frame,x,y);
         }
     }
@@ -77,14 +82,20 @@ class Personaje {
     }
 
     public void normal() {
+        if (estadoNave==EstadoNave.SUBIENDO){
+            estadoNave=EstadoNave.SUBIENDO_BAJANDO;
+        }
         estadoNave=EstadoNave.NOMRMAL;
+
     }
 
     public void subiendo() {
+
         estadoNave=EstadoNave.SUBIENDO;
     }
 
     public void bajando() {
+
         estadoNave=EstadoNave.BAJANDO;
     }
 }
