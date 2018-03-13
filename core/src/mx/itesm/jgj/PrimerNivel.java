@@ -53,7 +53,7 @@ class PrimerNivel extends Pantalla
 
     @Override
     public void show() {
-        nave=new Personaje(new Texture("PrimerNivel/animacionNaveMover.png"));
+        nave=new Personaje(new Texture("PrimerNivel/naveFrames.png"));
         texto = new Texto();
         botonPausa = new Texture("pruebas/pausaa.png");
         cargarMapa();
