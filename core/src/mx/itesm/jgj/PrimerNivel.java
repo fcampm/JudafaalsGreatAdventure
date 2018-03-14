@@ -35,6 +35,7 @@ class PrimerNivel extends Pantalla
 
     //TExtos
     private Texto texto;
+    private Texto texto2;
     private int vida = 100;
     private String cadenaVida = "Vida "+vida;
 
@@ -55,6 +56,7 @@ class PrimerNivel extends Pantalla
     public void show() {
         nave=new Personaje(new Texture("PrimerNivel/naveFrames.png"));
         texto = new Texto();
+        texto2=new Texto();
         botonPausa = new Texture("pruebas/pausaa.png");
         cargarMapa();
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
@@ -80,8 +82,14 @@ class PrimerNivel extends Pantalla
         batch.begin();
         nave.render(batch);
         //Puntos
-        texto.mostrarMensaje(batch,cadenaVida,150,ALTO*0.9f);
-        batch.draw(botonPausa, ANCHO*0.75F,ALTO*0.8F);
+        if(nave.getX()<ANCHO_MAPA-600){
+            texto.mostrarMensaje(batch,cadenaVida,nave.getX()-500,ALTO-20);
+        }
+
+        if(nave.getX()>=ANCHO_MAPA-500){
+            texto2.mostrarMensaje(batch,"Level Completed",ANCHO_MAPA-600,ALTO-20);
+        }
+        batch.draw(botonPausa, nave.getX()+500,ALTO-60);
         batch.end();
 
     }
