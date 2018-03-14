@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -41,6 +42,8 @@ class PrimerNivel extends Pantalla
 
     //Sonido
     private Sound choque;
+    private Sound levelpassed;
+    private Music musicaFondo;
 
     //Boton pausa
     private Texture botonPausa;
@@ -58,6 +61,9 @@ class PrimerNivel extends Pantalla
         texto = new Texto();
         texto2=new Texto();
         botonPausa = new Texture("pruebas/pausaa.png");
+        //Sonidos
+        choque = Gdx.audio.newSound(Gdx.files.internal("Musica/choque.wav"));
+        levelpassed = Gdx.audio.newSound(Gdx.files.internal("Musica/levelUp.wav"));
         cargarMapa();
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
     }
@@ -88,6 +94,13 @@ class PrimerNivel extends Pantalla
 
         if(nave.getX()>=ANCHO_MAPA-500){
             texto2.mostrarMensaje(batch,"Level Completed",ANCHO_MAPA-600,ALTO-20);
+            if(nave.getX()>=ANCHO_MAPA-450){
+                levelpassed.play();
+                if(nave.getX()>=ANCHO_MAPA-249){
+
+                    levelpassed.pause();
+                }
+            }
         }
         batch.draw(botonPausa, nave.getX()+500,ALTO-60);
         batch.end();
