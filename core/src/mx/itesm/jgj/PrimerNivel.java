@@ -1,5 +1,6 @@
 package mx.itesm.jgj;
 
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
@@ -44,6 +45,7 @@ class PrimerNivel extends Pantalla
     private Sound choque;
     private Sound levelpassed;
     private Music musicaFondo;
+    private float volumen = 0.5f;
 
     //Boton pausa
     private Texture botonPausa;
@@ -57,6 +59,7 @@ class PrimerNivel extends Pantalla
 
     @Override
     public void show() {
+        crearMusica();
         nave=new Personaje(new Texture("PrimerNivel/naveFrames.png"));
         texto = new Texto();
         texto2=new Texto();
@@ -67,6 +70,14 @@ class PrimerNivel extends Pantalla
         cargarMapa();
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
     }
+
+    private void crearMusica() {
+        musicaFondo = Gdx.audio.newMusic(Gdx.files.getFileHandle("Musica/volar.ogg", Files.FileType.Internal));
+        musicaFondo.setVolume(volumen);
+        musicaFondo.play();
+        musicaFondo.setLooping(true);
+    }
+
 
     private void cargarMapa() {
         AssetManager manager =new AssetManager();
@@ -87,21 +98,8 @@ class PrimerNivel extends Pantalla
         render.render();
         batch.begin();
         nave.render(batch);
-        //Puntos
-        if(nave.getX()<ANCHO_MAPA-600){
-            texto.mostrarMensaje(batch,cadenaVida,nave.getX()-500,ALTO-20);
-        }
+        GenerarTextosySonidos();
 
-        if(nave.getX()>=ANCHO_MAPA-500){
-            texto2.mostrarMensaje(batch,"Level Completed",ANCHO_MAPA-600,ALTO-20);
-            if(nave.getX()>=ANCHO_MAPA-450){
-                levelpassed.play();
-                if(nave.getX()>=ANCHO_MAPA-249){
-
-                    levelpassed.pause();
-                }
-            }
-        }
         batch.draw(botonPausa, nave.getX()+500,ALTO-60);
         batch.end();
 
@@ -118,6 +116,24 @@ class PrimerNivel extends Pantalla
             camara.position.set(posX,camara.position.y,0);
         }
         camara.update();
+    }
+
+    private void GenerarTextosySonidos(){
+        if(nave.getX()<ANCHO_MAPA-600){
+            texto.mostrarMensaje(batch,cadenaVida,nave.getX()-500,ALTO-20);
+        }
+        if(nave.getX()>=ANCHO_MAPA-500){
+            texto2.mostrarMensaje(batch,"Level Completed",ANCHO_MAPA-600,ALTO-20);
+            if(nave.getX()>=ANCHO_MAPA-450){
+                levelpassed.play();
+                if(nave.getX()>=ANCHO_MAPA-249){
+                    levelpassed.pause();
+                }
+            }
+            if(nave.getX()>=ANCHO_MAPA){
+                musicaFondo.pause();
+            }
+        }
     }
 
     private void actualizarObjetos(float dt) {
