@@ -30,6 +30,7 @@ class PrimerNivel extends Pantalla
 
     private Personaje nave;
     private static final float ANCHO_MAPA=5120;
+    private int presed=0;
 
 
     private TiledMap mapa;
@@ -137,8 +138,10 @@ class PrimerNivel extends Pantalla
     }
 
     private void actualizarObjetos(float dt) {
-        nave.setX(nave.getX()+10);
+        nave.setX(nave.getX()+1);
         nave.actualizar(dt);
+        nave.setY(nave.getY()+presed);
+
 
 
 
@@ -178,18 +181,34 @@ class PrimerNivel extends Pantalla
 
         @Override
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-            return false;
+            Vector3 v=new Vector3(screenX,screenY,0);
+            camara.unproject(v);
+            if(v.y>=ALTO/2){
+                nave.subiendo();
+                //nave.setY(nave.getY()+2);
+                //touchDown(screenX,screenY,pointer,button);
+                presed=5;
+            }
+            else if(v.y<ALTO/2){
+                nave.bajando();
+                //nave.setY(nave.getY()-1);
+                presed=-5;
+            }
+
+            return true;
         }
 
         @Override
         public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-
-            return false;
+            nave.normal();
+            presed=0;
+            return true;
         }
 
         @Override
         public boolean touchDragged(int screenX, int screenY, int pointer) {
-            Vector3 v=new Vector3(screenX,screenY,0);
+           // nave.setY(nave.getY()+2);
+            /*Vector3 v=new Vector3(screenX,screenY,0);
             camara.unproject(v);
             if(nave.getY()+2>=v.y && nave.getY()-2<=v.y){
                 nave.normal();}
@@ -203,8 +222,8 @@ class PrimerNivel extends Pantalla
             nave.setY(v.y);
 
 
-
-            return true;
+*/
+            return false;
         }
 
         @Override

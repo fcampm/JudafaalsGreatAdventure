@@ -30,13 +30,13 @@ class Personaje {
         animacionSubir.setPlayMode(Animation.PlayMode.LOOP);
         animacionBajar=new Animation(0.2f,frames[0][6],frames[0][7],frames[0][8]);
         animacionBajar.setPlayMode(Animation.PlayMode.LOOP);
-        animacionSubirNormal=new Animation(0.08f,frames[0][9],frames[0][10]);
+        animacionSubirNormal=new Animation(10.8f,frames[0][9],frames[0][10]);
         animacionSubirNormal.setPlayMode(Animation.PlayMode.NORMAL);
-        animacionNormalSubir=new Animation(0.08f,frames[0][10],frames[0][9]);
+        animacionNormalSubir=new Animation(10.8f,frames[0][10],frames[0][9]);
         animacionNormalSubir.setPlayMode(Animation.PlayMode.NORMAL);
-        animacionBajarNormal=new Animation(0.08f,frames[0][11],frames[0][12]);
+        animacionBajarNormal=new Animation(10.8f,frames[0][11],frames[0][12]);
         animacionBajarNormal.setPlayMode(Animation.PlayMode.NORMAL);
-        animacionNormalBajar=new Animation(0.08f,frames[0][12],frames[0][11]);
+        animacionNormalBajar=new Animation(10.8f,frames[0][12],frames[0][11]);
         animacionNormalBajar.setPlayMode(Animation.PlayMode.NORMAL);
         x=Pantalla.ANCHO/5;
         y=Pantalla.ALTO/2;
