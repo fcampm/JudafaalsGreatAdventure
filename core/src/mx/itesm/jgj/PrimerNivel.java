@@ -223,6 +223,17 @@ class PrimerNivel extends Pantalla
                 estado = EstadoJuego.PAUSADO;
                 Gdx.input.setInputProcessor(escenaPausa);
             }// Ya ni detecta touch fuera de la escena
+            if(v.y>=190 && v.y<=280 && v.x<nave.getX()-370){
+                nave.subiendo();
+                //nave.setY(nave.getY()+2);
+                //touchDown(screenX,screenY,pointer,button);
+                presed=4;
+            }
+            else if(v.y>=50 && v.y<140 && v.x<nave.getX()-370){
+                nave.bajando();
+                //nave.setY(nave.getY()-1);
+                presed=-4;
+            }
 
 
 
@@ -257,12 +268,12 @@ class PrimerNivel extends Pantalla
                 nave.subiendo();
                 //nave.setY(nave.getY()+2);
                 //touchDown(screenX,screenY,pointer,button);
-                presed=5;
+                presed=4;
             }
             else if(v.y>=50 && v.y<140 && v.x<nave.getX()-370){
                 nave.bajando();
                 //nave.setY(nave.getY()-1);
-                presed=-5;
+                presed=-4;
             }
             else if(v.y>=140 && v.y<190 && v.x<nave.getX()-370){
                 nave.normal();
