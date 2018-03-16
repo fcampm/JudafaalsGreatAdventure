@@ -9,17 +9,25 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -32,6 +40,10 @@ class PrimerNivel extends Pantalla
     private static final float ANCHO_MAPA=5120;
     private int presed=0;
 
+    //Otra camara para componentes
+    private OrthographicCamera camaraHUD;
+    private Viewport vistaHUD;
+    private Stage escenaHUD;
 
     private TiledMap mapa;
     private OrthogonalTiledMapRenderer render;
@@ -40,7 +52,7 @@ class PrimerNivel extends Pantalla
     private Texto texto;
     private Texto texto2;
     private int vida = 100;
-    private String cadenaVida = "Vida "+vida;
+    private String cadenaVida = "Vida :"+vida;
 
     //Sonido
     private Sound choque;
@@ -50,6 +62,11 @@ class PrimerNivel extends Pantalla
 
     //Boton pausa
     private Texture botonPausa;
+    //PAUSA
+    private EscenaPausa escenaPausa;
+
+    //Estado
+    private EstadoJuego estado;
 
 
     public PrimerNivel(JudafaalsGreatAdventure judafaalsGreatAdventure) {
@@ -71,6 +88,9 @@ class PrimerNivel extends Pantalla
         cargarMapa();
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
     }
+
+
+
 
     private void crearMusica() {
         musicaFondo = Gdx.audio.newMusic(Gdx.files.getFileHandle("Musica/volar.ogg", Files.FileType.Internal));
@@ -101,8 +121,11 @@ class PrimerNivel extends Pantalla
         nave.render(batch);
         GenerarTextosySonidos();
 
-        batch.draw(botonPausa, nave.getX()+500,ALTO-60);
+        batch.draw(botonPausa, ANCHO*0.75f,ALTO*0.8f);
         batch.end();
+        if(estado == EstadoJuego.PAUSADO){
+            escenaPausa.draw();
+        }
 
     }
     private void actualizarCamara() {
@@ -160,6 +183,9 @@ class PrimerNivel extends Pantalla
     @Override
     public void dispose() {
 
+        escenaPausa.dispose();
+        botonPausa.dispose();
+
     }
 
 
@@ -183,6 +209,18 @@ class PrimerNivel extends Pantalla
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
             Vector3 v=new Vector3(screenX,screenY,0);
             camara.unproject(v);
+
+            if (v.x>=ANCHO*0.75f && v.x<=ANCHO*0.75f+botonPausa.getWidth()
+                    && v.y>=ALTO*0.75f && v.y<=ALTO*0.75f+botonPausa.getHeight()) {
+                // Botón pausa!!
+                //if (escenaPausa == null) {
+                    escenaPausa = new EscenaPausa(vista, batch);
+                //}
+                // PASA EL CONTROL A LA ESCENA
+                estado = EstadoJuego.PAUSADO;
+                Gdx.input.setInputProcessor(escenaPausa);
+            }// Ya ni detecta touch fuera de la escena
+
             if(v.y>=ALTO/2){
                 nave.subiendo();
                 //nave.setY(nave.getY()+2);
@@ -194,6 +232,8 @@ class PrimerNivel extends Pantalla
                 //nave.setY(nave.getY()-1);
                 presed=-5;
             }
+
+
 
             return true;
         }
@@ -236,4 +276,56 @@ class PrimerNivel extends Pantalla
             return false;
         }
     }
+
+    enum EstadoJuego {
+        JUGANDO,
+        PAUSADO
+    }
+
+    private class EscenaPausa extends Stage
+    {
+
+        public EscenaPausa(Viewport vista, SpriteBatch batch) {
+            super(vista,batch);
+            Pixmap pixmap = new Pixmap((int)(ANCHO*0.7f), (int)(ALTO*0.8f), Pixmap.Format.RGBA8888 );
+            pixmap.setColor( 1f, 1f, 1f, 0.65f );
+            pixmap.fillRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
+            Texture texturaRectangulo = new Texture( pixmap );
+            pixmap.dispose();
+            Image imgRectangulo = new Image(texturaRectangulo);
+            imgRectangulo.setPosition(0.15f*ANCHO, 0.1f*ALTO);
+            this.addActor(imgRectangulo);
+            Texture texturaBtnSalir = new Texture("Botones/quit.png");
+            TextureRegionDrawable trdSalir = new TextureRegionDrawable(
+                    new TextureRegion(texturaBtnSalir));
+            ImageButton btnSalir = new ImageButton(trdSalir);
+            btnSalir.setPosition(ANCHO/2-btnSalir.getWidth()/2, ALTO/2);
+            btnSalir.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    // Regresa al menú
+
+                     //JudafaalsGreatAdventure.setScreen(new PrimerNivel(jdj));
+
+                }
+            });
+            this.addActor(btnSalir);
+
+            Texture texturaBtnContinuar = new Texture("Botones/resume.png");
+            TextureRegionDrawable trdContinuar = new TextureRegionDrawable(
+                    new TextureRegion(texturaBtnContinuar));
+            ImageButton btnContinuar = new ImageButton(trdContinuar);
+            btnContinuar.setPosition(ANCHO/2-btnContinuar.getWidth()/2, ALTO/4);
+            btnContinuar.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    // Regresa al juego
+                    estado = EstadoJuego.JUGANDO;
+                    Gdx.input.setInputProcessor(new ProcesadorEntrada());
+                }
+            });
+            this.addActor(btnContinuar);
+        }
+    }
+
 }
