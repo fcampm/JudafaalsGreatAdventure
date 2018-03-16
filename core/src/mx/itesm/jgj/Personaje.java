@@ -67,15 +67,10 @@ class Personaje {
             estadoNave=EstadoNave.NOMRMAL;
         }
         else if (estadoNave == EstadoNave.NORMAL_SUBIENDO) {
-            TextureRegion frame=(TextureRegion) animacionBajar.getKeyFrame(timerAnimacion);
-            int temp=0;
-            if(temp!=2) {
-                batch.draw(frame, x, y);
-                temp++;
-            }
-            else{
-                estadoNave=EstadoNave.SUBIENDO;
-            }
+            TextureRegion frame=(TextureRegion) animacionSubir.getKeyFrame(timerAnimacion);
+            batch.draw(frame, x, y);
+            estadoNave=EstadoNave.SUBIENDO;
+
         }
         else if (estadoNave == EstadoNave.NORMAL_BAJANDO) {
             TextureRegion frame=(TextureRegion) animacionNormalBajar.getKeyFrame(timerAnimacion);
@@ -128,7 +123,7 @@ class Personaje {
     public void subiendo() {
 
 
-        estadoNave=EstadoNave.SUBIENDO;
+        estadoNave=EstadoNave.NORMAL_SUBIENDO;
     }
 
     public void bajando() {

@@ -39,6 +39,7 @@ class PrimerNivel extends Pantalla
     private Personaje nave;
     private static final float ANCHO_MAPA=5120;
     private int presed=0;
+    private Texture flechas;
 
     //Otra camara para componentes
     private OrthographicCamera camaraHUD;
@@ -82,6 +83,7 @@ class PrimerNivel extends Pantalla
         texto = new Texto();
         texto2=new Texto();
         botonPausa = new Texture("pruebas/pausaa.png");
+        flechas=new Texture("PrimerNivel/flechasPrueba.png");
         //Sonidos
         choque = Gdx.audio.newSound(Gdx.files.internal("Musica/choque.wav"));
         levelpassed = Gdx.audio.newSound(Gdx.files.internal("Musica/levelUp.wav"));
@@ -122,6 +124,7 @@ class PrimerNivel extends Pantalla
         GenerarTextosySonidos();
 
         batch.draw(botonPausa, ANCHO*0.75f,ALTO*0.8f);
+        batch.draw(flechas,nave.getX()-570,50);
         batch.end();
         if(estado == EstadoJuego.PAUSADO){
             escenaPausa.draw();
@@ -161,7 +164,7 @@ class PrimerNivel extends Pantalla
     }
 
     private void actualizarObjetos(float dt) {
-        nave.setX(nave.getX()+1);
+        nave.setX(nave.getX()+5);
         nave.actualizar(dt);
         nave.setY(nave.getY()+presed);
 
@@ -221,13 +224,13 @@ class PrimerNivel extends Pantalla
                 Gdx.input.setInputProcessor(escenaPausa);
             }// Ya ni detecta touch fuera de la escena
 
-            if(v.y>=ALTO/2 && v.x<nave.getX()){
+            if(v.y>=150 && v.y<=250 && v.x<nave.getX()-370){
                 nave.subiendo();
                 //nave.setY(nave.getY()+2);
                 //touchDown(screenX,screenY,pointer,button);
                 presed=5;
             }
-            else if(v.y<ALTO/2 && v.x<nave.getX()){
+            else if(v.y>=50 && v.y<150 && v.x<nave.getX()-370){
                 nave.bajando();
                 //nave.setY(nave.getY()-1);
                 presed=-5;
