@@ -224,17 +224,7 @@ class PrimerNivel extends Pantalla
                 Gdx.input.setInputProcessor(escenaPausa);
             }// Ya ni detecta touch fuera de la escena
 
-            if(v.y>=150 && v.y<=250 && v.x<nave.getX()-370){
-                nave.subiendo();
-                //nave.setY(nave.getY()+2);
-                //touchDown(screenX,screenY,pointer,button);
-                presed=5;
-            }
-            else if(v.y>=50 && v.y<150 && v.x<nave.getX()-370){
-                nave.bajando();
-                //nave.setY(nave.getY()-1);
-                presed=-5;
-            }
+
 
 
 
@@ -251,9 +241,9 @@ class PrimerNivel extends Pantalla
         @Override
         public boolean touchDragged(int screenX, int screenY, int pointer) {
            // nave.setY(nave.getY()+2);
-            /*Vector3 v=new Vector3(screenX,screenY,0);
+            Vector3 v=new Vector3(screenX,screenY,0);
             camara.unproject(v);
-            if(nave.getY()+2>=v.y && nave.getY()-2<=v.y){
+            /*if(nave.getY()+2>=v.y && nave.getY()-2<=v.y){
                 nave.normal();}
 
             else if(v.y>nave.getY()){
@@ -262,11 +252,26 @@ class PrimerNivel extends Pantalla
             else if(v.y<nave.getY()){
                 nave.bajando();
             }
-            nave.setY(v.y);
+            nave.setY(v.y);*/
+             if(v.y>=190 && v.y<=280 && v.x<nave.getX()-370){
+                nave.subiendo();
+                //nave.setY(nave.getY()+2);
+                //touchDown(screenX,screenY,pointer,button);
+                presed=5;
+            }
+            else if(v.y>=50 && v.y<140 && v.x<nave.getX()-370){
+                nave.bajando();
+                //nave.setY(nave.getY()-1);
+                presed=-5;
+            }
+            else if(v.y>=140 && v.y<190 && v.x<nave.getX()-370){
+                nave.normal();
+                presed=0;
+             }
 
 
-*/
-            return false;
+
+            return true;
         }
 
         @Override
