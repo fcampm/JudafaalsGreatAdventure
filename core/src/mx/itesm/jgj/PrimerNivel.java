@@ -221,13 +221,13 @@ class PrimerNivel extends Pantalla
                 Gdx.input.setInputProcessor(escenaPausa);
             }// Ya ni detecta touch fuera de la escena
 
-            if(v.y>=ALTO/2){
+            if(v.y>=ALTO/2 && v.x<nave.getX()){
                 nave.subiendo();
                 //nave.setY(nave.getY()+2);
                 //touchDown(screenX,screenY,pointer,button);
                 presed=5;
             }
-            else if(v.y<ALTO/2){
+            else if(v.y<ALTO/2 && v.x<nave.getX()){
                 nave.bajando();
                 //nave.setY(nave.getY()-1);
                 presed=-5;
