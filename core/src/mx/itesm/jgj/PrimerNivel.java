@@ -80,7 +80,7 @@ class PrimerNivel extends Pantalla {
     @Override
     public void show() {
         crearMusica();
-        nave=new Personaje(new Texture("PrimerNivel/naveFrames.png"));
+        nave=new Personaje(new Texture("PrimerNivel/NaveUFrames.png"));
         texto = new Texto();
         texto2=new Texto();
         botonPausa = new Texture("pruebas/pausaa.png");
