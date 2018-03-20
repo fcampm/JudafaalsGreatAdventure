@@ -22,88 +22,78 @@ import static mx.itesm.jgj.MenuJudafaals.ANCHO;
  * Created by taylu on 23/02/2018.
  */
 
- public class PantallaMas implements Screen {
+class PantallaMas extends Pantalla {
 
-    private final JudafaalsGreatAdventure jdj;
-    // Camara
-    private OrthographicCamera camara;
-    private Viewport vista;
+    private JudafaalsGreatAdventure jga;
 
-    // Definimos imágenes
-    private Texture fondoMas;
+    // Texturas a usar.
+    private Texture fondoPantallaMas;
+    private TextureRegionDrawable texturaHomeNegro;
+    private TextureRegionDrawable texturaHomeGris;
+    private TextureRegionDrawable texturaAbout;
+    private TextureRegionDrawable texturaAboutOnClick;
 
-    // Batch
-    private SpriteBatch batch;
+    // Escenas a usar.
+    private Stage escenaPantallaMas;
 
-    // Escenas
-    private Stage escenaMas;
-
-    public PantallaMas(JudafaalsGreatAdventure JudafaalsGreatAdventure) {
-        this.jdj = JudafaalsGreatAdventure;
+    public PantallaMas(JudafaalsGreatAdventure judafaalsGreatAdventure) {
+        this.jga = judafaalsGreatAdventure;
     }
-
-
 
     @Override
     public void show() {
-        crearCamara();
+        cargarTexturas();
         crearEscena();
-        batch = new SpriteBatch();
-        fondoMas = new Texture("Fondos/FondoMasS.png");
-
+        Gdx.input.setInputProcessor(escenaPantallaMas);
     }
 
     private void crearEscena() {
-        escenaMas = new Stage(vista);
+        escenaPantallaMas = new Stage(vista);
 
-        TextureRegionDrawable trdBack = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/homeNegro.png")));
-        TextureRegionDrawable trdBackOnClick = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/homeGris.png")));
-
-        // Creción del botón back.
-        ImageButton backButton = new ImageButton(trdBack, trdBackOnClick);
-        backButton.setPosition(0, ALTO - backButton.getHeight());
-        backButton.addListener(new ClickListener() {
+        // Botón home que regresa al menú principal.
+        ImageButton btnHome = new ImageButton(texturaHomeNegro, texturaHomeGris);
+        btnHome.setPosition(0, ALTO - btnHome.getHeight());
+        btnHome.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                Gdx.app.log("ClickListener", "Hizo click el usuario");
-                // Cambia de pantalla, solo lo puede hacer 'juego' una escena no.
-                jdj.setScreen(new MenuJudafaals(jdj));
-
+                jga.setScreen(new MenuJudafaals(jga));
             }
         });
+        escenaPantallaMas.addActor(btnHome);
 
-        escenaMas.addActor(backButton);
-        Gdx.input.setInputProcessor(escenaMas);
-
+        // Botón about que manda a la pantalla de about con la información de los desarrolladores.
+        ImageButton btnAbout = new ImageButton(texturaAbout, texturaAboutOnClick);
+        btnAbout.setPosition(ANCHO/4 - btnAbout.getWidth(), ALTO/4 - btnAbout.getHeight());
+        btnAbout.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                jga.setScreen(new PantallaAbout(jga));
+            }
+        });
+        escenaPantallaMas.addActor(btnAbout);
     }
 
-    private void crearCamara() {
-        camara = new OrthographicCamera(ANCHO, ALTO);
-        camara.position.set(ANCHO/2,ALTO/2, 0);
-        camara.update();
-        vista = new StretchViewport(ANCHO, ALTO, camara);
+    private void cargarTexturas() {
+        fondoPantallaMas = new Texture("Fondos/FondoMasS.png");
+        texturaHomeNegro = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/homeNegro.png")));
+        texturaHomeGris = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/homeGris.png")));
+        texturaAbout = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/about.png")));
+        texturaAboutOnClick = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/aboutOnClick.png")));
     }
-
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1,1,1,1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        borrarPantalla();
 
         batch.setProjectionMatrix(camara.combined);
 
         batch.begin();
-        batch.draw(fondoMas,0,0);
+        batch.draw(fondoPantallaMas, 0, 0);
         batch.end();
-        escenaMas.draw();
 
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        vista.update(width, height);
-
+        escenaPantallaMas.draw();
     }
 
     @Override
@@ -117,15 +107,9 @@ import static mx.itesm.jgj.MenuJudafaals.ANCHO;
     }
 
     @Override
-    public void hide() {
-
-    }
-
-    @Override
     public void dispose() {
-        escenaMas.dispose();
+        escenaPantallaMas.dispose();
         batch.dispose();
-        fondoMas.dispose();
-
+        fondoPantallaMas.dispose();
     }
 }

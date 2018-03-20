@@ -4,18 +4,13 @@ import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
 /*
 * Participantes del código:
@@ -26,21 +21,10 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 * */
 
 
-class MenuJudafaals implements Screen {
+class MenuJudafaals extends Pantalla {
 
     // Variables de instancia
     private JudafaalsGreatAdventure jdj;
-
-    // Camara
-    private OrthographicCamera camara;
-    private Viewport vista;
-
-    // Dimensiones del mundo
-    public static final float ANCHO = 1280;
-    public static final float ALTO = 720;
-
-    // Batch
-    private SpriteBatch batch;
 
     // Fondo del menú principal
     private Texture fondoMenu;
@@ -50,7 +34,7 @@ class MenuJudafaals implements Screen {
 
     // Música de fondo.
     private Music musicaFondo;
-    private float volumen = 0.5f;
+
 
     public MenuJudafaals(JudafaalsGreatAdventure judafaalsGreatAdventure) {
 
@@ -60,14 +44,18 @@ class MenuJudafaals implements Screen {
     // Método que se encarga de mostrar en la pantalla.
     @Override
     public void show() {
-
-        crearCamara();
+        cargarTexturas();
         crearMenu();
         crearMusica();
-        batch = new SpriteBatch();
+        Gdx.input.setInputProcessor(escenaMenu);
+    }
+
+    private void cargarTexturas() {
+        fondoMenu = new Texture("Fondos/Pantalla principal.jpg");
     }
 
     private void crearMusica() {
+        float volumen = 0.5f;
         musicaFondo = Gdx.audio.newMusic(Gdx.files.getFileHandle("Musica/message.mp3", Files.FileType.Internal));
         musicaFondo.setVolume(volumen);
         musicaFondo.play();
@@ -77,11 +65,10 @@ class MenuJudafaals implements Screen {
     private void crearMenu() {
 
         escenaMenu = new Stage(vista);
-        ImageButton btnPlay = crearBotonTodo("Botones/BotonPlay.png", "Botones/BotonPlayPado.png", ANCHO/2 - 95, ALTO/2 - 85,  new MenuPlay(jdj));
+        ImageButton btnPlay = crearBotonTodo("Botones/BotonPlay.png", "Botones/BotonPlayPado.png", ANCHO/2 - 95, ALTO/2 - 85,  new MenuNiveles(jdj));
         ImageButton btnAyuda= crearBotonTodo("Botones/BotonAyuda3.2.png","Botones/BotonAyudaPado.png",ANCHO - 240,ALTO/2 -350, new PantallaAyuda(jdj));
         ImageButton btnMas = crearBotonTodo("Botones/BotonMas.png", "Botones/BotonMasPado.png", ANCHO/24 - 50, ALTO/2 -350, new PantallaMas(jdj));
         ImageButton btnSetting = crearBotonTodo("Botones/ajustes.png", "Botones/ajustesOnClick.png", 0, ALTO - 128, new PantallaSettings(jdj));
-        Gdx.input.setInputProcessor(escenaMenu);
     }
     //metodo para crear todos los componentes del boton en uno
     private ImageButton crearBotonTodo(String texturaNormal, String texturaOnClick, float x, float y, final Screen screen) {
@@ -138,25 +125,9 @@ class MenuJudafaals implements Screen {
         this.escenaMenu.addActor(btn);
     }
 
-
-    // Método que se encarga de crear a la cámara a usar.
-    private void crearCamara() {
-
-        camara = new OrthographicCamera(ANCHO, ALTO);
-        camara.position.set(ANCHO/2,ALTO/2, 0);
-        camara.update();
-        vista = new StretchViewport(ANCHO, ALTO, camara);
-    }
-
     @Override
     public void render(float delta) {
-
-        // Inicialización del fondo de pantalla.
-        fondoMenu = new Texture("Fondos/Pantalla principal.jpg");
-
-        Gdx.gl.glClearColor(1,1,1,1); // Borra la pantalla con el color blanco en RGB.
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+        borrarPantalla();
         batch.setProjectionMatrix(camara.combined); // Escala los objetos.
 
         // Dibuja en pantalla el stage llamado escenaMenu.
@@ -165,12 +136,6 @@ class MenuJudafaals implements Screen {
         batch.end();
         escenaMenu.draw();
 
-    }
-
-    @Override
-    public void resize(int width, int height) {
-
-        vista.update(width, height);
     }
 
     @Override

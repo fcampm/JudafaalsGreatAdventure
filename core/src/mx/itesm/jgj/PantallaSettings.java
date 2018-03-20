@@ -22,129 +22,89 @@ import static mx.itesm.jgj.MenuJudafaals.ALTO;
 import static mx.itesm.jgj.MenuJudafaals.ANCHO;
 
 
-class PantallaSettings implements Screen {
+class PantallaSettings extends Pantalla {
 
-    private JudafaalsGreatAdventure jdj;
+    private JudafaalsGreatAdventure jga;
 
-    // Camara
-    private OrthographicCamera camara;
-    private Viewport vista;
+    // Texturas de la pantalla de settings.
+    private Texture fondoSettings;
+    private TextureRegionDrawable texturaSonido;
+    private TextureRegionDrawable texturaNoSonido;
+    private TextureRegionDrawable texturaHome;
+    private TextureRegionDrawable texturaHomeOnClick;
 
-    // Batch
-    private SpriteBatch batch;
-
-    // Imágenes
-    private Texture fondoAjustes;
-
-    // Escena
+    // Escenas de la pantalla de Settings.
     private Stage escenaSettings;
 
-    // Constructor de la pantalla.
-    public PantallaSettings(JudafaalsGreatAdventure JudafaalsGreatAdventure) {
-
-        this.jdj = JudafaalsGreatAdventure;
-
+    public PantallaSettings(JudafaalsGreatAdventure judafaalsGreatAdventure) {
+        this.jga = judafaalsGreatAdventure;
     }
 
     @Override
     public void show() {
-
-        crearCamara();
+        cargarTexturas();
         crearEscena();
-        batch = new SpriteBatch();
-        fondoAjustes = new Texture("Fondos/FondoConfig.png");
-    }
-
-    private void crearEscena() {
-
-        escenaSettings = new Stage(vista);
-
-        // Creación de las texturas del botón de sonido
-        TextureRegionDrawable trdSonido = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/sonido.png")));
-        TextureRegionDrawable trdNoSonido = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/noSonido.png")));
-        TextureRegionDrawable trdBack = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/homeNegro.png")));
-        TextureRegionDrawable trdBackOnClick = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/homeGris.png")));
-
-
-        // Creación del botón
-        final ImageButton btnSonido = new ImageButton(trdSonido);
-        final ImageButton btnNoSonido = new ImageButton(trdNoSonido);
-
-        // Button Styles
-        btnNoSonido.setPosition(ANCHO / 2 - btnSonido.getWidth()/2, ALTO / 2 - btnSonido.getHeight()/2);
-        btnSonido.setPosition(ANCHO / 2 - btnSonido.getWidth()/2, ALTO / 2 - btnSonido.getHeight()/2);
-        btnSonido.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                Gdx.app.log("ClickListener", "Hizo click el usuario");
-                // Cambia de pantalla, solo lo puede hacer 'juego' una escena no.
-                //btnSonido.setStyle(btnNoSonido.getStyle());
-                btnSonido.remove();
-
-                escenaSettings.addActor(btnNoSonido);
-
-            }
-        });
-        btnNoSonido.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                Gdx.app.log("ClickListener", "Hizo click el usuario");
-                // Cambia de pantalla, solo lo puede hacer 'juego' una escena no.
-                //btnSonido.setStyle(btnNoSonido.getStyle());
-                btnNoSonido.remove();
-
-                escenaSettings.addActor(btnSonido);
-
-            }
-        });
-
-        // Creción del botón back.
-        ImageButton backButton = new ImageButton(trdBack, trdBackOnClick);
-        backButton.setPosition(0, ALTO - backButton.getHeight());
-        backButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                Gdx.app.log("ClickListener", "Hizo click el usuario");
-                // Cambia de pantalla, solo lo puede hacer 'juego' una escena no.
-                jdj.setScreen(new MenuJudafaals(jdj));
-
-            }
-        });
-
-        escenaSettings.addActor(btnSonido);
-        escenaSettings.addActor(backButton);
         Gdx.input.setInputProcessor(escenaSettings);
     }
 
-    private void crearCamara() {
+    private void crearEscena() {
+        escenaSettings = new Stage(vista);
 
-        camara = new OrthographicCamera(MenuJudafaals.ANCHO, MenuJudafaals.ALTO);
-        camara.position.set(MenuJudafaals.ANCHO/2, MenuJudafaals.ALTO/2, 0);
-        camara.update();
-        vista = new StretchViewport(MenuJudafaals.ANCHO, MenuJudafaals.ALTO, camara);
+        // Creación de la animación de los botones de sonido y no sonido.
+        final ImageButton btnSonido = new ImageButton(texturaSonido);
+        final ImageButton btnNoSonido = new ImageButton(texturaNoSonido);
+        btnSonido.setPosition(ANCHO/2 - btnSonido.getWidth()/2, ALTO/2 - btnSonido.getHeight()/2);
+        btnNoSonido.setPosition(ANCHO/2 - btnSonido.getWidth()/2, ALTO/2 - btnSonido.getHeight()/2);
+        btnSonido.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                super.clicked(event, x, y);
+                btnSonido.remove();
+                escenaSettings.addActor(btnNoSonido);
+            }
+        });
+        escenaSettings.addActor(btnSonido);
+
+        btnNoSonido.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                super.clicked(event, x, y);
+                btnNoSonido.remove();
+                escenaSettings.addActor(btnSonido);
+            }
+        });
+
+        // Creación del botón home que te lleva a MenuJudafaals.
+        ImageButton btnHome = new ImageButton(texturaHome, texturaHomeOnClick);
+        btnHome.setPosition(0, ALTO - btnHome.getHeight());
+        btnHome.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                jga.setScreen(new MenuJudafaals(jga));
+            }
+        });
+        escenaSettings.addActor(btnHome);
+    }
+
+    private void cargarTexturas() {
+        fondoSettings = new Texture("Fondos/FondoConfig.png");
+        texturaSonido = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/sonido.png")));
+        texturaNoSonido = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/noSonido.png")));
+        texturaHome = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/homeNegro.png")));
+        texturaHomeOnClick = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/homeGris.png")));
     }
 
     @Override
     public void render(float delta) {
-
-        Gdx.gl.glClearColor(1, 1, 1, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        borrarPantalla();
 
         batch.setProjectionMatrix(camara.combined);
 
         batch.begin();
-        batch.draw(fondoAjustes,0,0);
+        batch.draw(fondoSettings,0,0);
         batch.end();
         escenaSettings.draw();
-    }
-
-    @Override
-    public void resize(int width, int height) {
-
-        vista.update(width, height);
     }
 
     @Override
@@ -158,15 +118,9 @@ class PantallaSettings implements Screen {
     }
 
     @Override
-    public void hide() {
-
-    }
-
-    @Override
     public void dispose() {
-
+        fondoSettings.dispose();
         escenaSettings.dispose();
         batch.dispose();
-        fondoAjustes.dispose();
     }
 }

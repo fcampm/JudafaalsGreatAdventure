@@ -31,8 +31,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-class PrimerNivel extends Pantalla
-{
+class PrimerNivel extends Pantalla {
+
     private JudafaalsGreatAdventure jdj;
 
 
@@ -46,10 +46,11 @@ class PrimerNivel extends Pantalla
     private Viewport vistaHUD;
     private Stage escenaHUD;
 
+    // Creación del mapa.
     private TiledMap mapa;
     private OrthogonalTiledMapRenderer render;
 
-    //TExtos
+    //Textos
     private Texto texto;
     private Texto texto2;
     private int vida = 100;

@@ -24,119 +24,92 @@ import static mx.itesm.jgj.MenuJudafaals.ALTO;
 import static mx.itesm.jgj.MenuJudafaals.ANCHO;
 
 
-class PantallaAbout implements Screen {
+class PantallaAbout extends Pantalla {
 
-    private final JudafaalsGreatAdventure jdj;
+    private JudafaalsGreatAdventure jga;
 
-    // Camara
-    private OrthographicCamera camara;
-    private Viewport vista;
+    // Texturas a usar.
+    private Texture fabianCamp;
+    private Texture alfonsoAlquicer;
+    private Texture darwinJomair;
+    private Texture juanAguilar;
+    private Texture fondoPantallaAbout;
+    private TextureRegionDrawable texturaBackPantallaMas;
+    private TextureRegionDrawable texturaBackPantallaMasOnClick;
+
+    // Textos a usar.
     private Texto texto;
 
-    // Batch
-    private SpriteBatch batch;
-
-    //Imagenes
-    private Texture foto1, foto2, foto3, foto4;
-    private Texture fondoAbout;
-    // Escena
+    // Escena de la pantalla de about.
     private Stage escenaAbout;
 
     public PantallaAbout(JudafaalsGreatAdventure judafaalsGreatAdventure) {
-
-        this.jdj = judafaalsGreatAdventure;
-    }
-
-    public void CrearObjetos() {
-        texto = new Texto();
-
+        this.jga = judafaalsGreatAdventure;
     }
 
     @Override
     public void show() {
-
-        crearCamara();
-        batch = new SpriteBatch();
-        CrearObjetos();
-        crearImages();
-        crearMenu();
+        cargarTexturas();
+        cargarTextos();
+        cargarEscena();
+        Gdx.input.setInputProcessor(escenaAbout);
     }
 
-    private void crearMenu() {
+    private void cargarEscena() {
         escenaAbout = new Stage(vista);
 
-        // Creación de las texturas del botón de back
-        TextureRegionDrawable trdBack = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/homeNegro.png")));
-        TextureRegionDrawable trdBackOnClick = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/homeGris.png")));
-
-        // Creción del botón back.
-        ImageButton backButton = new ImageButton(trdBack, trdBackOnClick);
-        backButton.setPosition(0, ALTO - backButton.getHeight());
-        backButton.addListener(new ClickListener() {
+        // Botón back que regresa a la pantalla mas.
+        ImageButton btnBackToPantallaMas = new ImageButton(texturaBackPantallaMas, texturaBackPantallaMasOnClick);
+        btnBackToPantallaMas.setPosition(25, ALTO - 25 - btnBackToPantallaMas.getHeight());
+        btnBackToPantallaMas.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                Gdx.app.log("ClickListener", "Hizo click el usuario");
-                // Cambia de pantalla, solo lo puede hacer 'juego' una escena no.
-                jdj.setScreen(new MenuJudafaals(jdj));
-
+                jga.setScreen(new PantallaMas(jga));
             }
         });
-
-        escenaAbout.addActor(backButton);
-        Gdx.input.setInputProcessor(escenaAbout);
-
+        escenaAbout.addActor(btnBackToPantallaMas);
     }
 
-    private void crearImages() {
-
-        foto1 = new Texture("AboutFotos/IMG_1862.png");
-        foto2 = new Texture("AboutFotos/dar.png");
-        foto3 = new Texture("AboutFotos/FotoJuan.png");
-        foto4 = new Texture("AboutFotos/bloggif_5a8615b78e32e.png");
-        fondoAbout = new Texture("Fondos/FondoAcercaDe.png");
-
+    private void cargarTextos() {
+        texto = new Texto();
     }
 
-    private void crearCamara() {
-
-        camara = new OrthographicCamera(ANCHO, ALTO);
-        camara.position.set(ANCHO / 2, ALTO / 2, 0);
-        camara.update();
-        vista = new StretchViewport(ANCHO, ALTO, camara);
+    private void cargarTexturas() {
+        fabianCamp = new Texture("AboutFotos/fabianCamp.png");
+        alfonsoAlquicer = new Texture("AboutFotos/alfonsoAlquicer.png");
+        darwinJomair = new Texture("AboutFotos/darwinJomair.png");
+        juanAguilar = new Texture("AboutFotos/juanAguilar.png");
+        fondoPantallaAbout = new Texture("Fondos/FondoAcercaDe.png");
+        texturaBackPantallaMas = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/backButton.png")));
+        texturaBackPantallaMasOnClick = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/backButtonOnClick.png")));
     }
 
     @Override
     public void render(float delta) {
-
-        Gdx.gl.glClearColor(1, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        borrarPantalla();
 
         batch.setProjectionMatrix(camara.combined);
 
-        //MUESTRA TEXTOS
         batch.begin();
-        batch.draw(fondoAbout, 0, 0);
-        batch.draw(foto1, ANCHO - ANCHO / 6, 2.1f * ALTO / 4);
-        batch.draw(foto2, ANCHO - ANCHO / 6, 1.4f * ALTO / 4);
-        batch.draw(foto3, ANCHO - ANCHO / 6, 0.7f * ALTO / 4);
-        batch.draw(foto4, ANCHO - ANCHO / 6, 0.0f * ALTO / 4);
 
-        texto.mostrarMensaje(batch, "Desarrolladores:", ANCHO / 2 - ANCHO / 6, 3.5f * ALTO / 4);
-        texto.mostrarMensaje(batch, "Fabian Camp Mussa - ISC", ANCHO / 2 - ANCHO / 6 - 30, 2.5f * ALTO / 4);
-        texto.mostrarMensaje(batch, "Darwin Chavez Salas - ISC", ANCHO / 2 - ANCHO / 6, 1.8f * ALTO / 4);
-        texto.mostrarMensaje(batch, "Juan Jose Aguilar Hernandez - LAD", ANCHO / 2 - ANCHO / 6, 1.1f * ALTO / 4);
-        texto.mostrarMensaje(batch, "Alfonso Alquicer Mendez - ISC", ANCHO / 2 - ANCHO / 6, 0.4f * ALTO / 4);
+        // Se dibujan el fondo y las fotos de los desarrolladores.
+        batch.draw(fondoPantallaAbout, 0, 0);
+        batch.draw(fabianCamp, ANCHO - ANCHO/6, 2.1f * ALTO/4);
+        batch.draw(darwinJomair, ANCHO - ANCHO/6, 1.4f * ALTO/4);
+        batch.draw(juanAguilar, ANCHO - ANCHO/6, 0.7f * ALTO/4);
+        batch.draw(alfonsoAlquicer, ANCHO - ANCHO/6, 0.0f * ALTO/4);
+
+        // Se dibujan los mensajes a mostrar en la pantalla de about.
+        texto.mostrarMensaje(batch, "Desarrolladores:", ANCHO/2 - ANCHO/6, 3.5f * ALTO/4);
+        texto.mostrarMensaje(batch, "Fabián Camp Mussa - ISC", ANCHO/2 - ANCHO/6 - 30, 2.5f * ALTO/4);
+        texto.mostrarMensaje(batch, "Darwin Chavez Salas - ISC", ANCHO/2 - ANCHO/6, 1.8f * ALTO/4);
+        texto.mostrarMensaje(batch, "Juan Jose Aguilar Hernandez - LAD", ANCHO/2 - ANCHO/6, 1.1f * ALTO/4);
+        texto.mostrarMensaje(batch, "Alfonso Alquicer Mendez - ISC", ANCHO/2 - ANCHO/6, 0.4f * ALTO/4);
 
         batch.end();
 
         escenaAbout.draw();
-    }
-
-    @Override
-    public void resize(int width, int height) {
-
-        vista.update(width, height);
     }
 
     @Override
@@ -150,20 +123,13 @@ class PantallaAbout implements Screen {
     }
 
     @Override
-    public void hide() {
-
-    }
-
-    @Override
     public void dispose() {
-
         batch.dispose();
-        foto1.dispose();
-        foto2.dispose();
-        foto3.dispose();
-        foto4.dispose();
-        fondoAbout.dispose();
+        fabianCamp.dispose();
+        darwinJomair.dispose();
+        juanAguilar.dispose();
+        alfonsoAlquicer.dispose();
+        fondoPantallaAbout.dispose();
         escenaAbout.dispose();
     }
-
 }
