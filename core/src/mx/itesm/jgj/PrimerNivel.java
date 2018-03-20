@@ -33,7 +33,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 class PrimerNivel extends Pantalla {
 
-    private JudafaalsGreatAdventure jdj;
+    private JudafaalsGreatAdventure jga;
 
 
     private Personaje nave;
@@ -60,7 +60,7 @@ class PrimerNivel extends Pantalla {
     private Sound choque;
     private Sound levelpassed;
     private Music musicaFondo;
-    private float volumen = 0.5f;
+
 
     //Boton pausa
     private Texture botonPausa;
@@ -73,18 +73,18 @@ class PrimerNivel extends Pantalla {
 
     public PrimerNivel(JudafaalsGreatAdventure judafaalsGreatAdventure) {
 
-        this.jdj = judafaalsGreatAdventure;
+        this.jga = judafaalsGreatAdventure;
     }
 
 
     @Override
     public void show() {
         crearMusica();
-        nave=new Personaje(new Texture("PrimerNivel/NaveUFrames.png"));
-        texto = new Texto();
-        texto2=new Texto();
-        botonPausa = new Texture("pruebas/pausaa.png");
-        flechas=new Texture("PrimerNivel/flechasPrueba.png");
+        cargarPersonaje();
+        cargarTextos();
+        cargarTexturas();
+
+
         //Sonidos
         choque = Gdx.audio.newSound(Gdx.files.internal("Musica/choque.wav"));
         levelpassed = Gdx.audio.newSound(Gdx.files.internal("Musica/levelUp.wav"));
@@ -92,10 +92,23 @@ class PrimerNivel extends Pantalla {
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
     }
 
+    private void cargarTexturas() {
+        botonPausa = new Texture("pruebas/pausaa.png");
+        flechas=new Texture("PrimerNivel/flechasPrueba.png");
+    }
 
+    private void cargarTextos() {
+        texto = new Texto();
+        texto2= new Texto();
+    }
+
+    private void cargarPersonaje() {
+        nave = new Personaje(new Texture("PrimerNivel/NaveUFrames.png"));
+    }
 
 
     private void crearMusica() {
+        float volumen = 0.5f;
         musicaFondo = Gdx.audio.newMusic(Gdx.files.getFileHandle("Musica/volar.ogg", Files.FileType.Internal));
         musicaFondo.setVolume(volumen);
         musicaFondo.play();
@@ -155,7 +168,7 @@ class PrimerNivel extends Pantalla {
             if(nave.getX()>=ANCHO_MAPA-450){
                 levelpassed.play();
                 if(nave.getX()>=ANCHO_MAPA-249){
-                    levelpassed.pause();
+                    levelpassed.dispose();
                 }
             }
             if(nave.getX()>=ANCHO_MAPA){
