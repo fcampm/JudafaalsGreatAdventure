@@ -83,6 +83,7 @@ class PrimerNivel extends Pantalla {
         cargarPersonaje();
         cargarTextos();
         cargarTexturas();
+        crearHUD();
 
 
         //Sonidos
@@ -91,6 +92,42 @@ class PrimerNivel extends Pantalla {
         cargarMapa();
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
     }
+
+
+    private void crearHUD(){
+        camaraHUD=new OrthographicCamera(ANCHO,ALTO);
+        camaraHUD.position.set(ANCHO/2,ALTO/2,0);
+        camaraHUD.update();
+        vistaHUD = new StretchViewport(ANCHO,ALTO,camaraHUD);
+        Skin skin = new Skin();
+        skin.add("flechas",new Texture("PrimerNivel/flechasPrueba.png"));
+        skin.add("pausa", new Texture("pruebas/pausaa.png"));
+        //Vista del pad
+        Touchpad.TouchpadStyle estilo = new Touchpad.TouchpadStyle();
+        Touchpad.TouchpadStyle estilo2 = new Touchpad.TouchpadStyle();
+        estilo.knob = skin.getDrawable("pausa");
+        estilo2.knob = skin.getDrawable("flechas");
+        //Crea el pad
+        Touchpad pad = new Touchpad(64, estilo);
+        Touchpad pad2 = new Touchpad(80, estilo2);
+        pad.setBounds(ANCHO*0.75f,ALTO*0.8f,256,256);
+        //Aquí van las condiciones para que funcione el boton de pausa en HUD
+        pad.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+
+            }
+        });
+        pad.setColor(1,1,1,1);
+        pad2.setBounds(16, 90,256,256);
+        //Aquí van las condiciones para que funcionen las flechas :)
+        pad2.setColor(1,1,1,1);
+        escenaHUD = new Stage(vistaHUD);
+        escenaHUD.addActor(pad);
+        escenaHUD.addActor(pad2);
+    }
+
+
 
     private void cargarTexturas() {
         botonPausa = new Texture("pruebas/pausaa.png");
@@ -143,6 +180,10 @@ class PrimerNivel extends Pantalla {
         if(estado == EstadoJuego.PAUSADO){
             escenaPausa.draw();
         }
+
+        //CamaraHUD
+        batch.setProjectionMatrix(camaraHUD.combined);
+        escenaHUD.draw();
 
     }
     private void actualizarCamara() {
@@ -202,6 +243,7 @@ class PrimerNivel extends Pantalla {
 
         escenaPausa.dispose();
         botonPausa.dispose();
+        escenaHUD.dispose();
 
     }
 
