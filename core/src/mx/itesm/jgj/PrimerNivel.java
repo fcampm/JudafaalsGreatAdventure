@@ -84,6 +84,7 @@ class PrimerNivel extends Pantalla {
         cargarTextos();
         cargarTexturas();
         crearHUD();
+        estado = EstadoJuego.JUGANDO;
 
 
         //Sonidos
@@ -91,6 +92,8 @@ class PrimerNivel extends Pantalla {
         levelpassed = Gdx.audio.newSound(Gdx.files.internal("Musica/levelUp.wav"));
         cargarMapa();
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
+        Gdx.input.setInputProcessor(escenaHUD);
+        //Gdx.input.setInputProcessor(escenaPausa);
     }
 
 
@@ -108,19 +111,51 @@ class PrimerNivel extends Pantalla {
         estilo.knob = skin.getDrawable("pausa");
         estilo2.knob = skin.getDrawable("flechas");
         //Crea el pad
-        Touchpad pad = new Touchpad(64, estilo);
-        Touchpad pad2 = new Touchpad(80, estilo2);
-        pad.setBounds(ANCHO*0.75f,ALTO*0.8f,256,256);
+        final Touchpad pad = new Touchpad(64, estilo);
+        final Touchpad pad2 = new Touchpad(64, estilo2);
+        pad.setBounds(ANCHO*0.75f,ALTO*0.7f,256,256);
         //Aquí van las condiciones para que funcione el boton de pausa en HUD
         pad.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
 
+                Touchpad pad = (Touchpad) actor;
+                if(pad.isTouched()){
+                    if(escenaPausa==null){
+                        escenaPausa = new EscenaPausa(vistaHUD, batch);
+                    }
+                    estado=EstadoJuego.PAUSADO;
+                    Gdx.input.setInputProcessor(escenaPausa);
+                }else{
+                    estado=EstadoJuego.JUGANDO;
+                }
+
             }
         });
         pad.setColor(1,1,1,1);
-        pad2.setBounds(16, 90,256,256);
+        pad2.setBounds(16, 40,256,256);
         //Aquí van las condiciones para que funcionen las flechas :)
+        pad2.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                if(pad2.getKnobPercentY()>0){
+                    //pad2.getKnobPercentX();
+                    nave.subiendo();
+                    presed=4;
+                    //nave.setY(nave.getY()+2);
+                    //touchDown(screenX,screenY,pointer,button);
+                }
+                else if(pad2.getKnobPercentY()<0){
+                    nave.bajando();
+                    //nave.setY(nave.getY()-1);
+                    presed=-4;
+                }
+                else {
+                    nave.normal();
+                    presed=0;
+                }
+            }
+        });
         pad2.setColor(1,1,1,1);
         escenaHUD = new Stage(vistaHUD);
         escenaHUD.addActor(pad);
@@ -174,8 +209,8 @@ class PrimerNivel extends Pantalla {
         nave.render(batch);
         GenerarTextosySonidos();
 
-        batch.draw(botonPausa, ANCHO*0.75f,ALTO*0.8f);
-        batch.draw(flechas,nave.getX()-570,50);
+        //batch.draw(botonPausa, ANCHO*0.75f,ALTO*0.8f);
+        //batch.draw(flechas,nave.getX()-570,50);
         batch.end();
         if(estado == EstadoJuego.PAUSADO){
             escenaPausa.draw();
@@ -242,7 +277,6 @@ class PrimerNivel extends Pantalla {
     public void dispose() {
 
         escenaPausa.dispose();
-        botonPausa.dispose();
         escenaHUD.dispose();
 
     }
@@ -266,36 +300,36 @@ class PrimerNivel extends Pantalla {
 
         @Override
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-            Vector3 v=new Vector3(screenX,screenY,0);
-            camara.unproject(v);
+            //Vector3 v=new Vector3(screenX,screenY,0);
+            //camara.unproject(v);
 
-            if (v.x>=ANCHO*0.75f && v.x<=ANCHO*0.75f+botonPausa.getWidth()
-                    && v.y>=ALTO*0.75f && v.y<=ALTO*0.75f+botonPausa.getHeight()) {
+            //if (v.x>=ANCHO*0.75f && v.x<=ANCHO*0.75f+botonPausa.getWidth()
+                    //&& v.y>=ALTO*0.75f && v.y<=ALTO*0.75f+botonPausa.getHeight()) {
                 // Botón pausa!!
                 //if (escenaPausa == null) {
-                    escenaPausa = new EscenaPausa(vista, batch);
+                   // escenaPausa = new EscenaPausa(vista, batch);
                 //}
                 // PASA EL CONTROL A LA ESCENA
-                estado = EstadoJuego.PAUSADO;
-                Gdx.input.setInputProcessor(escenaPausa);
-            }// Ya ni detecta touch fuera de la escena
-            if(v.y>=190 && v.y<=280 && v.x<nave.getX()-370){
-                nave.subiendo();
+                //estado = EstadoJuego.PAUSADO;
+                //Gdx.input.setInputProcessor(escenaPausa);
+            //}// Ya ni detecta touch fuera de la escena
+            //if(v.y>=190 && v.y<=280 && v.x<nave.getX()-370){
+              //  nave.subiendo();
                 //nave.setY(nave.getY()+2);
                 //touchDown(screenX,screenY,pointer,button);
-                presed=4;
-            }
-            else if(v.y>=50 && v.y<140 && v.x<nave.getX()-370){
-                nave.bajando();
+                //presed=4;
+            //}
+            //else if(v.y>=50 && v.y<140 && v.x<nave.getX()-370){
+              //  nave.bajando();
                 //nave.setY(nave.getY()-1);
-                presed=-4;
-            }
+                //presed=-4;
+            //}
 
 
 
 
 
-            return true;
+            return false;
         }
 
         @Override
@@ -379,8 +413,8 @@ class PrimerNivel extends Pantalla {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     // Regresa al menú
-
-                     //JudafaalsGreatAdventure.setScreen(new PrimerNivel(jdj));
+                     musicaFondo.dispose();
+                     jga.setScreen(new MenuJudafaals(jga));
 
                 }
             });
