@@ -89,7 +89,7 @@ class PrimerNivel extends Pantalla {
 
         //Sonidos
         choque = Gdx.audio.newSound(Gdx.files.internal("Musica/choque.wav"));
-        levelpassed = Gdx.audio.newSound(Gdx.files.internal("Musica/levelUp.wav"));
+        levelpassed = Gdx.audio.newSound(Gdx.files.internal("Musica/success.wav"));
         cargarMapa();
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
         Gdx.input.setInputProcessor(escenaHUD);
@@ -108,6 +108,7 @@ class PrimerNivel extends Pantalla {
         //Vista del pad
         Touchpad.TouchpadStyle estilo = new Touchpad.TouchpadStyle();
         Touchpad.TouchpadStyle estilo2 = new Touchpad.TouchpadStyle();
+        Touchpad.TouchpadStyle estilo3 = new Touchpad.TouchpadStyle();
         estilo.knob = skin.getDrawable("pausa");
         estilo2.knob = skin.getDrawable("flechas");
         //Crea el pad
@@ -115,20 +116,14 @@ class PrimerNivel extends Pantalla {
         final Touchpad pad2 = new Touchpad(64, estilo2);
         pad.setBounds(ANCHO*0.75f,ALTO*0.7f,256,256);
         //Aquí van las condiciones para que funcione el boton de pausa en HUD
-        pad.addListener(new ChangeListener() {
+        pad.addListener(new ClickListener() {
             @Override
-            public void changed(ChangeEvent event, Actor actor) {
+            public void clicked(InputEvent event, float x, float y) {
 
-                Touchpad pad = (Touchpad) actor;
-                if(pad.isTouched()){
-                    if(escenaPausa==null){
-                        escenaPausa = new EscenaPausa(vistaHUD, batch);
-                    }
-                    estado=EstadoJuego.PAUSADO;
-                    Gdx.input.setInputProcessor(escenaPausa);
-                }else{
-                    estado=EstadoJuego.JUGANDO;
-                }
+                super.clicked(event,x,y);
+                estado=EstadoJuego.PAUSADO;
+                escenaPausa= new EscenaPausa(vistaHUD, batch);
+                Gdx.input.setInputProcessor(escenaPausa);
 
             }
         });
@@ -164,6 +159,7 @@ class PrimerNivel extends Pantalla {
 
 
 
+
     private void cargarTexturas() {
         botonPausa = new Texture("pruebas/pausaa.png");
         flechas=new Texture("PrimerNivel/flechasPrueba.png");
@@ -181,7 +177,7 @@ class PrimerNivel extends Pantalla {
 
     private void crearMusica() {
         float volumen = 0.5f;
-        musicaFondo = Gdx.audio.newMusic(Gdx.files.getFileHandle("Musica/volar.ogg", Files.FileType.Internal));
+        musicaFondo = Gdx.audio.newMusic(Gdx.files.getFileHandle("Musica/level1.mp3", Files.FileType.Internal));
         musicaFondo.setVolume(volumen);
         musicaFondo.play();
         musicaFondo.setLooping(true);
@@ -195,11 +191,18 @@ class PrimerNivel extends Pantalla {
         manager.finishLoading();
         mapa=manager.get("PrimerNivel/prueba1.tmx");
         render= new OrthogonalTiledMapRenderer(mapa);
+
     }
 
     @Override
     public void render(float delta) {
-        actualizarObjetos(delta);
+        if(estado==EstadoJuego.PAUSADO){
+            actualizarObjetos(delta, false);
+            musicaFondo.pause();
+        }else{
+            actualizarObjetos(delta, true);
+            musicaFondo.play();
+        }
         actualizarCamara();
         borrarPantalla();
         batch.setProjectionMatrix(camara.combined);
@@ -244,23 +247,21 @@ class PrimerNivel extends Pantalla {
             if(nave.getX()>=ANCHO_MAPA-450){
                 levelpassed.play();
                 if(nave.getX()>=ANCHO_MAPA-249){
-                    levelpassed.dispose();
+                    levelpassed.pause();
                 }
             }
             if(nave.getX()>=ANCHO_MAPA){
-                musicaFondo.pause();
+                musicaFondo.dispose();
             }
         }
     }
 
-    private void actualizarObjetos(float dt) {
-        nave.setX(nave.getX()+5);
-        nave.actualizar(dt);
-        nave.setY(nave.getY()+presed);
-
-
-
-
+    private void actualizarObjetos(float dt, boolean actualizar) {
+        if(actualizar) {
+            nave.setX(nave.getX() + 5);
+            //nave.actualizar(dt);
+            nave.setY(nave.getY() + presed);
+        }
     }
 
     @Override

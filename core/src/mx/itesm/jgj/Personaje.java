@@ -130,4 +130,6 @@ class Personaje {
 
         estadoNave=EstadoNave.NORMAL_BAJANDO;
     }
+
+
 }
