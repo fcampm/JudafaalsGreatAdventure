@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
@@ -286,6 +287,7 @@ class PrimerNivel extends Pantalla {
             //nave.actualizar(dt);
             nave.setY(nave.getY() + presed);
         }
+        verificarColisiones();
     }
 
     @Override
@@ -325,8 +327,8 @@ class PrimerNivel extends Pantalla {
 
         @Override
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-            //Vector3 v=new Vector3(screenX,screenY,0);
-            //camara.unproject(v);
+            Vector3 v=new Vector3(screenX,screenY,0);
+            camara.unproject(v);
 
             //if (v.x>=ANCHO*0.75f && v.x<=ANCHO*0.75f+botonPausa.getWidth()
                     //&& v.y>=ALTO*0.75f && v.y<=ALTO*0.75f+botonPausa.getHeight()) {
@@ -338,17 +340,17 @@ class PrimerNivel extends Pantalla {
                 //estado = EstadoJuego.PAUSADO;
                 //Gdx.input.setInputProcessor(escenaPausa);
             //}// Ya ni detecta touch fuera de la escena
-            //if(v.y>=190 && v.y<=280 && v.x<nave.getX()-370){
-              //  nave.subiendo();
+            if(v.y>=190 && v.y<=280 && v.x<nave.getX()-370){
+              nave.subiendo();
                 //nave.setY(nave.getY()+2);
                 //touchDown(screenX,screenY,pointer,button);
-                //presed=4;
-            //}
-            //else if(v.y>=50 && v.y<140 && v.x<nave.getX()-370){
-              //  nave.bajando();
+                presed=4;
+            }
+            else if(v.y>=50 && v.y<140 && v.x<nave.getX()-370){
+                nave.bajando();
                 //nave.setY(nave.getY()-1);
-                //presed=-4;
-            //}
+                presed=-4;
+            }
 
 
 
@@ -412,6 +414,22 @@ class PrimerNivel extends Pantalla {
     }
 
     private void verificarColisiones(){
+        int cx = (int)(nave.getX()+32)/32;
+        int cy = (int)(nave.getY())/32;
+        TiledMapTileLayer capa = (TiledMapTileLayer)mapa.getLayers().get("Estructura");
+        //String name=capa.getName();
+        //System.out.println(name+"ddd");
+        TiledMapTileLayer.Cell celda = capa.getCell(cx,cy);
+        if(celda!=null) {
+            System.out.println(celda);
+            vida--;
+            cadenaVida="Vida: "+vida;
+        }
+        /*Object tipo = celda.getTile().getProperties().get("tipo");
+        if (!"Estructura".equals(tipo)) {
+            // No es obstáculo, puede pasar
+            presed=34;}*/
+
         if(life.estaColisionando(nave)||life2.estaColisionando(nave)||life3.estaColisionando(nave)){
             vida+=20;
             cadenaVida="Vida: "+vida;
