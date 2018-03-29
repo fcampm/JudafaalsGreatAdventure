@@ -31,15 +31,22 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.Random;
+
 class PrimerNivel extends Pantalla {
 
+    private Random random = new Random();
+    public int[] arreglo={-4,4,-2,2};
+
     private JudafaalsGreatAdventure jga;
+    private boolean bandera=true;
 
 
     private Personaje nave;
     private static final float ANCHO_MAPA=5120;
     private int presed=0;
     private Texture flechas;
+
 
     //Otra camara para componentes
     private OrthographicCamera camaraHUD;
@@ -60,6 +67,11 @@ class PrimerNivel extends Pantalla {
     private Sound choque;
     private Sound levelpassed;
     private Music musicaFondo;
+
+    //vidas
+    cruz life = new cruz(1500,500);
+    cruz life2 = new cruz(4500,500);
+    cruz life3 = new cruz(3300,500);
 
 
     //Boton pausa
@@ -89,7 +101,7 @@ class PrimerNivel extends Pantalla {
 
         //Sonidos
         choque = Gdx.audio.newSound(Gdx.files.internal("Musica/choque.wav"));
-        levelpassed = Gdx.audio.newSound(Gdx.files.internal("Musica/success.wav"));
+        levelpassed = Gdx.audio.newSound(Gdx.files.internal("Musica/levelUp.wav"));
         cargarMapa();
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
         Gdx.input.setInputProcessor(escenaHUD);
@@ -196,12 +208,19 @@ class PrimerNivel extends Pantalla {
 
     @Override
     public void render(float delta) {
+        verificarColisiones();
         if(estado==EstadoJuego.PAUSADO){
             actualizarObjetos(delta, false);
             musicaFondo.pause();
         }else{
             actualizarObjetos(delta, true);
             musicaFondo.play();
+            life.mover(-1,+random.nextInt(7-(-7))+(-7), true);
+            life2.mover(-1,+random.nextInt(4-(-4))+(-4), true);
+            life3.mover(-1,+random.nextInt(5-(-5))+(-5), true);
+
+            //life.mover(-1, +(int) (life.getY()+arreglo[(int) (Math.random()*2)]),true);
+            //life.mover(-1, +(int) (life.getY()+arreglo[random.nextInt(1-(-0))+(-0)]),true);
         }
         actualizarCamara();
         borrarPantalla();
@@ -210,6 +229,11 @@ class PrimerNivel extends Pantalla {
         render.render();
         batch.begin();
         nave.render(batch);
+        life.render(batch);
+        life2.render(batch);
+        life3.render(batch);
+
+        //life.mover(+1,+1, true);
         GenerarTextosySonidos();
 
         //batch.draw(botonPausa, ANCHO*0.75f,ALTO*0.8f);
@@ -244,7 +268,7 @@ class PrimerNivel extends Pantalla {
         }
         if(nave.getX()>=ANCHO_MAPA-500){
             texto2.mostrarMensaje(batch,"Level Completed",ANCHO_MAPA-600,ALTO-20);
-            if(nave.getX()>=ANCHO_MAPA-450){
+            if(nave.getX()==ANCHO_MAPA-450){
                 levelpassed.play();
                 if(nave.getX()>=ANCHO_MAPA-249){
                     levelpassed.pause();
@@ -384,6 +408,27 @@ class PrimerNivel extends Pantalla {
         @Override
         public boolean scrolled(int amount) {
             return false;
+        }
+    }
+
+    private void verificarColisiones(){
+        if(life.estaColisionando(nave)||life2.estaColisionando(nave)||life3.estaColisionando(nave)){
+            vida+=20;
+            cadenaVida="Vida: "+vida;
+            if(life.estaColisionando(nave)) {
+                life.set(-50, ALTO * 2);
+                levelpassed.play();
+            }
+            if(life2.estaColisionando(nave)) {
+                life2.set(-50, ALTO * 2);
+                levelpassed.play();
+            }
+            if(life3.estaColisionando(nave)) {
+                life3.set(-50, ALTO * 2);
+                levelpassed.play();
+            }
+
+
         }
     }
 
