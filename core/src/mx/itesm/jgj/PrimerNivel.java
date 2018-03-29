@@ -37,10 +37,8 @@ import java.util.Random;
 class PrimerNivel extends Pantalla {
 
     private Random random = new Random();
-    public int[] arreglo={-4,4,-2,2};
 
     private JudafaalsGreatAdventure jga;
-    private boolean bandera=true;
 
 
     private Personaje nave;
@@ -79,6 +77,7 @@ class PrimerNivel extends Pantalla {
     private Texture botonPausa;
     //PAUSA
     private EscenaPausa escenaPausa;
+    private EscenaGanar escenaGanar;
 
     //Estado
     private EstadoJuego estado;
@@ -98,10 +97,11 @@ class PrimerNivel extends Pantalla {
         cargarTexturas();
         crearHUD();
         estado = EstadoJuego.JUGANDO;
+        escenaGanar=new EscenaGanar(vistaHUD,batch);
 
 
         //Sonidos
-        choque = Gdx.audio.newSound(Gdx.files.internal("Musica/choque.wav"));
+        choque = Gdx.audio.newSound(Gdx.files.internal("Musica/choque.mp3"));
         levelpassed = Gdx.audio.newSound(Gdx.files.internal("Musica/levelUp.wav"));
         cargarMapa();
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
@@ -127,7 +127,7 @@ class PrimerNivel extends Pantalla {
         //Crea el pad
         final Touchpad pad = new Touchpad(64, estilo);
         final Touchpad pad2 = new Touchpad(64, estilo2);
-        pad.setBounds(ANCHO*0.75f,ALTO*0.7f,256,256);
+        pad.setBounds(ANCHO*0.78f,ALTO*0.75f,256,256);
         //Aquí van las condiciones para que funcione el boton de pausa en HUD
         pad.addListener(new ClickListener() {
             @Override
@@ -213,16 +213,21 @@ class PrimerNivel extends Pantalla {
         if(estado==EstadoJuego.PAUSADO){
             actualizarObjetos(delta, false);
             musicaFondo.pause();
-        }else{
+        }
+
+        if(estado==EstadoJuego.JUGANDO){
             actualizarObjetos(delta, true);
             musicaFondo.play();
             life.mover(-1,+random.nextInt(7-(-7))+(-7), true);
             life2.mover(-1,+random.nextInt(4-(-4))+(-4), true);
             life3.mover(-1,+random.nextInt(5-(-5))+(-5), true);
-
-            //life.mover(-1, +(int) (life.getY()+arreglo[(int) (Math.random()*2)]),true);
-            //life.mover(-1, +(int) (life.getY()+arreglo[random.nextInt(1-(-0))+(-0)]),true);
         }
+
+        if(estado==EstadoJuego.GANADO){
+            Gdx.input.setInputProcessor(escenaGanar);
+            escenaGanar.draw();
+        }
+
         actualizarCamara();
         borrarPantalla();
         batch.setProjectionMatrix(camara.combined);
@@ -269,10 +274,11 @@ class PrimerNivel extends Pantalla {
         }
         if(nave.getX()>=ANCHO_MAPA-500){
             texto2.mostrarMensaje(batch,"Level Completed",ANCHO_MAPA-600,ALTO-20);
-            if(nave.getX()==ANCHO_MAPA-450){
-                levelpassed.play();
+            if(nave.getX()>=ANCHO_MAPA-300){
+                //levelpassed.play();
+                estado = EstadoJuego.GANADO;
                 if(nave.getX()>=ANCHO_MAPA-249){
-                    levelpassed.pause();
+                    //levelpassed.pause();
                 }
             }
             if(nave.getX()>=ANCHO_MAPA){
@@ -422,8 +428,10 @@ class PrimerNivel extends Pantalla {
         TiledMapTileLayer.Cell celda = capa.getCell(cx,cy);
         if(celda!=null) {
             System.out.println(celda);
-            vida--;
+            vida-=10;
             cadenaVida="Vida: "+vida;
+            choque.play();
+            nave.setX(nave.getX()-275);
         }
         /*Object tipo = celda.getTile().getProperties().get("tipo");
         if (!"Estructura".equals(tipo)) {
@@ -452,7 +460,9 @@ class PrimerNivel extends Pantalla {
 
     enum EstadoJuego {
         JUGANDO,
-        PAUSADO
+        PAUSADO,
+        GANADO,
+        PERDIDO
     }
 
     private class EscenaPausa extends Stage
@@ -525,6 +535,161 @@ class PrimerNivel extends Pantalla {
 
             this.addActor(restartBtn);
         }
+
+        // Escena para la pantalla de ganar ------------------------------------------------------------
+
+
+    }
+
+
+
+    private class EscenaGanar extends Stage{
+
+        public EscenaGanar(Viewport vista, SpriteBatch batch){
+
+            super(vista,batch);
+
+
+
+            Texture opaque = new Texture("Botones/waves.png");
+
+            TextureRegionDrawable trdOpaq = new TextureRegionDrawable(new TextureRegion(opaque));
+
+            Image op = new Image(trdOpaq);
+
+            op.setPosition(0,0);
+
+            this.addActor(op);
+
+
+
+            Texture winRectangle = new Texture("Botones/winRectangle.png");
+
+            TextureRegionDrawable winRectTrd = new TextureRegionDrawable(new TextureRegion(winRectangle));
+
+            Image winRect = new Image(winRectTrd);
+
+            winRect.setPosition(40,292);
+
+            this.addActor(winRect);
+
+
+
+
+
+            Texture nextLevel = new Texture("Botones/next.png");
+
+
+
+            TextureRegionDrawable nextLevelTrd = new TextureRegionDrawable(new TextureRegion(nextLevel));
+
+
+
+
+            ImageButton nextLevelButton = new ImageButton(nextLevelTrd);
+
+            nextLevelButton.setPosition(383,972);
+
+            nextLevelButton.addListener(new ClickListener(){
+
+                @Override
+
+                public void clicked(InputEvent event, float x, float y) {
+
+                    //jga.setScreen(new LevelTwo(jga));
+
+                    //if(pref.getBoolean("musicOn")){
+
+                    //sheepEm.win.stop();
+
+                    //}
+
+                }
+
+            });
+
+            this.addActor(nextLevelButton);
+
+
+
+            Texture retryLevel = new Texture("Botones/restart.png");
+
+            //Texture retryLevelPr = new Texture("Buttons/pressed/pressedRestartButton.png");
+
+            TextureRegionDrawable retryLevelTrd = new TextureRegionDrawable(new TextureRegion(retryLevel));
+
+            //TextureRegionDrawable retryLevelPrTrd = new TextureRegionDrawable(new TextureRegion(retryLevelPr));
+
+
+
+            ImageButton retryLevelButton = new ImageButton(retryLevelTrd);
+
+            retryLevelButton.setPosition(586,699);
+
+            retryLevelButton.addListener(new ClickListener(){
+
+                @Override
+
+                public void clicked(InputEvent event, float x, float y) {
+
+                    //sheepEm.setScreen(new LevelOne(sheepEm));
+
+                    //if(pref.getBoolean("musicOn")){
+
+                    //sheepEm.win.stop();
+
+                    //}
+
+                }
+
+            });
+
+            this.addActor(retryLevelButton);
+
+
+
+
+
+            Texture levelsMenu = new Texture("Botones/next.png");
+
+
+            TextureRegionDrawable levelsMenuTrd = new TextureRegionDrawable(new TextureRegion(levelsMenu));
+
+
+
+
+            ImageButton levelsButton = new ImageButton(levelsMenuTrd);
+
+            levelsButton.setPosition(285,699);
+
+            levelsButton.addListener(new ClickListener(){
+
+                @Override
+
+                public void clicked(InputEvent event, float x, float y) {
+
+                    //sheepEm.setScreen(new MapScreen(sheepEm));
+
+                    //if(pref.getBoolean("musicOn")){
+
+                    //sheepEm.win.stop();
+
+                    //}
+
+                }
+
+            });
+
+            this.addActor(levelsButton);
+
+
+
+
+
+        }
+
+
+
     }
 
 }
