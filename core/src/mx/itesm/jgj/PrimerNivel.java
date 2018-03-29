@@ -398,7 +398,7 @@ class PrimerNivel extends Pantalla {
         public EscenaPausa(Viewport vista, SpriteBatch batch) {
             super(vista,batch);
             Pixmap pixmap = new Pixmap((int)(ANCHO*0.7f), (int)(ALTO*0.8f), Pixmap.Format.RGBA8888 );
-            pixmap.setColor( 1f, 1f, 1f, 0.65f );
+            pixmap.setColor( 0.65f, 1f, 4f, 1f );
             pixmap.fillRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
             Texture texturaRectangulo = new Texture( pixmap );
             pixmap.dispose();
@@ -430,11 +430,37 @@ class PrimerNivel extends Pantalla {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     // Regresa al juego
-                    estado = EstadoJuego.JUGANDO;
+                    cargarMapa();
                     Gdx.input.setInputProcessor(new ProcesadorEntrada());
+                    Gdx.input.setInputProcessor(escenaHUD);
+                    estado = EstadoJuego.JUGANDO;
                 }
             });
             this.addActor(btnContinuar);
+
+
+
+            Texture restartButton = new Texture("Botones/restart.png");
+
+            TextureRegionDrawable trdRestart = new TextureRegionDrawable(new TextureRegion(restartButton));
+
+            ImageButton restartBtn = new ImageButton(trdRestart);
+
+            restartBtn.setPosition(586,150);
+
+            restartBtn.addListener(new ClickListener(){
+
+                @Override
+
+                public void clicked(InputEvent event, float x, float y) {
+                    musicaFondo.stop();
+                    jga.setScreen(new PrimerNivel(jga));
+
+                }
+
+            });
+
+            this.addActor(restartBtn);
         }
     }
 
