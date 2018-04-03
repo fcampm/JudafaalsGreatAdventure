@@ -7,13 +7,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  * Created by alfonsoalquicer on 3/6/18.
  */
 
-public class cruz {
+public class Vida {
 
     private float x;
     private float y;
     private Texture textura;
 
-    public cruz (float x, float y){
+    public Vida(float x, float y){
         this.x=x;
         this.y=y;
         textura= new Texture("PrimerNivel/corazon.png" );

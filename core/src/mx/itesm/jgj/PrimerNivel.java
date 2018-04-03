@@ -3,7 +3,6 @@ package mx.itesm.jgj;
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
@@ -17,7 +16,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -68,9 +66,9 @@ class PrimerNivel extends Pantalla {
     private Music musicaFondo;
 
     //vidas
-    cruz life = new cruz(1500, 500);
-    cruz life2 = new cruz(4500, 500);
-    cruz life3 = new cruz(3300, 500);
+    Vida life = new Vida(1500, 500);
+    Vida life2 = new Vida(4500, 500);
+    Vida life3 = new Vida(3300, 500);
 
 
     //Boton pausa
@@ -419,16 +417,13 @@ class PrimerNivel extends Pantalla {
         TiledMapTileLayer.Cell celda = capa.getCell(cx, cy);
         if (celda != null) {
             System.out.println(celda);
-            vida -= 10;
+            vida -= 100;
             if (vida <= 0) {
                 estado = EstadoJuego.PERDIDO;
             }
             cadenaVida = "Vida: " + vida;
             choque.play();
-            nave.setX(nave.getX() - 275);
-            nave.setX(nave.getX() - 276);
-            nave.setX(nave.getX() - 277);
-            nave.setX(nave.getX() - 278);
+            nave.setX(nave.getX() - 260);
         }
         /*Object tipo = celda.getTile().getProperties().get("tipo");
         if (!"Estructura".equals(tipo)) {
