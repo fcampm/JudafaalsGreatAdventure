@@ -175,7 +175,7 @@ class PrimerNivel extends Pantalla {
     }
 
     private void cargarPersonaje() {
-        nave = new Personaje(new Texture("PrimerNivel/NaveUFrames.png"));
+        nave = new Personaje(new Texture("PrimerNivel/FramesNaveJ.png"));
     }
 
 
