@@ -79,8 +79,8 @@ class PantallaMas extends Pantalla {
         fondoPantallaMas = new Texture("Fondos/FondoMasS.png");
         texturaHomeNegro = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/homeNegro.png")));
         texturaHomeGris = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/homeGris.png")));
-        texturaAbout = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/about.png")));
-        texturaAboutOnClick = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/aboutOnClick.png")));
+        texturaAbout = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/BotonAcercaDe.png")));
+        texturaAboutOnClick = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/BotonAcercaDePado.png")));
     }
 
     @Override

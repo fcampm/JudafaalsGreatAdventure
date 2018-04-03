@@ -106,8 +106,8 @@ class MenuNiveles extends Pantalla {
         texturaPrimerNivel = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/BotonNivelUno.png")));
         texturaSegundoNivel = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/BotonNivelDos.png")));
         texturaTecerNivel = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/BotonNivelTres.png")));
-        texturaBack = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/backButton.png")));
-        texturaBackOnClick = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/backButtonOnClick.png")));
+        texturaBack = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/FlechaAtras.png")));
+        texturaBackOnClick = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/FlechaPado.png")));
     }
 
     @Override

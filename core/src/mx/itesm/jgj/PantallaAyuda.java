@@ -39,7 +39,7 @@ public class PantallaAyuda implements Screen {
     public void show() {
         crearCamara();
         batch = new SpriteBatch();
-        ayudaImg = new Texture("howToPlay.jpg");
+        ayudaImg = new Texture("Fondos/PantallaAyudaB.png");
         Gdx.input.setInputProcessor(new PantallaAyuda.ProcesadorEntrada());
 
 

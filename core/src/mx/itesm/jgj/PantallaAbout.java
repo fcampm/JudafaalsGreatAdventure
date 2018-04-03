@@ -81,8 +81,8 @@ class PantallaAbout extends Pantalla {
         darwinJomair = new Texture("AboutFotos/darwinJomair.png");
         juanAguilar = new Texture("AboutFotos/juanAguilar.png");
         fondoPantallaAbout = new Texture("Fondos/FondoAcercaDe.png");
-        texturaBackPantallaMas = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/backButton.png")));
-        texturaBackPantallaMasOnClick = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/backButtonOnClick.png")));
+        texturaBackPantallaMas = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/FlechaAtras.png")));
+        texturaBackPantallaMasOnClick = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/FlechaPado.png")));
     }
 
     @Override
