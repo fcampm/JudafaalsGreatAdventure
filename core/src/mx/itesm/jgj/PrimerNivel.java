@@ -125,7 +125,7 @@ class PrimerNivel extends Pantalla {
         estilo2.knob = skin.getDrawable("flechas");
         //Crea el pad
         final Touchpad pad = new Touchpad(64, estilo);
-        final Touchpad pad2 = new Touchpad(64, estilo2);
+        final Touchpad pad2 = new Touchpad(25, estilo2);
         pad.setBounds(ANCHO * 0.78f, ALTO * 0.75f, 256, 256);
         //Aquí van las condiciones para que funcione el boton de pausa en HUD
         pad.addListener(new ClickListener() {
@@ -148,12 +148,15 @@ class PrimerNivel extends Pantalla {
                 if (pad2.getKnobPercentY() > 0) {
                     nave.subiendo();
                     presed = 4;
+                    System.out.println(pad2.getKnobPercentY());
                 } else if (pad2.getKnobPercentY() < 0) {
                     nave.bajando();
                     presed = -4;
+                    System.out.println(pad2.getKnobPercentY());
                 } else {
                     nave.normal();
                     presed = 0;
+                    System.out.println(pad2.getKnobPercentY());
                 }
             }
         });
@@ -328,7 +331,7 @@ class PrimerNivel extends Pantalla {
         }
 
         @Override
-        public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        public boolean touchDown(int screenX, int screenY, int pointer, int button) {/*
             Vector3 v = new Vector3(screenX, screenY, 0);
             camara.unproject(v);
 
@@ -352,20 +355,19 @@ class PrimerNivel extends Pantalla {
                 //nave.setY(nave.getY()-1);
                 presed = -4;
             }
-
-
+            */
             return false;
         }
 
         @Override
         public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-            nave.normal();
-            presed = 0;
-            return true;
+            /*nave.normal();
+            presed = 0;*/
+            return false;
         }
 
         @Override
-        public boolean touchDragged(int screenX, int screenY, int pointer) {
+        public boolean touchDragged(int screenX, int screenY, int pointer) {/*
             // nave.setY(nave.getY()+2);
             Vector3 v = new Vector3(screenX, screenY, 0);
             camara.unproject(v);
@@ -378,7 +380,7 @@ class PrimerNivel extends Pantalla {
             else if(v.y<nave.getY()){
                 nave.bajando();
             }
-            nave.setY(v.y);*/
+            nave.setY(v.y);
             if (v.y >= 190 && v.y <= 280 && v.x < nave.getX() - 370) {
                 nave.subiendo();
                 //nave.setY(nave.getY()+2);
@@ -393,8 +395,8 @@ class PrimerNivel extends Pantalla {
                 presed = 0;
             }
 
-
-            return true;
+*/
+            return false;
         }
 
         @Override
@@ -417,7 +419,7 @@ class PrimerNivel extends Pantalla {
         TiledMapTileLayer.Cell celda = capa.getCell(cx, cy);
         if (celda != null) {
             System.out.println(celda);
-            vida -= 100;
+            vida -= 10;
             if (vida <= 0) {
                 estado = EstadoJuego.PERDIDO;
             }
