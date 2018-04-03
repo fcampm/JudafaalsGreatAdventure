@@ -40,7 +40,7 @@ class PrimerNivel extends Pantalla {
 
 
     private Personaje nave;
-    private static final float ANCHO_MAPA = 5120;
+    private static final float ANCHO_MAPA = 11520;
     private int presed = 0;
     private Texture flechas;
 
