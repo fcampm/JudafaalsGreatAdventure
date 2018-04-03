@@ -419,16 +419,13 @@ class PrimerNivel extends Pantalla {
         TiledMapTileLayer.Cell celda = capa.getCell(cx, cy);
         if (celda != null) {
             System.out.println(celda);
-            vida -= 10;
+            vida -= 100;
             if (vida <= 0) {
                 estado = EstadoJuego.PERDIDO;
             }
             cadenaVida = "Vida: " + vida;
             choque.play();
-            nave.setX(nave.getX() - 275);
-            nave.setX(nave.getX() - 276);
-            nave.setX(nave.getX() - 277);
-            nave.setX(nave.getX() - 278);
+            nave.setX(nave.getX() - 260);
         }
         /*Object tipo = celda.getTile().getProperties().get("tipo");
         if (!"Estructura".equals(tipo)) {
