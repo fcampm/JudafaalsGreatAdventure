@@ -245,6 +245,7 @@ class PrimerNivel extends Pantalla {
 
         if (estado == EstadoJuego.PERDIDO) {
             Gdx.input.setInputProcessor(escenaPerder);
+
             escenaPerder.draw();
         }
 
@@ -274,13 +275,7 @@ class PrimerNivel extends Pantalla {
         }
         if (nave.getX() >= ANCHO_MAPA - 500) {
             texto2.mostrarMensaje(batch, "Level Completed", ANCHO_MAPA - 600, ALTO - 20);
-            if (nave.getX() >= ANCHO_MAPA - 300) {
-                levelpassed.play();
-                estado = EstadoJuego.GANADO;
-                if (nave.getX() >= ANCHO_MAPA - 249) {
-                    levelpassed.pause();
-                }
-            }
+            estado= EstadoJuego.GANADO;
             if (nave.getX() >= ANCHO_MAPA) {
                 musicaFondo.dispose();
             }
@@ -309,7 +304,10 @@ class PrimerNivel extends Pantalla {
     @Override
     public void dispose() {
 
-        escenaPausa.dispose();
+        if(escenaPausa!=null){
+            escenaPausa.dispose();
+        }
+
         escenaHUD.dispose();
 
     }
@@ -625,9 +623,9 @@ class PrimerNivel extends Pantalla {
             btnContinuar.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    // Regresa al juego
-                    //musicaFondo.dispose();
-                    //jga.setScreen(new MenuJudafaals(jga));
+
+                    musicaFondo.dispose();
+                    jga.setScreen(new MenuJudafaals(jga));
                 }
             });
             this.addActor(btnContinuar);
