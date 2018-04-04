@@ -31,7 +31,7 @@ class MenuNiveles extends Pantalla {
     private TextureRegionDrawable texturaSegundoNivel;
     private TextureRegionDrawable texturaTecerNivel;
     private TextureRegionDrawable texturaBack;
-    private TextureRegionDrawable texturaBackOnClick;
+
 
     // Escenas
     private Stage escenaMenuNivel;
@@ -87,8 +87,8 @@ class MenuNiveles extends Pantalla {
         escenaMenuNivel.addActor(btnTercerNivel);
 
         // Botón home que va al menú principal.
-        ImageButton btnBack = new ImageButton(texturaBack, texturaBackOnClick);
-        btnBack.setPosition(25, ALTO - 25 - btnBack.getHeight());
+        ImageButton btnBack = new ImageButton(texturaBack);
+        btnBack.setPosition(0, ALTO - btnBack.getHeight());
         btnBack.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -107,7 +107,6 @@ class MenuNiveles extends Pantalla {
         texturaSegundoNivel = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/BotonNivelDos.png")));
         texturaTecerNivel = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/BotonNivelTres.png")));
         texturaBack = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/FlechaAtras.png")));
-        texturaBackOnClick = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/FlechaPado.png")));
     }
 
     @Override

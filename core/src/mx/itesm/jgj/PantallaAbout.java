@@ -35,7 +35,6 @@ class PantallaAbout extends Pantalla {
     private Texture juanAguilar;
     private Texture fondoPantallaAbout;
     private TextureRegionDrawable texturaBackPantallaMas;
-    private TextureRegionDrawable texturaBackPantallaMasOnClick;
 
     // Textos a usar.
     private Texto texto;
@@ -59,13 +58,13 @@ class PantallaAbout extends Pantalla {
         escenaAbout = new Stage(vista);
 
         // Botón back que regresa a la pantalla mas.
-        ImageButton btnBackToPantallaMas = new ImageButton(texturaBackPantallaMas, texturaBackPantallaMasOnClick);
+        ImageButton btnBackToPantallaMas = new ImageButton(texturaBackPantallaMas);
         btnBackToPantallaMas.setPosition(25, ALTO - 25 - btnBackToPantallaMas.getHeight());
         btnBackToPantallaMas.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                jga.setScreen(new PantallaMas(jga));
+                jga.setScreen(new MenuJudafaals(jga));
             }
         });
         escenaAbout.addActor(btnBackToPantallaMas);
@@ -82,7 +81,6 @@ class PantallaAbout extends Pantalla {
         juanAguilar = new Texture("AboutFotos/juanAguilar.png");
         fondoPantallaAbout = new Texture("Fondos/FondoAcercaDe.png");
         texturaBackPantallaMas = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/FlechaAtras.png")));
-        texturaBackPantallaMasOnClick = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/FlechaPado.png")));
     }
 
     @Override

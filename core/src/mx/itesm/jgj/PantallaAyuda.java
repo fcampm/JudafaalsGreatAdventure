@@ -8,6 +8,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -15,60 +21,62 @@ import static mx.itesm.jgj.MenuJudafaals.ALTO;
 import static mx.itesm.jgj.MenuJudafaals.ANCHO;
 
 
-public class PantallaAyuda implements Screen {
+public class PantallaAyuda extends Pantalla {
 
-    private final JudafaalsGreatAdventure jdj;
+    private final JudafaalsGreatAdventure jga;
 
-    // Camara
-    private OrthographicCamera camara;
-    private Viewport vista;
-
-    // Batch
-    private SpriteBatch batch;
-
-    // Creación imágenes
+    // Creación de las texturas a utilizar en la pantalla.
     private Texture ayudaImg;
+    private TextureRegionDrawable texturaBack;
+
+    // Creación de la escena de la PantallaAyuda.
+    private Stage escenaPantallaAyuda;
 
     public PantallaAyuda(JudafaalsGreatAdventure judafaalsGreatAdventure) {
 
-        this.jdj = judafaalsGreatAdventure;
+        this.jga = judafaalsGreatAdventure;
     }
 
 
     @Override
     public void show() {
-        crearCamara();
-        batch = new SpriteBatch();
+        cargarTexturas();
+        crearEscenaAyuda();
+        Gdx.input.setInputProcessor(escenaPantallaAyuda);
+    }
+
+    private void cargarTexturas() {
         ayudaImg = new Texture("Fondos/PantallaAyudaB.png");
-        Gdx.input.setInputProcessor(new PantallaAyuda.ProcesadorEntrada());
-
-
+        texturaBack = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/FlechaAtras.png")));
     }
 
-    private void crearCamara() {
-        camara = new OrthographicCamera(ANCHO, ALTO);
-        camara.position.set(ANCHO/2,ALTO/2, 0);
-        camara.update();
-        vista = new StretchViewport(ANCHO, ALTO, camara);
+    private void crearEscenaAyuda() {
+        escenaPantallaAyuda = new Stage(vista);
+
+        // Creación del botón back.
+        ImageButton btnBack = new ImageButton(texturaBack);
+        btnBack.setPosition(25, ALTO - 30 - btnBack.getHeight());
+        btnBack.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                jga.setScreen(new MenuJudafaals(jga));
+            }
+        });
+        escenaPantallaAyuda.addActor(btnBack);
     }
+
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1,1,1,1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        borrarPantalla();
 
         batch.setProjectionMatrix(camara.combined);
 
         batch.begin();
         batch.draw(ayudaImg,0,0);
         batch.end();
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        vista.update(width, height);
-
-
+        escenaPantallaAyuda.draw();
     }
 
     @Override
@@ -82,59 +90,11 @@ public class PantallaAyuda implements Screen {
     }
 
     @Override
-    public void hide() {
-
-    }
-
-    @Override
     public void dispose() {
 
         batch.dispose();
         ayudaImg.dispose();
+        escenaPantallaAyuda.dispose();
     }
 
-    private class ProcesadorEntrada implements InputProcessor{
-
-        @Override
-        public boolean keyDown(int keycode) {
-            return false;
-        }
-
-        @Override
-        public boolean keyUp(int keycode) {
-            return false;
-        }
-
-        @Override
-        public boolean keyTyped(char character) {
-            return false;
-        }
-
-        @Override
-        public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-
-            jdj.setScreen(new MenuJudafaals(jdj));
-            return true; //Ya fue procesado el evento.
-        }
-
-        @Override
-        public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-            return false;
-        }
-
-        @Override
-        public boolean touchDragged(int screenX, int screenY, int pointer) {
-            return false;
-        }
-
-        @Override
-        public boolean mouseMoved(int screenX, int screenY) {
-            return false;
-        }
-
-        @Override
-        public boolean scrolled(int amount) {
-            return false;
-        }
-    }
 }
