@@ -23,7 +23,7 @@ class Personaje {
 
     public Personaje(Texture textura){
         TextureRegion region=new TextureRegion(textura);
-        TextureRegion[][] frames=region.split(120,54);
+        TextureRegion[][] frames=region.split(131,54);
         animacionNormal=new Animation(0.2f,frames[0][0],frames[0][1],frames[0][2]);
         animacionNormal.setPlayMode(Animation.PlayMode.LOOP);
         animacionSubir=new Animation(0.2f,frames[0][3],frames[0][4],frames[0][5]);
@@ -34,9 +34,9 @@ class Personaje {
         animacionSubirNormal.setPlayMode(Animation.PlayMode.NORMAL);
         animacionNormalSubir=new Animation(10.8f,frames[0][10],frames[0][9]);
         animacionNormalSubir.setPlayMode(Animation.PlayMode.NORMAL);
-        animacionBajarNormal=new Animation(10.8f,frames[0][11],frames[0][12]);
+        animacionBajarNormal=new Animation(10.8f,frames[0][11],frames[0][11]);
         animacionBajarNormal.setPlayMode(Animation.PlayMode.NORMAL);
-        animacionNormalBajar=new Animation(10.8f,frames[0][12],frames[0][11]);
+        animacionNormalBajar=new Animation(10.8f,frames[0][11],frames[0][11]);
         animacionNormalBajar.setPlayMode(Animation.PlayMode.NORMAL);
         x=Pantalla.ANCHO/5;
         y=Pantalla.ALTO/2;

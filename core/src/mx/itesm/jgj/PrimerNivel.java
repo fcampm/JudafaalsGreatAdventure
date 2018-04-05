@@ -41,7 +41,7 @@ class PrimerNivel extends Pantalla {
 
     private Personaje nave;
     private static final float ANCHO_MAPA = 11520;
-    private int presed = 0;
+    private double presed = 0;
     private Texture flechas;
 
 
@@ -115,7 +115,7 @@ class PrimerNivel extends Pantalla {
         camaraHUD.update();
         vistaHUD = new StretchViewport(ANCHO, ALTO, camaraHUD);
         Skin skin = new Skin();
-        skin.add("flechas", new Texture("PrimerNivel/flechasPrueba.png"));
+        skin.add("flechas", new Texture("PrimerNivel/flechas2.png"));
         skin.add("pausa", new Texture("pruebas/pausaa.png"));
         //Vista del pad
         Touchpad.TouchpadStyle estilo = new Touchpad.TouchpadStyle();
@@ -125,7 +125,7 @@ class PrimerNivel extends Pantalla {
         estilo2.knob = skin.getDrawable("flechas");
         //Crea el pad
         final Touchpad pad = new Touchpad(64, estilo);
-        final Touchpad pad2 = new Touchpad(25, estilo2);
+        final Touchpad pad2 = new Touchpad(55, estilo2);
         pad.setBounds(ANCHO * 0.78f, ALTO * 0.75f, 256, 256);
         //Aquí van las condiciones para que funcione el boton de pausa en HUD
         pad.addListener(new ClickListener() {
@@ -140,18 +140,18 @@ class PrimerNivel extends Pantalla {
             }
         });
         pad.setColor(1, 1, 1, 1);
-        pad2.setBounds(16, 40, 256, 256);
+        pad2.setBounds(14, 0, 256, 456);
         //Aquí van las condiciones para que funcionen las flechas :)
         pad2.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 if (pad2.getKnobPercentY() > 0) {
                     nave.subiendo();
-                    presed = 4;
+                    presed = (-5)*pad2.getKnobPercentY();
                     System.out.println(pad2.getKnobPercentY());
                 } else if (pad2.getKnobPercentY() < 0) {
                     nave.bajando();
-                    presed = -4;
+                    presed = (-5)*pad2.getKnobPercentY();
                     System.out.println(pad2.getKnobPercentY());
                 } else {
                     nave.normal();
@@ -169,7 +169,7 @@ class PrimerNivel extends Pantalla {
 
     private void cargarTexturas() {
         botonPausa = new Texture("pruebas/pausaa.png");
-        flechas = new Texture("PrimerNivel/flechasPrueba.png");
+        flechas = new Texture("PrimerNivel/flechas2.png");
     }
 
     private void cargarTextos() {
@@ -287,7 +287,7 @@ class PrimerNivel extends Pantalla {
         if (actualizar) {
             nave.setX(nave.getX() + 5);
             //nave.actualizar(dt);
-            nave.setY(nave.getY() + presed);
+            nave.setY(nave.getY() + (float)presed);
         }
         verificarColisiones();
     }
