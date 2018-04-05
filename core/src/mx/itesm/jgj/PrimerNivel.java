@@ -178,7 +178,7 @@ class PrimerNivel extends Pantalla {
     }
 
     private void cargarPersonaje() {
-        nave = new Personaje(new Texture("PrimerNivel/FramesNaveJ.png"));
+        nave = new Personaje(new Texture("PrimerNivel/NaveUReducida.png"));
     }
 
 
@@ -471,7 +471,7 @@ class PrimerNivel extends Pantalla {
             Image imgRectangulo = new Image(texturaRectangulo);
             imgRectangulo.setPosition(0.15f * ANCHO, 0.1f * ALTO);
             this.addActor(imgRectangulo);
-            Texture texturaBtnSalir = new Texture("Botones/quit.png");
+            Texture texturaBtnSalir = new Texture("Botones/BotonExitN.png");
             TextureRegionDrawable trdSalir = new TextureRegionDrawable(
                     new TextureRegion(texturaBtnSalir));
             ImageButton btnSalir = new ImageButton(trdSalir);
@@ -487,7 +487,7 @@ class PrimerNivel extends Pantalla {
             });
             this.addActor(btnSalir);
 
-            Texture texturaBtnContinuar = new Texture("Botones/resume.png");
+            Texture texturaBtnContinuar = new Texture("Botones/BotonPlayN.png");
             TextureRegionDrawable trdContinuar = new TextureRegionDrawable(
                     new TextureRegion(texturaBtnContinuar));
             ImageButton btnContinuar = new ImageButton(trdContinuar);
@@ -505,7 +505,7 @@ class PrimerNivel extends Pantalla {
             this.addActor(btnContinuar);
 
 
-            Texture restartButton = new Texture("Botones/restart.png");
+            Texture restartButton = new Texture("Botones/BotonReinicioN.png");
 
             TextureRegionDrawable trdRestart = new TextureRegionDrawable(new TextureRegion(restartButton));
 
@@ -552,7 +552,7 @@ class PrimerNivel extends Pantalla {
             btnSalir.setPosition(ANCHO / 2 - btnSalir.getWidth() / 2, ALTO / 2);
             this.addActor(btnSalir);
 
-            Texture texturaBtnContinuar = new Texture("Botones/quit.png");
+            Texture texturaBtnContinuar = new Texture("Botones/BotonExitN.png");
             TextureRegionDrawable trdContinuar = new TextureRegionDrawable(
                     new TextureRegion(texturaBtnContinuar));
             ImageButton btnContinuar = new ImageButton(trdContinuar);
@@ -568,7 +568,7 @@ class PrimerNivel extends Pantalla {
             this.addActor(btnContinuar);
 
 
-            Texture restartButton = new Texture("Botones/restart.png");
+            Texture restartButton = new Texture("Botones/BotonReinicioN.png");
 
             TextureRegionDrawable trdRestart = new TextureRegionDrawable(new TextureRegion(restartButton));
 
@@ -612,7 +612,7 @@ class PrimerNivel extends Pantalla {
             btnSalir.setPosition(ANCHO / 2 - btnSalir.getWidth() / 2, ALTO / 2);
             this.addActor(btnSalir);
 
-            Texture texturaBtnContinuar = new Texture("Botones/quit.png");
+            Texture texturaBtnContinuar = new Texture("Botones/BotonExitN.png");
             TextureRegionDrawable trdContinuar = new TextureRegionDrawable(
                     new TextureRegion(texturaBtnContinuar));
             ImageButton btnContinuar = new ImageButton(trdContinuar);
@@ -628,7 +628,7 @@ class PrimerNivel extends Pantalla {
             this.addActor(btnContinuar);
 
 
-            Texture restartButton = new Texture("Botones/restart.png");
+            Texture restartButton = new Texture("Botones/BotonReinicioN.png");
 
             TextureRegionDrawable trdRestart = new TextureRegionDrawable(new TextureRegion(restartButton));
 
