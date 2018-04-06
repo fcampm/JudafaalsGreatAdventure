@@ -282,9 +282,10 @@ class PrimerNivel extends Pantalla {
             texto.mostrarMensaje(batch, cadenaVida, nave.getX() - 500, ALTO - 20);
         }
         if (nave.getX() >= ANCHO_MAPA - 500) {
-            texto2.mostrarMensaje(batch, "Level Completed", ANCHO_MAPA - 600, ALTO - 20);
-            estado= EstadoJuego.GANADO;
+            texto2.mostrarMensaje(batch, "Level Completed", ANCHO_MAPA - 650, ALTO - 20);
+
             if (nave.getX() >= ANCHO_MAPA) {
+                estado= EstadoJuego.GANADO;
                 musicaFondo.dispose();
             }
         }
