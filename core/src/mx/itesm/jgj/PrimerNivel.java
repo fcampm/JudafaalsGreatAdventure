@@ -209,7 +209,7 @@ class PrimerNivel extends Pantalla {
             musicaFondo.pause();
         }
 
-        else if (estado == EstadoJuego.JUGANDO) {
+        if (estado == EstadoJuego.JUGANDO) {
             actualizarObjetos(delta, true);
             musicaFondo.play();
             life.mover(-1, +random.nextInt(7 - (-7)) + (-7), true);
@@ -217,7 +217,7 @@ class PrimerNivel extends Pantalla {
             life3.mover(-1, +random.nextInt(5 - (-5)) + (-5), true);
         }
 
-        else if (estado == EstadoJuego.GANADO) {
+        if (estado == EstadoJuego.GANADO) {
             Gdx.input.setInputProcessor(escenaGanar);
             escenaGanar.draw();
             musicaFondo.stop();
