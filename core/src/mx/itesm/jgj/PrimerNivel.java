@@ -571,6 +571,7 @@ class PrimerNivel extends Pantalla {
                     musicaFondo.dispose();
                     jga.setScreen(new MenuJudafaals(jga));
                 }
+
             });
             this.addActor(btnExit);
 
