@@ -145,19 +145,35 @@ class PrimerNivel extends Pantalla {
         pad2.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if (pad2.getKnobPercentY() > 0) {
-                    nave.subiendo();
-                    presed = (-5)*pad2.getKnobPercentY();
-                    System.out.println(pad2.getKnobPercentY());
-                } else if (pad2.getKnobPercentY() < 0) {
-                    nave.bajando();
-                    presed = (-5)*pad2.getKnobPercentY();
-                    System.out.println(pad2.getKnobPercentY());
-                } else {
-                    nave.normal();
-                    presed = 0;
-                    System.out.println(pad2.getKnobPercentY());
+                while(nave.getY()>=ALTO-50){
+                    nave.setY(nave.getY()-101);
+                    //nave.normal();
+                    vida--;
+                    cadenaVida="Vida: "+vida;
                 }
+                if(nave.getY()<ALTO-50){
+                    if (pad2.getKnobPercentY() > 0) {
+                        nave.subiendo();
+                        presed = (-5) * pad2.getKnobPercentY();
+                        System.out.println(pad2.getKnobPercentY());
+                    } else if (pad2.getKnobPercentY() < 0) {
+                        nave.bajando();
+                        presed = (-5) * pad2.getKnobPercentY();
+                        System.out.println(pad2.getKnobPercentY());
+                    } else {
+                        nave.normal();
+                        presed = 0;
+                        System.out.println(pad2.getKnobPercentY());
+                    }
+                }
+
+                while(nave.getY()<=50){
+                    nave.setY(nave.getY()+101);
+                    //nave.normal();
+                    vida--;
+                    cadenaVida="Vida: "+vida;
+                }
+
             }
         });
         pad2.setColor(1, 1, 1, 1);
