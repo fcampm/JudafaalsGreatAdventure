@@ -100,7 +100,7 @@ class PantallaAbout extends Pantalla {
 
         // Se dibujan los mensajes a mostrar en la pantalla de about.
         texto.mostrarMensaje(batch, "Desarrolladores:", ANCHO/2 - ANCHO/6, 3.5f * ALTO/4);
-        texto.mostrarMensaje(batch, "Fabián Camp Mussa - ISC", ANCHO/2 - ANCHO/6 - 30, 2.5f * ALTO/4);
+        texto.mostrarMensaje(batch, "Fabian Camp Mussa - ISC", ANCHO/2 - ANCHO/6 - 30, 2.5f * ALTO/4);
         texto.mostrarMensaje(batch, "Darwin Chavez Salas - ISC", ANCHO/2 - ANCHO/6, 1.8f * ALTO/4);
         texto.mostrarMensaje(batch, "Juan Jose Aguilar Hernandez - LAD", ANCHO/2 - ANCHO/6, 1.1f * ALTO/4);
         texto.mostrarMensaje(batch, "Alfonso Alquicer Mendez - ISC", ANCHO/2 - ANCHO/6, 0.4f * ALTO/4);

@@ -209,7 +209,7 @@ class PrimerNivel extends Pantalla {
             musicaFondo.pause();
         }
 
-        if (estado == EstadoJuego.JUGANDO) {
+        else if (estado == EstadoJuego.JUGANDO) {
             actualizarObjetos(delta, true);
             musicaFondo.play();
             life.mover(-1, +random.nextInt(7 - (-7)) + (-7), true);
@@ -217,7 +217,7 @@ class PrimerNivel extends Pantalla {
             life3.mover(-1, +random.nextInt(5 - (-5)) + (-5), true);
         }
 
-        if (estado == EstadoJuego.GANADO) {
+        else if (estado == EstadoJuego.GANADO) {
             Gdx.input.setInputProcessor(escenaGanar);
             escenaGanar.draw();
             musicaFondo.stop();
@@ -248,6 +248,13 @@ class PrimerNivel extends Pantalla {
             Gdx.input.setInputProcessor(escenaPerder);
 
             escenaPerder.draw();
+        }
+
+        if (estado == EstadoJuego.GANADO){
+            Gdx.input.setInputProcessor(escenaGanar);
+
+            escenaGanar.draw();
+            musicaFondo.dispose();
         }
 
         //CamaraHUD
@@ -491,7 +498,7 @@ class PrimerNivel extends Pantalla {
             TextureRegionDrawable trdContinuar = new TextureRegionDrawable(
                     new TextureRegion(texturaBtnContinuar));
             ImageButton btnContinuar = new ImageButton(trdContinuar);
-            btnContinuar.setPosition(ANCHO / 2 - btnContinuar.getWidth() / 2, ALTO / 4);
+            btnContinuar.setPosition(ANCHO / 2 - btnContinuar.getWidth() / 2 - 150, ALTO / 4);
             btnContinuar.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -511,7 +518,7 @@ class PrimerNivel extends Pantalla {
 
             ImageButton restartBtn = new ImageButton(trdRestart);
 
-            restartBtn.setPosition(586, 150);
+            restartBtn.setPosition(ANCHO/2 - restartBtn.getWidth()/2 + 150, ALTO/4);
 
             restartBtn.addListener(new ClickListener() {
 
@@ -616,7 +623,7 @@ class PrimerNivel extends Pantalla {
             TextureRegionDrawable trdContinuar = new TextureRegionDrawable(
                     new TextureRegion(texturaBtnContinuar));
             ImageButton btnContinuar = new ImageButton(trdContinuar);
-            btnContinuar.setPosition(ANCHO / 2 - btnContinuar.getWidth() / 2, ALTO / 4);
+            btnContinuar.setPosition(ANCHO / 2 - btnContinuar.getWidth() / 2 + 300, ALTO / 4);
             btnContinuar.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -634,7 +641,7 @@ class PrimerNivel extends Pantalla {
 
             ImageButton restartBtn = new ImageButton(trdRestart);
 
-            restartBtn.setPosition(586, 150);
+            restartBtn.setPosition(586 - 300, ALTO/4);
 
             restartBtn.addListener(new ClickListener() {
 
