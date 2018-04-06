@@ -31,7 +31,7 @@ class PantallaSettings extends Pantalla {
     private TextureRegionDrawable texturaSonido;
     private TextureRegionDrawable texturaNoSonido;
     private TextureRegionDrawable texturaHome;
-    private TextureRegionDrawable texturaHomeOnClick;
+
 
     // Escenas de la pantalla de Settings.
     private Stage escenaSettings;
@@ -75,7 +75,7 @@ class PantallaSettings extends Pantalla {
         });
 
         // Creación del botón home que te lleva a MenuJudafaals.
-        ImageButton btnHome = new ImageButton(texturaHome, texturaHomeOnClick);
+        ImageButton btnHome = new ImageButton(texturaHome);
         btnHome.setPosition(0, ALTO - btnHome.getHeight());
         btnHome.addListener(new ClickListener(){
             @Override
@@ -91,8 +91,7 @@ class PantallaSettings extends Pantalla {
         fondoSettings = new Texture("Fondos/FondoConfig.png");
         texturaSonido = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/sonido.png")));
         texturaNoSonido = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/noSonido.png")));
-        texturaHome = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/homeNegro.png")));
-        texturaHomeOnClick = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/homeGris.png")));
+        texturaHome = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/FlechaAtras.png")));
     }
 
     @Override

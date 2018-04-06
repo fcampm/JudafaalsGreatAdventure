@@ -570,7 +570,7 @@ class PrimerNivel extends Pantalla {
                 public void clicked(InputEvent event, float x, float y) {
                     // Regresa al juego
                     musicaFondo.dispose();
-                    jga.setScreen(new MenuJudafaals(jga));
+                    jga.setScreen(new MenuNiveles(jga));
                 }
 
             });
