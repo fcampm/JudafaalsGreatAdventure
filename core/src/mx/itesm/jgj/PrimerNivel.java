@@ -552,7 +552,7 @@ class PrimerNivel extends Pantalla {
             Image imgRectangulo = new Image(texturaRectangulo);
             imgRectangulo.setPosition(0.15f * ANCHO, 0.1f * ALTO);
             this.addActor(imgRectangulo);
-            Texture texturaBtnSalir = new Texture("PrimerNivel/youFailed.png");
+            Texture texturaBtnSalir = new Texture("PrimerNivel/YouWin.png");
             TextureRegionDrawable trdSalir = new TextureRegionDrawable(
                     new TextureRegion(texturaBtnSalir));
             ImageButton btnSalir = new ImageButton(trdSalir);
@@ -562,17 +562,17 @@ class PrimerNivel extends Pantalla {
             Texture texturaBtnContinuar = new Texture("Botones/BotonExitN.png");
             TextureRegionDrawable trdContinuar = new TextureRegionDrawable(
                     new TextureRegion(texturaBtnContinuar));
-            ImageButton btnContinuar = new ImageButton(trdContinuar);
-            btnContinuar.setPosition(ANCHO / 2 - btnContinuar.getWidth() / 2, ALTO / 4);
-            btnContinuar.addListener(new ClickListener() {
+            ImageButton btnExit = new ImageButton(trdContinuar);
+            btnExit.setPosition(880 - btnExit.getWidth() / 2, 150);
+            btnExit.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     // Regresa al juego
-                    //musicaFondo.dispose();
-                    //jga.setScreen(new MenuJudafaals(jga));
+                    musicaFondo.dispose();
+                    jga.setScreen(new MenuJudafaals(jga));
                 }
             });
-            this.addActor(btnContinuar);
+            this.addActor(btnExit);
 
 
             Texture restartButton = new Texture("Botones/BotonReinicioN.png");
@@ -581,7 +581,7 @@ class PrimerNivel extends Pantalla {
 
             ImageButton restartBtn = new ImageButton(trdRestart);
 
-            restartBtn.setPosition(586, 150);
+            restartBtn.setPosition(330, 150);
 
             restartBtn.addListener(new ClickListener() {
 
