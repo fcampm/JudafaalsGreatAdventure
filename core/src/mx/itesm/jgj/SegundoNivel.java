@@ -40,6 +40,7 @@ class SegundoNivel extends Pantalla {
 
 
     private Personaje nave;
+    private Enemigo e;
     private static final float ANCHO_MAPA = 11520;
     private double presed = 0;
     private Texture flechas;
@@ -195,6 +196,7 @@ class SegundoNivel extends Pantalla {
 
     private void cargarPersonaje() {
         nave = new Personaje(new Texture("PrimerNivel/NaveUReducida.png"));
+        e=new Enemigo(nave.getX()+200,nave.getY()+200);
     }
 
 
@@ -246,6 +248,7 @@ class SegundoNivel extends Pantalla {
         render.render();
         batch.begin();
         nave.render(batch);
+        e.render(batch);
         life.render(batch);
         life2.render(batch);
         life3.render(batch);
@@ -312,6 +315,7 @@ class SegundoNivel extends Pantalla {
             nave.setX(nave.getX() + 5);
             //nave.actualizar(dt);
             nave.setY(nave.getY() + (float) presed);
+            e.set(nave.getX()+200,nave.getY()+200);
         }
         verificarColisiones();
     }
