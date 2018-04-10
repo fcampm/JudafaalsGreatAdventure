@@ -338,7 +338,7 @@ class SegundoNivel extends Pantalla {
 
     private void actualizarObjetos(float dt, boolean actualizar) {
         if (actualizar) {
-            nave.setX(nave.getX() + (float)8);
+            nave.setX(nave.getX() + 8);
             //nave.actualizar(dt);
             nave.setY(nave.getY() + (float) presed);
             e.set(nave.getX()+200,nave.getY()+200);
