@@ -27,6 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -39,6 +40,8 @@ class SegundoNivel extends Pantalla {
     private JudafaalsGreatAdventure jga;
 
 
+    //Enemigos
+    private Array<Enemigo> arrEnemigo;
     private Personaje nave;
     private Enemigo e;
     private static final float ANCHO_MAPA = 11520;
@@ -91,6 +94,7 @@ class SegundoNivel extends Pantalla {
 
     @Override
     public void show() {
+        cargarEnemigos();
         crearMusica();
         cargarPersonaje();
         cargarTextos();
@@ -199,6 +203,23 @@ class SegundoNivel extends Pantalla {
         e=new Enemigo(nave.getX()+200,nave.getY()+200);
     }
 
+    private void cargarEnemigos(){
+        arrEnemigo=new Array<Enemigo>(12*5);
+        for(int i =0; i<5; i++){
+            for(int j=0; j<12;j++){
+                Enemigo enemy = new Enemigo(ANCHO_MAPA+j*60-1000,350+i*100-250);
+                arrEnemigo.add(enemy);
+            }
+        }
+    }
+
+    private void moverEnemigos(){
+        for(Enemigo enemy:arrEnemigo){
+            enemy.mover(-random.nextInt(10 - (2)) + (2),0);
+
+        }
+    }
+
 
     private void crearMusica() {
         float volumen = 0.5f;
@@ -221,6 +242,7 @@ class SegundoNivel extends Pantalla {
 
     @Override
     public void render(float delta) {
+        moverEnemigos();
         verificarColisiones();
         if (estado == EstadoJuego.PAUSADO) {
             actualizarObjetos(delta, false);
@@ -247,6 +269,9 @@ class SegundoNivel extends Pantalla {
         render.setView(camara);
         render.render();
         batch.begin();
+        for(Enemigo enemigo: arrEnemigo){
+            enemigo.render(batch);
+        }
         nave.render(batch);
         e.render(batch);
         life.render(batch);

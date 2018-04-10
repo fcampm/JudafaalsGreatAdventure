@@ -75,5 +75,12 @@ public class Enemigo {
 
     public void disparar(){
 
+
+
+    }
+
+    public void mover(float x, float y){
+        this.x+=x;
+        this.y+=y;
     }
 }
