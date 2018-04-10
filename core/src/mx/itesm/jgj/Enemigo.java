@@ -12,7 +12,7 @@ import com.badlogic.gdx.math.Rectangle;
  * Created by alfonsoalquicer on 3/6/18.
  */
 
-public abstract class Enemigo {
+public class Enemigo {
 
 
     private Animation animacion;
