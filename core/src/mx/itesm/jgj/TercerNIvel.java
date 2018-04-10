@@ -43,6 +43,7 @@ class TercerNivel extends Pantalla {
     private static final float ANCHO_MAPA = 11520;
     private double presed = 0;
     private Texture flechas;
+    private Texture hitbox;
 
 
     //Otra camara para componentes
@@ -195,6 +196,7 @@ class TercerNivel extends Pantalla {
 
     private void cargarPersonaje() {
         nave = new Personaje(new Texture("PrimerNivel/NaveUReducida.png"));
+        hitbox=new Texture("PrimerNivel/hitbox1.png");
     }
 
 
@@ -246,6 +248,7 @@ class TercerNivel extends Pantalla {
         render.render();
         batch.begin();
         nave.render(batch);
+        //batch.draw(hitbox,nave.getX()+10,nave.getY()+10);
         life.render(batch);
         life2.render(batch);
         life3.render(batch);
@@ -312,6 +315,7 @@ class TercerNivel extends Pantalla {
             nave.setX(nave.getX() + 5);
             //nave.actualizar(dt);
             nave.setY(nave.getY() + (float)presed);
+
         }
         verificarColisiones();
     }
@@ -436,10 +440,13 @@ class TercerNivel extends Pantalla {
 
     private void verificarColisiones() {
         int cx = (int) (nave.getX() + 32) / 32;
-        int cy = (int) (nave.getY()) / 32;
+        int cy = (int) (nave.getY()+nave.getHeight()/2) / 32;
         TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Estructura");
-        //String name=capa.getName();
-        //System.out.println(name+"ddd");
+        String name=capa.getName();
+        System.out.println(name+"ddd");
+        System.out.println("jjjjjj "+((int)(nave.getY())/32));
+        System.out.println("fffffff "+((int)(nave.getY())));
+
         TiledMapTileLayer.Cell celda = capa.getCell(cx, cy);
         if (celda != null) {
             System.out.println(celda);

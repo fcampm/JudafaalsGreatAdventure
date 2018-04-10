@@ -155,11 +155,11 @@ class SegundoNivel extends Pantalla {
                 if (nave.getY() < ALTO - 50) {
                     if (pad2.getKnobPercentY() > 0) {
                         nave.subiendo();
-                        presed = (-5) * pad2.getKnobPercentY();
+                        presed = (-6) * pad2.getKnobPercentY();
                         System.out.println(pad2.getKnobPercentY());
                     } else if (pad2.getKnobPercentY() < 0) {
                         nave.bajando();
-                        presed = (-5) * pad2.getKnobPercentY();
+                        presed = (-6) * pad2.getKnobPercentY();
                         System.out.println(pad2.getKnobPercentY());
                     } else {
                         nave.normal();
@@ -312,7 +312,7 @@ class SegundoNivel extends Pantalla {
 
     private void actualizarObjetos(float dt, boolean actualizar) {
         if (actualizar) {
-            nave.setX(nave.getX() + 5);
+            nave.setX(nave.getX() + (float)8);
             //nave.actualizar(dt);
             nave.setY(nave.getY() + (float) presed);
             e.set(nave.getX()+200,nave.getY()+200);
@@ -440,7 +440,7 @@ class SegundoNivel extends Pantalla {
 
     private void verificarColisiones() {
         int cx = (int) (nave.getX() + 32) / 32;
-        int cy = (int) (nave.getY()) / 32;
+        int cy = (int) (nave.getY()+nave.getHeight()/2) / 32;
         TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Estructura");
         //String name=capa.getName();
         //System.out.println(name+"ddd");

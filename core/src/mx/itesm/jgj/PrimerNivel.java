@@ -436,7 +436,7 @@ class PrimerNivel extends Pantalla {
 
     private void verificarColisiones() {
         int cx = (int) (nave.getX() + 32) / 32;
-        int cy = (int) (nave.getY()) / 32;
+        int cy = (int) (nave.getY()+nave.getHeight()/2) / 32;
         TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Estructura");
         //String name=capa.getName();
         //System.out.println(name+"ddd");
