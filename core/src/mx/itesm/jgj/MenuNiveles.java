@@ -69,7 +69,7 @@ class MenuNiveles extends Pantalla {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                //jga.setScreen(new SegundoNivel(jga));
+                jga.setScreen(new SegundoNivel(jga));
             }
         });
         escenaMenuNivel.addActor(btnSegundoNivel);
@@ -81,7 +81,7 @@ class MenuNiveles extends Pantalla {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                //jga.setScreen(new TercerNivel(jga));
+                jga.setScreen(new TercerNivel(jga));
             }
         });
         escenaMenuNivel.addActor(btnTercerNivel);
