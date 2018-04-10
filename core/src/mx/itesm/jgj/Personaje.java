@@ -11,9 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  * Created by jomai on 2/20/2018.
  */
 
-class Personaje {
-    private static final float G=99.81f;
-    private static final float VY = 400;
+public class Personaje {
     private Animation animacionNormal,animacionSubir,animacionBajar, animacionSubirNormal,
             animacionNormalSubir, animacionBajarNormal,animacionNormalBajar;
     private float x,y;
@@ -23,7 +21,7 @@ class Personaje {
 
     public Personaje(Texture textura){
         TextureRegion region=new TextureRegion(textura);
-        TextureRegion[][] frames=region.split(131,54);
+        TextureRegion[][] frames=region.split(131,5);
         animacionNormal=new Animation(0.2f,frames[0][0],frames[0][1],frames[0][2]);
         animacionNormal.setPlayMode(Animation.PlayMode.LOOP);
         animacionSubir=new Animation(0.2f,frames[0][3],frames[0][4],frames[0][5]);
@@ -80,10 +78,7 @@ class Personaje {
 
 
     }
-    public void actualizar(float delta){
 
-
-        }
 
 
     public void setY(float y){

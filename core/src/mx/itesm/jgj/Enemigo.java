@@ -1,7 +1,11 @@
 package mx.itesm.jgj;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.PolygonSprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
 /**
@@ -10,21 +14,25 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Enemigo {
 
-    private float x;
-    private float y;
-    private Texture textura;
-    private float width;
-    private float height;
 
-    public Enemigo(float x, float y ){
-        this.x = x;
-        this.y = y;
-        textura = new Texture("pruebas/estructura.png");
+    private Animation animacion;
+    private float x,y, width,height;
+    private float timerAnimacion;
+
+
+    public Enemigo(Texture textura, float width,float height){
+        TextureRegion region=new TextureRegion(textura);
+        TextureRegion[][] frames=region.split(0,0);
+        animacion=new Animation(0.2f,frames[0][0],frames[0][1],frames[0][2]);
+        animacion.setPlayMode(Animation.PlayMode.LOOP);
+
     }
 
     public void render(SpriteBatch batch){
 
-        batch.draw(textura,x,y);
+        timerAnimacion+= Gdx.graphics.getDeltaTime();
+        TextureRegion frame=(TextureRegion) animacion.getKeyFrame(timerAnimacion);
+        batch.draw(frame,x,y);
     }
 
     public void set(float x, float y){
@@ -57,10 +65,14 @@ public class Enemigo {
     }
 
     public float getWidth() {
-        return width;
+        return ((TextureRegion) animacion.getKeyFrame(0)).getRegionWidth();
     }
 
     public float getHeight() {
-        return height;
+        return ((TextureRegion) animacion.getKeyFrame(0)).getRegionHeight();
+    }
+
+    public void disparar(){
+
     }
 }
