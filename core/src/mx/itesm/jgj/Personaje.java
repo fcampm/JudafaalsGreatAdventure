@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  * Created by jomai on 2/20/2018.
  */
 
-public class Personaje {
+public class   Personaje {
     private Animation animacionNormal,animacionSubir,animacionBajar, animacionSubirNormal,
             animacionNormalSubir, animacionBajarNormal,animacionNormalBajar;
     private float x,y;
