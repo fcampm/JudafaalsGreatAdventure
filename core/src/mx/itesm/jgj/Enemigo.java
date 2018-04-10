@@ -20,9 +20,10 @@ public class Enemigo {
     private float timerAnimacion;
 
 
-    public Enemigo(Texture textura, float width,float height){
-        TextureRegion region=new TextureRegion(textura);
-        TextureRegion[][] frames=region.split(0,0);
+    public Enemigo(float x, float y){
+        set(x,y);
+        TextureRegion region=new TextureRegion(new Texture("PrimerNivel/NaveUReducida.png"));
+        TextureRegion[][] frames=region.split(131,5);
         animacion=new Animation(0.2f,frames[0][0],frames[0][1],frames[0][2]);
         animacion.setPlayMode(Animation.PlayMode.LOOP);
 
