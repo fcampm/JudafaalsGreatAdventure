@@ -12,7 +12,7 @@ import com.badlogic.gdx.math.Rectangle;
  * Created by alfonsoalquicer on 3/6/18.
  */
 
-public class Enemigo {
+public abstract class Enemigo {
 
 
     private Animation animacion;
@@ -22,8 +22,8 @@ public class Enemigo {
 
     public Enemigo(float x, float y){
         set(x,y);
-        TextureRegion region=new TextureRegion(new Texture("PrimerNivel/NaveUReducida.png"));
-        TextureRegion[][] frames=region.split(131,54);
+        TextureRegion region=new TextureRegion(new Texture("NaveEnemigaRFramesC.png"));
+        TextureRegion[][] frames=region.split(200,150);
         animacion=new Animation(0.2f,frames[0][0],frames[0][1],frames[0][2]);
         animacion.setPlayMode(Animation.PlayMode.LOOP);
 
