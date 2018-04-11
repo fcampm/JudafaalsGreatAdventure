@@ -16,13 +16,14 @@ public class   Personaje {
             animacionNormalSubir, animacionBajarNormal,animacionNormalBajar;
     private float x,y;
     private float timerAnimacion;
+    private int[] Hitbox;
 
     private EstadoNave estadoNave;
 
     public Personaje(Texture textura){
         TextureRegion region=new TextureRegion(textura);
         //131,54
-        TextureRegion[][] frames=region.split(131,49);
+        TextureRegion[][] frames=region.split(131,54);
         animacionNormal=new Animation(0.2f,frames[0][0],frames[0][1],frames[0][2]);
         animacionNormal.setPlayMode(Animation.PlayMode.LOOP);
         animacionSubir=new Animation(0.2f,frames[0][3],frames[0][4],frames[0][5]);
@@ -39,6 +40,9 @@ public class   Personaje {
         animacionNormalBajar.setPlayMode(Animation.PlayMode.NORMAL);
         x=Pantalla.ANCHO/5;
         y=Pantalla.ALTO/2;
+        Hitbox=new int[2];
+        Hitbox[0]=(int)this.getX()+32/32;
+        Hitbox[0]=(int)this.getX()+32/32;
         estadoNave= EstadoNave.NOMRMAL;
     }
     public void render(SpriteBatch batch){
@@ -96,6 +100,9 @@ public class   Personaje {
 
     public float getY() {
         return y;
+    }
+    public int[] getHitbox(){
+        return Hitbox;
     }
 
     public float getWidth() {

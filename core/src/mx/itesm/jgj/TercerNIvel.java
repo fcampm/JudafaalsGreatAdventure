@@ -43,7 +43,7 @@ class TercerNivel extends Pantalla {
     private static final float ANCHO_MAPA = 11520;
     private double presed = 0;
     private Texture flechas;
-    private Texture hitbox;
+    private Texture hitbox, hitbox2;
 
 
     //Otra camara para componentes
@@ -155,11 +155,11 @@ class TercerNivel extends Pantalla {
                 if(nave.getY()<ALTO-50){
                     if (pad2.getKnobPercentY() > 0) {
                         nave.subiendo();
-                        presed = (-5) * pad2.getKnobPercentY();
+                        presed = (-6) * pad2.getKnobPercentY();
                         System.out.println(pad2.getKnobPercentY());
                     } else if (pad2.getKnobPercentY() < 0) {
                         nave.bajando();
-                        presed = (-5) * pad2.getKnobPercentY();
+                        presed = (-6) * pad2.getKnobPercentY();
                         System.out.println(pad2.getKnobPercentY());
                     } else {
                         nave.normal();
@@ -196,7 +196,8 @@ class TercerNivel extends Pantalla {
 
     private void cargarPersonaje() {
         nave = new Personaje(new Texture("PrimerNivel/NaveUReducida.png"));
-        hitbox=new Texture("PrimerNivel/hitbox1.png");
+        hitbox=new Texture("PrimerNivel/hitbox2.png");
+        hitbox2=new Texture("PrimerNivel/hitbox2.png");
     }
 
 
@@ -248,7 +249,8 @@ class TercerNivel extends Pantalla {
         render.render();
         batch.begin();
         nave.render(batch);
-        //batch.draw(hitbox,nave.getX()+10,nave.getY()+10);
+        //batch.draw(hitbox,nave.getX()+15,nave.getY()+15);
+        //batch.draw(hitbox2,nave.getX()+50,nave.getY()+15);
         life.render(batch);
         life2.render(batch);
         life3.render(batch);
@@ -438,17 +440,74 @@ class TercerNivel extends Pantalla {
         }
     }
 
-    private void verificarColisiones() {
-        int cx = (int) (nave.getX() + 32) / 32;
-        int cy = (int) (nave.getY()+nave.getHeight()/2) / 32;
+    private void colisionesMapa(int x1, int y1,int x2,int y2) {
         TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Estructura");
-        String name=capa.getName();
-        System.out.println(name+"ddd");
-        System.out.println("jjjjjj "+((int)(nave.getY())/32));
-        System.out.println("fffffff "+((int)(nave.getY())));
+        int cx = (int)(nave.getX()+x2) / 32;
+        int cy = (int)(nave.getY()+y2) / 32;
+        int cx2 =(int)(nave.getX()+x1) / 32;
+        int cy2 =(int)(nave.getY()+y1) / 32;
+        TiledMapTileLayer.Cell celda = capa.getCell(cx, cy);
+        TiledMapTileLayer.Cell celda2 = capa.getCell(cx, cy2);
+        TiledMapTileLayer.Cell celda3 = capa.getCell(cx2, cy);
+        TiledMapTileLayer.Cell celda4 = capa.getCell(cx2, cy2);
+        if (celda != null || celda2!=null || celda3 != null || celda4!=null) {
+            System.out.println(celda);
+            vida -= 10;
+            if (vida <= 0) {
+                estado = EstadoJuego.PERDIDO;
+            }
+            cadenaVida = "Vida: " + vida;
+            choque.play();
+            nave.setX(nave.getX() - 260);
+        }
+    }
+
+    private void verificarColisiones() {
+        colisionesMapa(9,23,17,52);
+        colisionesMapa(18,48,28,52);
+        colisionesMapa(18,10,66,48);
+        colisionesMapa(67,38,82,44);
+        colisionesMapa(67,29,104,36);
+        colisionesMapa(67,19,118,26);
+        colisionesMapa(67,12,106,19);
+        colisionesMapa(107,16,128,19);
+        //colisionesMapa(50,15);
+        /**TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Estructura");
+
+        int cx = (int) (nave.getX()+47) / 32;
+        int cx2 = (int) (nave.getX()+15) / 32;
+        int cy = (int) (nave.getY()+47) / 32;
+        int cy2=(int)(nave.getY()+15)/32;
+
+        int dx = (int) (nave.getX()+82) / 32;
+        int dx2 = (int) (nave.getX()+50) / 32;
+        int dy = (int) (nave.getY()+47) / 32;
+        int dy2=(int)(nave.getY()+15)/32;
+
 
         TiledMapTileLayer.Cell celda = capa.getCell(cx, cy);
-        if (celda != null) {
+        TiledMapTileLayer.Cell celda2 = capa.getCell(cx, cy2);
+        TiledMapTileLayer.Cell celda3 = capa.getCell(cx2, cy);
+        TiledMapTileLayer.Cell celda4 = capa.getCell(cx2, cy2);
+
+        TiledMapTileLayer.Cell delda = capa.getCell(dx, dy);
+        TiledMapTileLayer.Cell delda2 = capa.getCell(dx, dy2);
+        TiledMapTileLayer.Cell delda3 = capa.getCell(dx2, dy);
+        TiledMapTileLayer.Cell delda4 = capa.getCell(dx2, dy2);
+
+
+        System.out.println(celda);
+        if (celda != null || celda2!=null || celda3 != null || celda4!=null) {
+            System.out.println(celda);
+            vida -= 10;
+            if (vida <= 0) {
+                estado = EstadoJuego.PERDIDO;
+            }
+            cadenaVida = "Vida: " + vida;
+            choque.play();
+            nave.setX(nave.getX() - 260);
+        }
+        if (delda != null || delda2!=null || delda3 != null || delda4!=null) {
             System.out.println(celda);
             vida -= 10;
             if (vida <= 0) {
@@ -482,6 +541,7 @@ class TercerNivel extends Pantalla {
 
         }
     }
+
 
     enum EstadoJuego {
         JUGANDO,
