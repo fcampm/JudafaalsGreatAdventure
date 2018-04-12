@@ -13,7 +13,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class   Personaje {
     private Animation animacionNormal,animacionSubir,animacionBajar, animacionSubirNormal,
-            animacionNormalSubir, animacionBajarNormal,animacionNormalBajar;
+            animacionNormalSubir, animacionBajarNormal,animacionNormalBajar, animacionChoque;
     private float x,y;
     private float timerAnimacion;
     private int[] Hitbox;
@@ -23,6 +23,7 @@ public class   Personaje {
     public Personaje(Texture textura){
         TextureRegion region=new TextureRegion(textura);
         //131,54
+
         TextureRegion[][] frames=region.split(131,54);
         animacionNormal=new Animation(0.2f,frames[0][0],frames[0][1],frames[0][2]);
         animacionNormal.setPlayMode(Animation.PlayMode.LOOP);
@@ -38,6 +39,8 @@ public class   Personaje {
         animacionBajarNormal.setPlayMode(Animation.PlayMode.NORMAL);
         animacionNormalBajar=new Animation(10.8f,frames[0][11],frames[0][11]);
         animacionNormalBajar.setPlayMode(Animation.PlayMode.NORMAL);
+        animacionChoque=new Animation(10.8f,frames[0][11],frames[0][11]);
+        animacionChoque.setPlayMode(Animation.PlayMode.NORMAL);
         x=Pantalla.ANCHO/5;
         y=Pantalla.ALTO/2;
         Hitbox=new int[2];
@@ -80,6 +83,13 @@ public class   Personaje {
             batch.draw(frame,x,y);
             estadoNave=EstadoNave.BAJANDO;
         }
+        else if (estadoNave==EstadoNave.CHOQUE){
+            TextureRegion frame=(TextureRegion) animacionChoque.getKeyFrame(timerAnimacion);
+
+            frame.flip(!frame.isFlipX(), false);
+            batch.draw(frame,x,y);
+
+        }
 
 
     }
@@ -120,18 +130,31 @@ public class   Personaje {
         else if(estadoNave==EstadoNave.BAJANDO){
             estadoNave=EstadoNave.BAJANDO_NORMAL;
         }
+        else if(estadoNave==EstadoNave.CHOQUE){
+            estadoNave=EstadoNave.NOMRMAL;
+        }
 
     }
 
     public void subiendo() {
+        if(estadoNave!=EstadoNave.CHOQUE){
 
 
         estadoNave=EstadoNave.NORMAL_SUBIENDO;
-    }
+    }}
 
     public void bajando() {
+        if(estadoNave!=EstadoNave.CHOQUE) {
 
-        estadoNave=EstadoNave.NORMAL_BAJANDO;
+            estadoNave = EstadoNave.NORMAL_BAJANDO;
+        }
+    }
+    public void chocar(){
+        estadoNave=EstadoNave.CHOQUE;
+    }
+
+    public mx.itesm.jgj.EstadoNave getEstado(){
+        return estadoNave;
     }
 
 

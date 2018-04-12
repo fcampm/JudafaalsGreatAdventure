@@ -40,10 +40,13 @@ class TercerNivel extends Pantalla {
 
 
     private Personaje nave;
+    private float velocidadNave=5;
     private static final float ANCHO_MAPA = 11520;
     private double presed = 0;
     private Texture flechas;
     private Texture hitbox, hitbox2;
+    private double time=0;
+    float dd=0;
 
 
     //Otra camara para componentes
@@ -162,7 +165,8 @@ class TercerNivel extends Pantalla {
                         presed = (-6) * pad2.getKnobPercentY();
                         System.out.println(pad2.getKnobPercentY());
                     } else {
-                        nave.normal();
+                        if(velocidadNave!=0){
+                        nave.normal();}
                         presed = 0;
                         System.out.println(pad2.getKnobPercentY());
                     }
@@ -281,6 +285,7 @@ class TercerNivel extends Pantalla {
         //CamaraHUD
         batch.setProjectionMatrix(camaraHUD.combined);
         escenaHUD.draw();
+        time++;
 
     }
 
@@ -314,12 +319,24 @@ class TercerNivel extends Pantalla {
 
     private void actualizarObjetos(float dt, boolean actualizar) {
         if (actualizar) {
-            nave.setX(nave.getX() + 5);
+            nave.setX(nave.getX() + velocidadNave);
             //nave.actualizar(dt);
             nave.setY(nave.getY() + (float)presed);
+            System.out.println(time);
 
         }
         verificarColisiones();
+
+        if(nave.getEstado()==EstadoNave.CHOQUE){
+            if(dd>50){
+                nave.normal();
+                velocidadNave=5;
+                dd=0;
+            }
+            else{
+                dd++;
+            }
+        }
     }
 
     @Override
@@ -458,8 +475,21 @@ class TercerNivel extends Pantalla {
             }
             cadenaVida = "Vida: " + vida;
             choque.play();
-            nave.setX(nave.getX() - 260);
+            choque();
+
         }
+    }
+
+    private void choque() {
+
+        nave.setX(nave.getX() - 260);
+        velocidadNave=(float)0;
+        float xA=nave.getX();
+        double t=time;
+        nave.chocar();
+
+
+
     }
 
     private void verificarColisiones() {
