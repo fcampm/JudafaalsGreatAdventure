@@ -3,6 +3,7 @@ package mx.itesm.jgj;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -27,6 +28,7 @@ import static mx.itesm.jgj.MenuJudafaals.ANCHO;
 class PantallaAbout extends Pantalla {
 
     private JudafaalsGreatAdventure jga;
+    private AssetManager assetManager;
 
     // Texturas a usar.
     private Texture fabianCamp;
@@ -34,7 +36,8 @@ class PantallaAbout extends Pantalla {
     private Texture darwinJomair;
     private Texture juanAguilar;
     private Texture fondoPantallaAbout;
-    private TextureRegionDrawable texturaBackPantallaMas;
+    private Texture texturaBack;
+    private TextureRegionDrawable imagenBack;
 
     // Textos a usar.
     private Texto texto;
@@ -44,6 +47,7 @@ class PantallaAbout extends Pantalla {
 
     public PantallaAbout(JudafaalsGreatAdventure judafaalsGreatAdventure) {
         this.jga = judafaalsGreatAdventure;
+        assetManager = jga.getAssetManager();
     }
 
     @Override
@@ -58,7 +62,7 @@ class PantallaAbout extends Pantalla {
         escenaAbout = new Stage(vista);
 
         // Botón back que regresa a la pantalla mas.
-        ImageButton btnBackToPantallaMas = new ImageButton(texturaBackPantallaMas);
+        ImageButton btnBackToPantallaMas = new ImageButton(imagenBack);
         btnBackToPantallaMas.setPosition(25, ALTO - 25 - btnBackToPantallaMas.getHeight());
         btnBackToPantallaMas.addListener(new ClickListener(){
             @Override
@@ -75,12 +79,13 @@ class PantallaAbout extends Pantalla {
     }
 
     private void cargarTexturas() {
-        fabianCamp = new Texture("AboutFotos/fabianCamp.png");
-        alfonsoAlquicer = new Texture("AboutFotos/alfonsoAlquicer.png");
-        darwinJomair = new Texture("AboutFotos/darwinJomair.png");
-        juanAguilar = new Texture("AboutFotos/juanAguilar.png");
-        fondoPantallaAbout = new Texture("Fondos/FondoAcercaDe.png");
-        texturaBackPantallaMas = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/FlechaAtras.png")));
+        fabianCamp = assetManager.get("AboutFotos/fabianCamp.png");
+        alfonsoAlquicer = assetManager.get("AboutFotos/alfonsoAlquicer.png");
+        darwinJomair = assetManager.get("AboutFotos/darwinJomair.png");
+        juanAguilar = assetManager.get("AboutFotos/juanAguilar.png");
+        fondoPantallaAbout = assetManager.get("Fondos/FondoAcercaDe.png");
+        texturaBack = assetManager.get("Botones/FlechaAtras.png");
+        imagenBack = new TextureRegionDrawable(new TextureRegion(texturaBack));
     }
 
     @Override
@@ -123,11 +128,12 @@ class PantallaAbout extends Pantalla {
     @Override
     public void dispose() {
         batch.dispose();
-        fabianCamp.dispose();
-        darwinJomair.dispose();
-        juanAguilar.dispose();
-        alfonsoAlquicer.dispose();
-        fondoPantallaAbout.dispose();
         escenaAbout.dispose();
+        assetManager.unload("AboutFotos/fabianCamp.png");
+        assetManager.unload("AboutFotos/alfonsoAlquicer.png");
+        assetManager.unload("AboutFotos/darwinJomair.png");
+        assetManager.unload("AboutFotos/juanAguilar.png");
+        assetManager.unload("Fondos/FondoAcercaDe.png");
+        assetManager.unload("Botones/FlechaAtras.png");
     }
 }

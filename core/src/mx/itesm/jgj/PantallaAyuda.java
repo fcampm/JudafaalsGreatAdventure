@@ -3,6 +3,7 @@ package mx.itesm.jgj;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -24,17 +25,19 @@ import static mx.itesm.jgj.MenuJudafaals.ANCHO;
 public class PantallaAyuda extends Pantalla {
 
     private final JudafaalsGreatAdventure jga;
+    private AssetManager assetManager;
 
     // Creación de las texturas a utilizar en la pantalla.
     private Texture ayudaImg;
-    private TextureRegionDrawable texturaBack;
+    private Texture texturaBack;
+    private TextureRegionDrawable imagenBack;
 
     // Creación de la escena de la PantallaAyuda.
     private Stage escenaPantallaAyuda;
 
     public PantallaAyuda(JudafaalsGreatAdventure judafaalsGreatAdventure) {
-
         this.jga = judafaalsGreatAdventure;
+        assetManager = jga.getAssetManager();
     }
 
 
@@ -46,15 +49,16 @@ public class PantallaAyuda extends Pantalla {
     }
 
     private void cargarTexturas() {
-        ayudaImg = new Texture("Fondos/PantallaAyudaB.png");
-        texturaBack = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/FlechaAtras.png")));
+        ayudaImg = assetManager.get("Fondos/PantallaAyudaB.png");
+        texturaBack = assetManager.get("Botones/FlechaAtras.png");
+        imagenBack = new TextureRegionDrawable(new TextureRegion(texturaBack));
     }
 
     private void crearEscenaAyuda() {
         escenaPantallaAyuda = new Stage(vista);
 
         // Creación del botón back.
-        ImageButton btnBack = new ImageButton(texturaBack);
+        ImageButton btnBack = new ImageButton(imagenBack);
         btnBack.setPosition(25, ALTO - 30 - btnBack.getHeight());
         btnBack.addListener(new ClickListener(){
             @Override
@@ -93,8 +97,9 @@ public class PantallaAyuda extends Pantalla {
     public void dispose() {
 
         batch.dispose();
-        ayudaImg.dispose();
         escenaPantallaAyuda.dispose();
+        assetManager.unload("Fondos/PantallaAyudaB.png");
+        assetManager.unload("Botones/FlechaAtras.png");
     }
 
 }

@@ -3,6 +3,7 @@ package mx.itesm.jgj;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -27,17 +28,23 @@ class MenuNiveles extends Pantalla {
     // Texturas
     private Texture fondoMenuNiveles;
     private Texture naveFondo;
-    private TextureRegionDrawable texturaPrimerNivel;
-    private TextureRegionDrawable texturaSegundoNivel;
-    private TextureRegionDrawable texturaTecerNivel;
-    private TextureRegionDrawable texturaBack;
+    private Texture texturaPrimerNivel;
+    private Texture texturaSegundoNivel;
+    private Texture texturaTecerNivel;
+    private Texture texturaBack;
+    private TextureRegionDrawable imagenPrimerNivel;
+    private TextureRegionDrawable imagenSegundoNivel;
+    private TextureRegionDrawable imagenTecerNivel;
+    private TextureRegionDrawable imagenBack;
 
+    private AssetManager assetManager;
 
     // Escenas
     private Stage escenaMenuNivel;
 
     public MenuNiveles(JudafaalsGreatAdventure judafaalsGreatAdventure) {
         this.jga = judafaalsGreatAdventure;
+        assetManager = jga.getAssetManager();
     }
 
     @Override
@@ -51,7 +58,7 @@ class MenuNiveles extends Pantalla {
         escenaMenuNivel = new Stage(vista);
 
         // Botón primer nivel.
-        ImageButton btnPrimerNivel = new ImageButton(texturaPrimerNivel);
+        ImageButton btnPrimerNivel = new ImageButton(imagenPrimerNivel);
         btnPrimerNivel.setPosition(ANCHO / 2 - btnPrimerNivel.getWidth() / 2, ALTO / 2 - btnPrimerNivel.getHeight());
         btnPrimerNivel.addListener(new ClickListener() {
             @Override
@@ -63,7 +70,7 @@ class MenuNiveles extends Pantalla {
         escenaMenuNivel.addActor(btnPrimerNivel);
 
         // Botón nivel dos.
-        ImageButton btnSegundoNivel = new ImageButton(texturaSegundoNivel);
+        ImageButton btnSegundoNivel = new ImageButton(imagenSegundoNivel);
         btnSegundoNivel.setPosition(ANCHO / 2 - btnSegundoNivel.getWidth() / 2, ALTO / 2 - (btnSegundoNivel.getHeight() * 2));
         btnSegundoNivel.addListener(new ClickListener() {
             @Override
@@ -75,7 +82,7 @@ class MenuNiveles extends Pantalla {
         escenaMenuNivel.addActor(btnSegundoNivel);
 
         // Botón nivel tres.
-        ImageButton btnTercerNivel = new ImageButton(texturaTecerNivel);
+        ImageButton btnTercerNivel = new ImageButton(imagenTecerNivel);
         btnTercerNivel.setPosition(ANCHO / 2 - btnTercerNivel.getWidth() / 2, ALTO / 2 - (btnTercerNivel.getHeight() * 3));
         btnTercerNivel.addListener(new ClickListener() {
             @Override
@@ -87,13 +94,13 @@ class MenuNiveles extends Pantalla {
         escenaMenuNivel.addActor(btnTercerNivel);
 
         // Botón home que va al menú principal.
-        ImageButton btnBack = new ImageButton(texturaBack);
+        ImageButton btnBack = new ImageButton(imagenBack);
         btnBack.setPosition(0, ALTO - btnBack.getHeight());
         btnBack.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                jga.setScreen(new MenuJudafaals(jga));
+                jga.setScreen(new PantallaCargando(jga, Pantalla.MENU));
             }
         });
         escenaMenuNivel.addActor(btnBack);
@@ -101,12 +108,16 @@ class MenuNiveles extends Pantalla {
     }
 
     private void cargarTexturas() {
-        fondoMenuNiveles = new Texture("Fondos/Pantalla principal.jpg");
-        naveFondo = new Texture("Naveinicio.png");
-        texturaPrimerNivel = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/BotonNivelUno.png")));
-        texturaSegundoNivel = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/BotonNivelDos.png")));
-        texturaTecerNivel = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/BotonNivelTres.png")));
-        texturaBack = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/FlechaAtras.png")));
+        fondoMenuNiveles = assetManager.get("Fondos/Pantalla principal.jpg");
+        naveFondo = assetManager.get("Naveinicio.png");
+        texturaPrimerNivel = assetManager.get("Botones/BotonNivelUno.png");
+        texturaSegundoNivel = assetManager.get("Botones/BotonNivelDos.png");
+        texturaTecerNivel = assetManager.get("Botones/BotonNivelTres.png");
+        texturaBack = assetManager.get("Botones/FlechaAtras.png");
+        imagenPrimerNivel = new TextureRegionDrawable(new TextureRegion(texturaPrimerNivel));
+        imagenSegundoNivel = new TextureRegionDrawable(new TextureRegion(texturaSegundoNivel));
+        imagenTecerNivel = new TextureRegionDrawable(new TextureRegion(texturaTecerNivel));
+        imagenBack = new TextureRegionDrawable(new TextureRegion(texturaBack));
     }
 
     @Override
@@ -136,6 +147,11 @@ class MenuNiveles extends Pantalla {
     public void dispose() {
         escenaMenuNivel.dispose();
         batch.dispose();
-        naveFondo.dispose();
+        assetManager.unload("Fondos/Pantalla principal.jpg");
+        assetManager.unload("Naveinicio.png");
+        assetManager.unload("Botones/BotonNivelUno.png");
+        assetManager.unload("Botones/BotonNivelDos.png");
+        assetManager.unload("Botones/BotonNivelTres.png");
+        assetManager.unload("Botones/FlechaAtras.png");
     }
 }

@@ -2,6 +2,7 @@ package mx.itesm.jgj;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -26,11 +27,16 @@ class PantallaSettings extends Pantalla {
 
     private JudafaalsGreatAdventure jga;
 
+    private final AssetManager assetManager;
+
     // Texturas de la pantalla de settings.
     private Texture fondoSettings;
-    private TextureRegionDrawable texturaSonido;
-    private TextureRegionDrawable texturaNoSonido;
-    private TextureRegionDrawable texturaHome;
+    private Texture texturaSonido;
+    private Texture texturaNoSonido;
+    private Texture texturaAtras;
+    private TextureRegionDrawable imagenSonido;
+    private TextureRegionDrawable imagenNoSonido;
+    private TextureRegionDrawable imagenAtras;
 
 
     // Escenas de la pantalla de Settings.
@@ -38,6 +44,7 @@ class PantallaSettings extends Pantalla {
 
     public PantallaSettings(JudafaalsGreatAdventure judafaalsGreatAdventure) {
         this.jga = judafaalsGreatAdventure;
+        assetManager = jga.getAssetManager();
     }
 
     @Override
@@ -51,8 +58,8 @@ class PantallaSettings extends Pantalla {
         escenaSettings = new Stage(vista);
 
         // Creación de la animación de los botones de sonido y no sonido.
-        final ImageButton btnSonido = new ImageButton(texturaSonido);
-        final ImageButton btnNoSonido = new ImageButton(texturaNoSonido);
+        final ImageButton btnSonido = new ImageButton(imagenSonido);
+        final ImageButton btnNoSonido = new ImageButton(imagenNoSonido);
         btnSonido.setPosition(ANCHO/2 - btnSonido.getWidth()/2, ALTO/2 - btnSonido.getHeight()/2);
         btnNoSonido.setPosition(ANCHO/2 - btnSonido.getWidth()/2, ALTO/2 - btnSonido.getHeight()/2);
         btnSonido.addListener(new ClickListener(){
@@ -75,23 +82,26 @@ class PantallaSettings extends Pantalla {
         });
 
         // Creación del botón home que te lleva a MenuJudafaals.
-        ImageButton btnHome = new ImageButton(texturaHome);
+        ImageButton btnHome = new ImageButton(imagenAtras);
         btnHome.setPosition(0, ALTO - btnHome.getHeight());
         btnHome.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                jga.setScreen(new MenuJudafaals(jga));
+                jga.setScreen(new PantallaCargando(jga, Pantalla.MENU));
             }
         });
         escenaSettings.addActor(btnHome);
     }
 
     private void cargarTexturas() {
-        fondoSettings = new Texture("Fondos/FondoConfig.png");
-        texturaSonido = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/sonido.png")));
-        texturaNoSonido = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/noSonido.png")));
-        texturaHome = new TextureRegionDrawable(new TextureRegion(new Texture("Botones/FlechaAtras.png")));
+        fondoSettings = assetManager.get("Fondos/FondoConfig.png");
+        texturaSonido = assetManager.get("Botones/sonido.png");
+        texturaNoSonido = assetManager.get("Botones/noSonido.png");
+        texturaAtras = assetManager.get("Botones/FlechaAtras.png");
+        imagenSonido = new TextureRegionDrawable(new TextureRegion(texturaSonido));
+        imagenNoSonido = new TextureRegionDrawable(new TextureRegion(texturaNoSonido));
+        imagenAtras = new TextureRegionDrawable(new TextureRegion(texturaAtras));
     }
 
     @Override
@@ -118,8 +128,11 @@ class PantallaSettings extends Pantalla {
 
     @Override
     public void dispose() {
-        fondoSettings.dispose();
         escenaSettings.dispose();
         batch.dispose();
+        assetManager.unload("Fondos/FondoConfig.png");
+        assetManager.unload("Botones/sonido.png");
+        assetManager.unload("Botones/noSonido.png");
+        assetManager.unload("Botones/FlechaAtras.png");
     }
 }

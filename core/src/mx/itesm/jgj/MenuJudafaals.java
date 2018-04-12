@@ -3,6 +3,7 @@ package mx.itesm.jgj;
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -24,10 +25,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 class MenuJudafaals extends Pantalla {
 
     // Variables de instancia
-    private JudafaalsGreatAdventure jdj;
+    private JudafaalsGreatAdventure jga;
 
-    // Fondo del menú principal
+    // Texturas a usar del menu.
     private Texture fondoMenu;
+    private Texture texturaPlay, texturaPlayOnClick;
+    private Texture texturaAyuda, texturaAyudaOnClick;
+    private Texture texturaAcercaDe, texturaAcercaDeOnClick;
+    private Texture texturaSettings, texturaSettingsOnClick;
 
     // Escenas
     private Stage escenaMenu;
@@ -35,10 +40,14 @@ class MenuJudafaals extends Pantalla {
     // Música de fondo.
     private Music musicaFondo;
 
+    // assetManager a usar.
+    private final AssetManager assetManager;
+
 
     public MenuJudafaals(JudafaalsGreatAdventure judafaalsGreatAdventure) {
 
-        this.jdj = judafaalsGreatAdventure;
+        this.jga = judafaalsGreatAdventure;
+        assetManager = jga.getAssetManager();
     }
 
     // Método que se encarga de mostrar en la pantalla.
@@ -51,7 +60,15 @@ class MenuJudafaals extends Pantalla {
     }
 
     private void cargarTexturas() {
-        fondoMenu = new Texture("Fondos/Pantalla principal.jpg");
+        fondoMenu = assetManager.get("Fondos/Pantalla principal.jpg");
+        texturaPlay = assetManager.get("Botones/BotonPlay.png");
+        texturaPlayOnClick = assetManager.get("Botones/BotonPlayPado.png");
+        texturaAyuda = assetManager.get("Botones/BotonHelp.png");
+        texturaAyudaOnClick = assetManager.get("Botones/BotonAyudaPado.png");
+        texturaAcercaDe = assetManager.get("Botones/BotonInfo.png");
+        texturaAcercaDeOnClick = assetManager.get("Botones/BotonMasPado.png");
+        texturaSettings = assetManager.get("Botones/BotonConfiguracionN.png");
+        texturaSettingsOnClick = assetManager.get("Botones/BotonConfiguracionPado.png");
     }
 
     private void crearMusica() {
@@ -65,16 +82,16 @@ class MenuJudafaals extends Pantalla {
     private void crearMenu() {
 
         escenaMenu = new Stage(vista);
-        ImageButton btnPlay = crearBotonTodo("Botones/BotonPlay.png", "Botones/BotonPlayPado.png", ANCHO/2 - 95, ALTO/2 - 85,  new MenuNiveles(jdj));
-        ImageButton btnAyuda= crearBotonTodo("Botones/BotonHelp.png","Botones/BotonAyudaPado.png",ANCHO - 240,ALTO/2 -350, new PantallaAyuda(jdj));
-        ImageButton btnMas = crearBotonTodo("Botones/BotonInfo.png", "Botones/BotonMasPado.png", ANCHO/24 - 50, ALTO/2 -350, new PantallaAbout(jdj));
-        ImageButton btnSetting = crearBotonTodo("Botones/BotonConfiguracionN.png", "Botones/BotonConfiguracionPado.png", ANCHO/2 - 115, 50, new PantallaSettings(jdj));
+        ImageButton btnPlay = crearBotonTodo(texturaPlay, texturaPlayOnClick, ANCHO/2 - 95, ALTO/2 - 85,  new PantallaCargando(jga, Pantalla.NIVELES));
+        ImageButton btnAyuda= crearBotonTodo(texturaAyuda, texturaAyudaOnClick,ANCHO - 240,ALTO/2 -350, new PantallaCargando(jga, Pantalla.AYUDA));
+        ImageButton btnMas = crearBotonTodo(texturaAcercaDe, texturaAcercaDeOnClick, ANCHO/24 - 50, ALTO/2 -350, new PantallaCargando(jga, Pantalla.ABOUT));
+        ImageButton btnSetting = crearBotonTodo(texturaSettings, texturaSettingsOnClick, ANCHO/2 - 115, 50, new PantallaCargando(jga, Pantalla.SETTINGS));
     }
     //metodo para crear todos los componentes del boton en uno{
-    private ImageButton crearBotonTodo(String texturaNormal, String texturaOnClick, float x, float y, final Screen screen) {
+    private ImageButton crearBotonTodo(Texture texturaNormal, Texture texturaOnClick, float x, float y, final Screen screen) {
 
-        TextureRegionDrawable boton = new TextureRegionDrawable(new TextureRegion(new Texture(texturaNormal)));
-        TextureRegionDrawable botonClick = new TextureRegionDrawable(new TextureRegion(new Texture(texturaOnClick)));
+        TextureRegionDrawable boton = new TextureRegionDrawable(new TextureRegion(texturaNormal));
+        TextureRegionDrawable botonClick = new TextureRegionDrawable(new TextureRegion(texturaOnClick));
 
         ImageButton btn = new ImageButton(boton, botonClick);
         float botonWitdh = btn.getWidth();
@@ -88,7 +105,7 @@ class MenuJudafaals extends Pantalla {
                 Gdx.app.log("ClickListener","Hizo click el usuario");
                 // Cambia de pantalla, solo lo puede hacer 'juego' una escena no.
                 musicaFondo.pause(); // Para la reproducción de la música al entrar en la siguiente pantalla.
-                jdj.setScreen(screen);
+                jga.setScreen(screen);
             }
         }); // Click y touch son equivalentes.
 
@@ -118,7 +135,7 @@ class MenuJudafaals extends Pantalla {
                 Gdx.app.log("ClickListener","Hizo click el usuario");
                 // Cambia de pantalla, solo lo puede hacer 'juego' una escena no.
                 musicaFondo.stop(); // Para la reproducción de la música al entrar en la siguiente pantalla.
-                jdj.setScreen(screen);
+                jga.setScreen(screen);
             }
         }); // Click y touch son equivalentes.
 
@@ -158,8 +175,16 @@ class MenuJudafaals extends Pantalla {
 
         musicaFondo.dispose();
         escenaMenu.dispose();
-        fondoMenu.dispose();
         batch.dispose();
+        assetManager.unload("Fondos/Pantalla principal.jpg");
+        assetManager.unload("Botones/BotonPlay.png");
+        assetManager.unload("Botones/BotonPlayPado.png");
+        assetManager.unload("Botones/BotonHelp.png");
+        assetManager.unload("Botones/BotonAyudaPado.png");
+        assetManager.unload("Botones/BotonInfo.png");
+        assetManager.unload("Botones/BotonMasPado.png");
+        assetManager.unload("Botones/BotonConfiguracionN.png");
+        assetManager.unload("Botones/BotonConfiguracionPado.png");
 
         
     }
