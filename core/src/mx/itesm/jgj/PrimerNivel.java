@@ -3,6 +3,7 @@ package mx.itesm.jgj;
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
@@ -37,6 +38,10 @@ class PrimerNivel extends Pantalla {
     private Random random = new Random();
 
     private JudafaalsGreatAdventure jga;
+
+    // Preferencias del usuario
+    private Preferences soundPreferences = Gdx.app.getPreferences("usersPreferences");
+    boolean musicaActivada = soundPreferences.getBoolean("soundOn");
 
 
     private Personaje nave;
@@ -91,8 +96,8 @@ class PrimerNivel extends Pantalla {
     @Override
     public void show() {
         cargarVidas();
-        crearMusica();
         cargarPersonaje();
+        crearMusica();
         cargarTextos();
         cargarTexturas();
         crearHUD();
@@ -104,6 +109,8 @@ class PrimerNivel extends Pantalla {
         //Sonidos
         choque = Gdx.audio.newSound(Gdx.files.internal("Musica/choque.mp3"));
         levelpassed = Gdx.audio.newSound(Gdx.files.internal("Musica/levelUp.wav"));
+
+
         cargarMapa();
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
         Gdx.input.setInputProcessor(escenaHUD);
@@ -209,8 +216,10 @@ class PrimerNivel extends Pantalla {
         float volumen = 0.5f;
         musicaFondo = Gdx.audio.newMusic(Gdx.files.getFileHandle("Musica/level1.mp3", Files.FileType.Internal));
         musicaFondo.setVolume(volumen);
-        musicaFondo.play();
-        musicaFondo.setLooping(true);
+        if(musicaActivada) {
+            musicaFondo.play();
+            musicaFondo.setLooping(true);
+        }
     }
 
 
@@ -229,12 +238,16 @@ class PrimerNivel extends Pantalla {
         verificarColisiones();
         if (estado == EstadoJuego.PAUSADO) {
             actualizarObjetos(delta, false);
-            musicaFondo.pause();
+            if(musicaActivada) {
+                musicaFondo.pause();
+            }
         }
 
         if (estado == EstadoJuego.JUGANDO) {
             actualizarObjetos(delta, true);
-            musicaFondo.play();
+            if(musicaActivada) {
+                musicaFondo.play();
+            }
             life.mover(-1, +random.nextInt(7 - (-7)) + (-7), true);
             life2.mover(-1, +random.nextInt(4 - (-4)) + (-4), true);
             life3.mover(-1, +random.nextInt(5 - (-5)) + (-5), true);
@@ -279,7 +292,9 @@ class PrimerNivel extends Pantalla {
             Gdx.input.setInputProcessor(escenaGanar);
 
             escenaGanar.draw();
-            musicaFondo.dispose();
+            if(musicaActivada) {
+                musicaFondo.dispose();
+            }
         }
 
         //CamaraHUD
@@ -457,7 +472,9 @@ class PrimerNivel extends Pantalla {
                 estado = EstadoJuego.PERDIDO;
             }
             cadenaVida = "Vida: " + vida;
-            choque.play();
+            if(musicaActivada) {
+                choque.play();
+            }
             nave.setX(nave.getX() - 260);
         }
         /*Object tipo = celda.getTile().getProperties().get("tipo");
@@ -470,15 +487,21 @@ class PrimerNivel extends Pantalla {
             cadenaVida = "Vida: " + vida;
             if (life.estaColisionando(nave)) {
                 life.set(-50, ALTO * 2);
-                levelpassed.play();
+                if(musicaActivada) {
+                    levelpassed.play();
+                }
             }
             if (life2.estaColisionando(nave)) {
                 life2.set(-50, ALTO * 2);
-                levelpassed.play();
+                if(musicaActivada) {
+                    levelpassed.play();
+                }
             }
             if (life3.estaColisionando(nave)) {
                 life3.set(-50, ALTO * 2);
-                levelpassed.play();
+                if(musicaActivada) {
+                    levelpassed.play();
+                }
             }
 
 
@@ -513,7 +536,9 @@ class PrimerNivel extends Pantalla {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     // Regresa al menú
-                    musicaFondo.dispose();
+                    if(musicaActivada) {
+                        musicaFondo.dispose();
+                    }
                     jga.setScreen(new MenuJudafaals(jga));
 
                 }
@@ -551,7 +576,9 @@ class PrimerNivel extends Pantalla {
                 @Override
 
                 public void clicked(InputEvent event, float x, float y) {
-                    musicaFondo.stop();
+                    if(musicaActivada) {
+                        musicaFondo.stop();
+                    }
                     jga.setScreen(new PrimerNivel(jga));
 
                 }
@@ -594,7 +621,9 @@ class PrimerNivel extends Pantalla {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     // Regresa al juego
-                    musicaFondo.dispose();
+                    if(musicaActivada) {
+                        musicaFondo.dispose();
+                    }
                     jga.setScreen(new MenuNiveles(jga));
                 }
 
@@ -615,7 +644,9 @@ class PrimerNivel extends Pantalla {
                 @Override
 
                 public void clicked(InputEvent event, float x, float y) {
-                    musicaFondo.stop();
+                    if(musicaActivada) {
+                        musicaFondo.stop();
+                    }
                     jga.setScreen(new PrimerNivel(jga));
 
                 }
@@ -654,8 +685,9 @@ class PrimerNivel extends Pantalla {
             btnContinuar.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-
-                    musicaFondo.dispose();
+                    if(musicaActivada) {
+                        musicaFondo.dispose();
+                    }
                     jga.setScreen(new MenuJudafaals(jga));
                 }
             });
@@ -675,7 +707,9 @@ class PrimerNivel extends Pantalla {
                 @Override
 
                 public void clicked(InputEvent event, float x, float y) {
-                    musicaFondo.stop();
+                    if(musicaActivada) {
+                        musicaFondo.stop();
+                    }
                     jga.setScreen(new PrimerNivel(jga));
 
                 }
