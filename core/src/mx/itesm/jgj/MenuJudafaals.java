@@ -2,6 +2,7 @@ package mx.itesm.jgj;
 
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
@@ -33,6 +34,9 @@ class MenuJudafaals extends Pantalla {
     private Texture texturaAyuda, texturaAyudaOnClick;
     private Texture texturaAcercaDe, texturaAcercaDeOnClick;
     private Texture texturaSettings, texturaSettingsOnClick;
+
+    //Preferencias
+    private Preferences soundPreferences = Gdx.app.getPreferences("usersPreferences");
 
     // Escenas
     private Stage escenaMenu;
@@ -75,8 +79,11 @@ class MenuJudafaals extends Pantalla {
         float volumen = 0.5f;
         musicaFondo = Gdx.audio.newMusic(Gdx.files.getFileHandle("Musica/message.mp3", Files.FileType.Internal));
         musicaFondo.setVolume(volumen);
-        musicaFondo.play();
-        musicaFondo.setLooping(true);
+        boolean musicaActivada = soundPreferences.getBoolean("soundOn");
+        if(musicaActivada) {
+            musicaFondo.play();
+            musicaFondo.setLooping(true);
+        }
     }
 
     private void crearMenu() {

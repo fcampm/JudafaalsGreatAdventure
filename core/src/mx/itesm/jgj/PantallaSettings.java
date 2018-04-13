@@ -1,6 +1,7 @@
 package mx.itesm.jgj;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
@@ -38,6 +39,8 @@ class PantallaSettings extends Pantalla {
     private TextureRegionDrawable imagenNoSonido;
     private TextureRegionDrawable imagenAtras;
 
+    // Preferencias del ususario.
+    private Preferences soundPreferences = Gdx.app.getPreferences("usersPreferences");
 
     // Escenas de la pantalla de Settings.
     private Stage escenaSettings;
@@ -66,16 +69,20 @@ class PantallaSettings extends Pantalla {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 super.clicked(event, x, y);
+                soundPreferences.putBoolean("soundOn", false);
+                soundPreferences.flush();
                 btnSonido.remove();
                 escenaSettings.addActor(btnNoSonido);
             }
         });
-        escenaSettings.addActor(btnSonido);
+
 
         btnNoSonido.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
                 super.clicked(event, x, y);
+                soundPreferences.putBoolean("soundOn", true);
+                soundPreferences.flush();
                 btnNoSonido.remove();
                 escenaSettings.addActor(btnSonido);
             }
@@ -91,6 +98,14 @@ class PantallaSettings extends Pantalla {
                 jga.setScreen(new PantallaCargando(jga, Pantalla.MENU));
             }
         });
+
+        if (soundPreferences.getBoolean("soundOn")){
+            escenaSettings.addActor(btnSonido);
+        }
+        else{
+            escenaSettings.addActor(btnNoSonido);
+        }
+
         escenaSettings.addActor(btnHome);
     }
 
