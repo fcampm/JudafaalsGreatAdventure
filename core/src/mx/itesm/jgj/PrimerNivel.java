@@ -66,9 +66,9 @@ class PrimerNivel extends Pantalla {
     private Music musicaFondo;
 
     //vidas
-    Vida life = new Vida(1500, 500);
-    Vida life2 = new Vida(4500, 500);
-    Vida life3 = new Vida(3300, 500);
+    private Vida life;
+    private Vida life2;
+    private Vida life3;
 
 
     //Boton pausa
@@ -90,14 +90,15 @@ class PrimerNivel extends Pantalla {
 
     @Override
     public void show() {
+        cargarVidas();
         crearMusica();
         cargarPersonaje();
         cargarTextos();
         cargarTexturas();
         crearHUD();
         estado = EstadoJuego.JUGANDO;
-        escenaGanar = new EscenaGanar(vistaHUD, batch);
-        escenaPerder = new EscenaPerder(vistaHUD, batch);
+        //escenaGanar = new EscenaGanar(vistaHUD, batch);
+        //escenaPerder = new EscenaPerder(vistaHUD, batch);
 
 
         //Sonidos
@@ -182,6 +183,12 @@ class PrimerNivel extends Pantalla {
         escenaHUD.addActor(pad2);
     }
 
+    private void cargarVidas(){
+        life = new Vida(1500, 500);
+        life2 = new Vida(4500, 500);
+        life3 = new Vida(3300, 500);
+    }
+
 
     private void cargarTexturas() {
         botonPausa = new Texture("pruebas/pausaa.png");
@@ -233,11 +240,11 @@ class PrimerNivel extends Pantalla {
             life3.mover(-1, +random.nextInt(5 - (-5)) + (-5), true);
         }
 
-        if (estado == EstadoJuego.GANADO) {
-            Gdx.input.setInputProcessor(escenaGanar);
-            escenaGanar.draw();
-            musicaFondo.stop();
-        }
+        //if (estado == EstadoJuego.GANADO) {
+          //  Gdx.input.setInputProcessor(escenaGanar);
+           // escenaGanar.draw();
+           // musicaFondo.stop();
+        //}
 
         actualizarCamara();
         borrarPantalla();
@@ -261,12 +268,14 @@ class PrimerNivel extends Pantalla {
         }
 
         if (estado == EstadoJuego.PERDIDO) {
+            escenaPerder = new EscenaPerder(vistaHUD, batch);
             Gdx.input.setInputProcessor(escenaPerder);
 
             escenaPerder.draw();
         }
 
         if (estado == EstadoJuego.GANADO){
+            escenaGanar = new EscenaGanar(vistaHUD, batch);
             Gdx.input.setInputProcessor(escenaGanar);
 
             escenaGanar.draw();
