@@ -27,6 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -38,6 +39,8 @@ class TercerNivel extends Pantalla {
 
     private JudafaalsGreatAdventure jga;
 
+    //Enemigos
+    private Array<Enemigo> arrEnemigo;
 
     private Personaje nave;
     private float velocidadNave=5;
@@ -94,6 +97,7 @@ class TercerNivel extends Pantalla {
 
     @Override
     public void show() {
+        cargarEnemigos();
         crearMusica();
         cargarPersonaje();
         cargarTextos();
@@ -204,6 +208,24 @@ class TercerNivel extends Pantalla {
         hitbox2=new Texture("PrimerNivel/hitbox2.png");
     }
 
+    private void cargarEnemigos(){
+        arrEnemigo=new Array<Enemigo>(11*10);
+        for(int i =0; i<5; i++){
+            for(int j=0; j<12;j++){
+                Enemigo enemy = new Enemigo(random.nextInt((int) (ANCHO_MAPA+7000 - (3500))) + (3500)+j*100,random.nextInt((int) (ALTO-150 - (100))) + (100)+i*100-250);
+                arrEnemigo.add(enemy);
+                //ANCHO_MAPA+j*1000-1000
+            }
+        }
+    }
+
+    private void moverEnemigos(){
+        for(Enemigo enemy:arrEnemigo){
+            enemy.mover(-random.nextInt(15 - (2)) + (2),0);
+
+        }
+    }
+
 
     private void crearMusica() {
         float volumen = 0.5f;
@@ -226,6 +248,7 @@ class TercerNivel extends Pantalla {
 
     @Override
     public void render(float delta) {
+        moverEnemigos();
         verificarColisiones();
         if (estado == EstadoJuego.PAUSADO) {
             actualizarObjetos(delta, false);
@@ -252,6 +275,9 @@ class TercerNivel extends Pantalla {
         render.setView(camara);
         render.render();
         batch.begin();
+        for(Enemigo enemigo: arrEnemigo){
+            enemigo.render(batch);
+        }
         nave.render(batch);
         //batch.draw(hitbox,nave.getX()+15,nave.getY()+15);
         //batch.draw(hitbox2,nave.getX()+50,nave.getY()+15);

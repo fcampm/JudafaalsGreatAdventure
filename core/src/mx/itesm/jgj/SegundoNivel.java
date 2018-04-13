@@ -42,6 +42,8 @@ class SegundoNivel extends Pantalla {
 
     //Enemigos
     private Array<Enemigo> arrEnemigo;
+
+    //
     private Personaje nave;
     private Enemigo e;
     private static final float ANCHO_MAPA = 11520;
@@ -204,10 +206,10 @@ class SegundoNivel extends Pantalla {
     }
 
     private void cargarEnemigos(){
-        arrEnemigo=new Array<Enemigo>(12*12);
+        arrEnemigo=new Array<Enemigo>(11*10);
         for(int i =0; i<5; i++){
             for(int j=0; j<12;j++){
-                Enemigo enemy = new Enemigo(random.nextInt((int) (ANCHO_MAPA+7501 - (3500))) + (3500)+j*100,random.nextInt((int) (ALTO-150 - (100))) + (100)+i*100-250);
+                Enemigo enemy = new Enemigo(random.nextInt((int) (ANCHO_MAPA+7000 - (3500))) + (3500)+j*100,random.nextInt((int) (ALTO-150 - (100))) + (100)+i*100-250);
                 arrEnemigo.add(enemy);
                 //ANCHO_MAPA+j*1000-1000
             }
@@ -503,6 +505,13 @@ class SegundoNivel extends Pantalla {
             }
 
 
+        }
+
+        for(Enemigo enemy: arrEnemigo){
+            if (enemy.estaColisionando(nave)){
+                vida--;
+                cadenaVida= "Vida: "+vida;
+            }
         }
     }
 
