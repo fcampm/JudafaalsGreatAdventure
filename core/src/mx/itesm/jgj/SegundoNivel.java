@@ -104,8 +104,8 @@ class SegundoNivel extends Pantalla {
         cargarTexturas();
         crearHUD();
         estado = EstadoJuego.JUGANDO;
-        //escenaGanar = new EscenaGanar(vistaHUD, batch);
-        //escenaPerder = new EscenaPerder(vistaHUD, batch);
+        escenaGanar = new EscenaGanar(vistaHUD, batch);
+        escenaPerder = new EscenaPerder(vistaHUD, batch);
 
 
         //Sonidos
@@ -223,10 +223,12 @@ class SegundoNivel extends Pantalla {
         }
     }
 
-    private void moverEnemigos(){
-        for(Enemigo enemy:arrEnemigo){
-            enemy.mover(-random.nextInt(15 - (2)) + (2),0);
+    private void moverEnemigos(boolean bandera){
+        if(bandera) {
+            for (Enemigo enemy : arrEnemigo) {
+                enemy.mover(-random.nextInt(15 - (2)) + (2), 0);
 
+            }
         }
     }
 
@@ -252,14 +254,16 @@ class SegundoNivel extends Pantalla {
 
     @Override
     public void render(float delta) {
-        moverEnemigos();
+        //moverEnemigos(true);
         verificarColisiones();
         if (estado == EstadoJuego.PAUSADO) {
+            moverEnemigos(false);
             actualizarObjetos(delta, false);
             musicaFondo.pause();
         }
 
         if (estado == EstadoJuego.JUGANDO) {
+            moverEnemigos(true);
             actualizarObjetos(delta, true);
             musicaFondo.play();
             life.mover(-1, +random.nextInt(7 - (-7)) + (-7), true);
@@ -300,14 +304,14 @@ class SegundoNivel extends Pantalla {
         }
 
         if (estado == EstadoJuego.PERDIDO) {
-            escenaPerder = new EscenaPerder(vistaHUD, batch);
+            //escenaPerder = new EscenaPerder(vistaHUD, batch);
             Gdx.input.setInputProcessor(escenaPerder);
-
+            nave.setY(ALTO*2);
             escenaPerder.draw();
         }
 
         if (estado == EstadoJuego.GANADO) {
-            escenaGanar = new EscenaGanar(vistaHUD, batch);
+            //escenaGanar = new EscenaGanar(vistaHUD, batch);
             Gdx.input.setInputProcessor(escenaGanar);
 
             escenaGanar.draw();
@@ -592,7 +596,7 @@ class SegundoNivel extends Pantalla {
 
                 public void clicked(InputEvent event, float x, float y) {
                     musicaFondo.stop();
-                    jga.setScreen(new PrimerNivel(jga));
+                    jga.setScreen(new SegundoNivel(jga));
 
                 }
 
@@ -656,7 +660,7 @@ class SegundoNivel extends Pantalla {
 
                 public void clicked(InputEvent event, float x, float y) {
                     musicaFondo.stop();
-                    jga.setScreen(new PrimerNivel(jga));
+                    jga.setScreen(new SegundoNivel(jga));
 
                 }
 
@@ -716,7 +720,7 @@ class SegundoNivel extends Pantalla {
 
                 public void clicked(InputEvent event, float x, float y) {
                     musicaFondo.stop();
-                    jga.setScreen(new PrimerNivel(jga));
+                    jga.setScreen(new SegundoNivel(jga));
 
                 }
 

@@ -228,10 +228,12 @@ class TercerNivel extends Pantalla {
         }
     }
 
-    private void moverEnemigos(){
-        for(Enemigo enemy:arrEnemigo){
-            enemy.mover(-random.nextInt(15 - (2)) + (2),0);
+    private void moverEnemigos(boolean bandera){
+        if(bandera) {
+            for (Enemigo enemy : arrEnemigo) {
+                enemy.mover(-random.nextInt(15 - (2)) + (2), 0);
 
+            }
         }
     }
 
@@ -257,14 +259,15 @@ class TercerNivel extends Pantalla {
 
     @Override
     public void render(float delta) {
-        moverEnemigos();
         verificarColisiones();
         if (estado == EstadoJuego.PAUSADO) {
+            moverEnemigos(false);
             actualizarObjetos(delta, false);
             musicaFondo.pause();
         }
 
         if (estado == EstadoJuego.JUGANDO) {
+            moverEnemigos(true);
             actualizarObjetos(delta, true);
             musicaFondo.play();
             life.mover(-1, +random.nextInt(7 - (-7)) + (-7), true);
@@ -743,7 +746,7 @@ class TercerNivel extends Pantalla {
 
                 public void clicked(InputEvent event, float x, float y) {
                     musicaFondo.stop();
-                    jga.setScreen(new PrimerNivel(jga));
+                    jga.setScreen(new TercerNivel(jga));
 
                 }
 
