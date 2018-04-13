@@ -44,6 +44,10 @@ class TercerNivel extends Pantalla {
 
     private Personaje nave;
     private float velocidadNave=5;
+    private Texture barra;
+    private Texture na;
+    private float naX;
+
     private static final float ANCHO_MAPA = 11520;
     private double presed = 0;
     private Texture flechas;
@@ -155,24 +159,27 @@ class TercerNivel extends Pantalla {
             public void changed(ChangeEvent event, Actor actor) {
                 while(nave.getY()>=ALTO-50){
                     nave.setY(nave.getY()-101);
-                    //nave.normal();
+                    nave.normal();
                     vida--;
                     cadenaVida="Vida: "+vida;
                 }
                 if(nave.getY()<ALTO-50){
                     if (pad2.getKnobPercentY() > 0) {
+
                         nave.subiendo();
+                        System.out.println("subiendo");
                         presed = (-6) * pad2.getKnobPercentY();
-                        System.out.println(pad2.getKnobPercentY());
+                        //System.out.println(pad2.getKnobPercentY());
                     } else if (pad2.getKnobPercentY() < 0) {
+
                         nave.bajando();
                         presed = (-6) * pad2.getKnobPercentY();
-                        System.out.println(pad2.getKnobPercentY());
+                        //System.out.println(pad2.getKnobPercentY());
                     } else {
                         if(velocidadNave!=0){
                         nave.normal();}
                         presed = 0;
-                        System.out.println(pad2.getKnobPercentY());
+                        //System.out.println(pad2.getKnobPercentY());
                     }
                 }
 
@@ -195,6 +202,8 @@ class TercerNivel extends Pantalla {
     private void cargarTexturas() {
         botonPausa = new Texture("pruebas/pausaa.png");
         flechas = new Texture("PrimerNivel/flechas2.png");
+        barra=new Texture("PrimerNivel/barra3.png");
+        na=new Texture("PrimerNivel/na.png");
     }
 
     private void cargarTextos() {
@@ -279,6 +288,8 @@ class TercerNivel extends Pantalla {
             enemigo.render(batch);
         }
         nave.render(batch);
+        batch.draw(barra,nave.getX()-380,ALTO-55);
+        batch.draw(na,naX,ALTO-55);
         //batch.draw(hitbox,nave.getX()+15,nave.getY()+15);
         //batch.draw(hitbox2,nave.getX()+50,nave.getY()+15);
         life.render(batch);
@@ -309,6 +320,7 @@ class TercerNivel extends Pantalla {
         }
 
         //CamaraHUD
+
         batch.setProjectionMatrix(camaraHUD.combined);
         escenaHUD.draw();
         time++;
@@ -348,7 +360,9 @@ class TercerNivel extends Pantalla {
             nave.setX(nave.getX() + velocidadNave);
             //nave.actualizar(dt);
             nave.setY(nave.getY() + (float)presed);
-            System.out.println(time);
+            //System.out.println(time);
+
+            naX=(nave.getX()*817/ANCHO_MAPA)+nave.getX()-380;
 
         }
         verificarColisiones();
@@ -494,10 +508,11 @@ class TercerNivel extends Pantalla {
         TiledMapTileLayer.Cell celda3 = capa.getCell(cx2, cy);
         TiledMapTileLayer.Cell celda4 = capa.getCell(cx2, cy2);
         if (celda != null || celda2!=null || celda3 != null || celda4!=null) {
-            System.out.println(celda);
+            //System.out.println(celda);
             vida -= 10;
             if (vida <= 0) {
                 estado = EstadoJuego.PERDIDO;
+
             }
             cadenaVida = "Vida: " + vida;
             choque.play();
@@ -510,8 +525,6 @@ class TercerNivel extends Pantalla {
 
         nave.setX(nave.getX() - 260);
         velocidadNave=(float)0;
-        float xA=nave.getX();
-        double t=time;
         nave.chocar();
 
 
@@ -666,7 +679,7 @@ class TercerNivel extends Pantalla {
 
                 public void clicked(InputEvent event, float x, float y) {
                     musicaFondo.stop();
-                    jga.setScreen(new PrimerNivel(jga));
+                    jga.setScreen(new TercerNivel(jga));
 
                 }
 
@@ -790,7 +803,7 @@ class TercerNivel extends Pantalla {
 
                 public void clicked(InputEvent event, float x, float y) {
                     musicaFondo.stop();
-                    jga.setScreen(new PrimerNivel(jga));
+                    jga.setScreen(new TercerNivel(jga));
 
                 }
 

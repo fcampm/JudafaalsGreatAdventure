@@ -86,7 +86,7 @@ public class   Personaje {
         else if (estadoNave==EstadoNave.CHOQUE){
             TextureRegion frame=(TextureRegion) animacionChoque.getKeyFrame(timerAnimacion);
 
-            frame.flip(!frame.isFlipX(), false);
+            //frame.flip(!frame.isFlipX(), false);
             batch.draw(frame,x,y);
 
         }
