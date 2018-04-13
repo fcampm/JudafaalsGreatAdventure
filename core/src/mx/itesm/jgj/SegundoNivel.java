@@ -592,7 +592,7 @@ class SegundoNivel extends Pantalla {
 
                 public void clicked(InputEvent event, float x, float y) {
                     musicaFondo.stop();
-                    jga.setScreen(new PrimerNivel(jga));
+                    jga.setScreen(new SegundoNivel(jga));
 
                 }
 
@@ -656,7 +656,7 @@ class SegundoNivel extends Pantalla {
 
                 public void clicked(InputEvent event, float x, float y) {
                     musicaFondo.stop();
-                    jga.setScreen(new PrimerNivel(jga));
+                    jga.setScreen(new SegundoNivel(jga));
 
                 }
 
@@ -716,7 +716,7 @@ class SegundoNivel extends Pantalla {
 
                 public void clicked(InputEvent event, float x, float y) {
                     musicaFondo.stop();
-                    jga.setScreen(new PrimerNivel(jga));
+                    jga.setScreen(new SegundoNivel(jga));
 
                 }
 

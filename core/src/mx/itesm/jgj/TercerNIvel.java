@@ -743,7 +743,7 @@ class TercerNivel extends Pantalla {
 
                 public void clicked(InputEvent event, float x, float y) {
                     musicaFondo.stop();
-                    jga.setScreen(new PrimerNivel(jga));
+                    jga.setScreen(new TercerNivel(jga));
 
                 }
 
