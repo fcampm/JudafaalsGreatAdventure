@@ -104,8 +104,8 @@ class SegundoNivel extends Pantalla {
         cargarTexturas();
         crearHUD();
         estado = EstadoJuego.JUGANDO;
-        //escenaGanar = new EscenaGanar(vistaHUD, batch);
-        //escenaPerder = new EscenaPerder(vistaHUD, batch);
+        escenaGanar = new EscenaGanar(vistaHUD, batch);
+        escenaPerder = new EscenaPerder(vistaHUD, batch);
 
 
         //Sonidos
@@ -300,14 +300,14 @@ class SegundoNivel extends Pantalla {
         }
 
         if (estado == EstadoJuego.PERDIDO) {
-            escenaPerder = new EscenaPerder(vistaHUD, batch);
+            //escenaPerder = new EscenaPerder(vistaHUD, batch);
             Gdx.input.setInputProcessor(escenaPerder);
 
             escenaPerder.draw();
         }
 
         if (estado == EstadoJuego.GANADO) {
-            escenaGanar = new EscenaGanar(vistaHUD, batch);
+            //escenaGanar = new EscenaGanar(vistaHUD, batch);
             Gdx.input.setInputProcessor(escenaGanar);
 
             escenaGanar.draw();
