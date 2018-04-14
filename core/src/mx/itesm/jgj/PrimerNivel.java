@@ -254,9 +254,9 @@ class PrimerNivel extends Pantalla {
         }
 
         //if (estado == EstadoJuego.GANADO) {
-          //  Gdx.input.setInputProcessor(escenaGanar);
-           // escenaGanar.draw();
-           // musicaFondo.stop();
+        //  Gdx.input.setInputProcessor(escenaGanar);
+        // escenaGanar.draw();
+        // musicaFondo.stop();
         //}
 
         actualizarCamara();
@@ -281,14 +281,12 @@ class PrimerNivel extends Pantalla {
         }
 
         if (estado == EstadoJuego.PERDIDO) {
-            //escenaPerder = new EscenaPerder(vistaHUD, batch);
             Gdx.input.setInputProcessor(escenaPerder);
 
             escenaPerder.draw();
         }
 
         if (estado == EstadoJuego.GANADO){
-            //escenaGanar = new EscenaGanar(vistaHUD, batch);
             Gdx.input.setInputProcessor(escenaGanar);
 
             escenaGanar.draw();
@@ -382,7 +380,6 @@ class PrimerNivel extends Pantalla {
         public boolean touchDown(int screenX, int screenY, int pointer, int button) {/*
             Vector3 v = new Vector3(screenX, screenY, 0);
             camara.unproject(v);
-
             //if (v.x>=ANCHO*0.75f && v.x<=ANCHO*0.75f+botonPausa.getWidth()
             //&& v.y>=ALTO*0.75f && v.y<=ALTO*0.75f+botonPausa.getHeight()) {
             // Botón pausa!!
@@ -421,7 +418,6 @@ class PrimerNivel extends Pantalla {
             camara.unproject(v);
             /*if(nave.getY()+2>=v.y && nave.getY()-2<=v.y){
                 nave.normal();}
-
             else if(v.y>nave.getY()){
                 nave.subiendo();
             }
@@ -442,7 +438,6 @@ class PrimerNivel extends Pantalla {
                 nave.normal();
                 presed = 0;
             }
-
 */
             return false;
         }
@@ -539,7 +534,7 @@ class PrimerNivel extends Pantalla {
                     if(musicaActivada) {
                         musicaFondo.dispose();
                     }
-                    jga.setScreen(new MenuJudafaals(jga));
+                    jga.setScreen(new PantallaCargando(jga, Pantalla.MENU));
 
                 }
             });
@@ -624,7 +619,7 @@ class PrimerNivel extends Pantalla {
                     if(musicaActivada) {
                         musicaFondo.dispose();
                     }
-                    jga.setScreen(new MenuNiveles(jga));
+                    jga.setScreen(new PantallaCargando(jga, Pantalla.NIVELES));
                 }
 
             });
@@ -688,7 +683,7 @@ class PrimerNivel extends Pantalla {
                     if(musicaActivada) {
                         musicaFondo.dispose();
                     }
-                    jga.setScreen(new MenuJudafaals(jga));
+                    jga.setScreen(new PantallaCargando(jga, Pantalla.MENU));
                 }
             });
             this.addActor(btnContinuar);
