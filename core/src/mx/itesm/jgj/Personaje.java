@@ -16,7 +16,6 @@ public class   Personaje {
             animacionNormalSubir, animacionBajarNormal,animacionNormalBajar, animacionChoque;
     private float x,y;
     private float timerAnimacion;
-    private int[] Hitbox;
 
     private EstadoNave estadoNave;
 
@@ -43,9 +42,7 @@ public class   Personaje {
         animacionChoque.setPlayMode(Animation.PlayMode.NORMAL);
         x=Pantalla.ANCHO/5;
         y=Pantalla.ALTO/2;
-        Hitbox=new int[2];
-        Hitbox[0]=(int)this.getX()+32/32;
-        Hitbox[0]=(int)this.getX()+32/32;
+
         estadoNave= EstadoNave.NOMRMAL;
     }
     public void render(SpriteBatch batch){
@@ -111,9 +108,7 @@ public class   Personaje {
     public float getY() {
         return y;
     }
-    public int[] getHitbox(){
-        return Hitbox;
-    }
+
 
     public float getWidth() {
         return ((TextureRegion) animacionNormal.getKeyFrame(0)).getRegionWidth();
