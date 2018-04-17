@@ -43,6 +43,10 @@ class TercerNivel extends Pantalla {
     private Array<Enemigo> arrEnemigo;
     private Array<Laser> arrLaser;
 
+    //Items
+    Control control = new Control (3500, 500);
+    boolean controlTomado = false;
+
     private Personaje nave;
     private float velocidadNave=5;
     private Texture barra;
@@ -312,6 +316,7 @@ class TercerNivel extends Pantalla {
             life.mover(-1, +random.nextInt(7 - (-7)) + (-7), true);
             life2.mover(-1, +random.nextInt(4 - (-4)) + (-4), true);
             life3.mover(-1, +random.nextInt(5 - (-5)) + (-5), true);
+            control.mover(-1, +random.nextInt(4 - (-4)) + (-4), true);
         }
 
         if (estado == EstadoJuego.GANADO) {
@@ -336,6 +341,7 @@ class TercerNivel extends Pantalla {
             laser.render(batch);
         }}
         nave.render(batch);
+        control.render(batch);
         batch.draw(barra,nave.getX()-380,ALTO-55);
         batch.draw(na,naX,ALTO-55);
 
