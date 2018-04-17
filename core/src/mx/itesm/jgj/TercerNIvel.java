@@ -41,6 +41,7 @@ class TercerNivel extends Pantalla {
 
     //Enemigos
     private Array<Enemigo> arrEnemigo;
+    private Array<Laser> arrLaser;
 
     private Personaje nave;
     private float velocidadNave=5;
@@ -218,14 +219,49 @@ class TercerNivel extends Pantalla {
     }
 
     private void cargarEnemigos(){
-        arrEnemigo=new Array<Enemigo>(11*10);
+       /* arrEnemigo=new Array<Enemigo>(11*10);
         for(int i =0; i<5; i++){
             for(int j=0; j<12;j++){
                 Enemigo enemy = new Enemigo(random.nextInt((int) (ANCHO_MAPA+7000 - (3500))) + (3500)+j*100,random.nextInt((int) (ALTO-150 - (100))) + (100)+i*100-250);
                 arrEnemigo.add(enemy);
                 //ANCHO_MAPA+j*1000-1000
             }
-        }
+        }*/
+        arrLaser=new Array<Laser>(10);
+        Laser laser1=new Laser(new Texture("TercerNivel/jl.png"),1500,ALTO/2,1);
+        arrLaser.add(laser1);
+        Laser laser2=new Laser(new Texture("TercerNivel/jl.png"),2600,0,1);
+        arrLaser.add(laser2);
+        Laser laser3=new Laser(new Texture("TercerNivel/jl.png"),2600,ALTO*.75f,3);
+        arrLaser.add(laser3);
+        Laser laser4=new Laser(new Texture("TercerNivel/jl.png"),3800,0,2);
+        arrLaser.add(laser4);
+        Laser laser5=new Laser(new Texture("TercerNivel/jl.png"),3800,ALTO-200,2);
+        arrLaser.add(laser5);
+        Laser laser6=new Laser(new Texture("TercerNivel/jl.png"),3800,ALTO-400,2);
+        arrLaser.add(laser6);
+        Laser laser7=new Laser(new Texture("TercerNivel/jl.png"),2600,ALTO-200,2);
+        arrLaser.add(laser7);
+        Laser l8=new Laser(new Texture("TercerNivel/jl.png"),4300,100,2);
+        arrLaser.add(l8);
+        Laser l9=new Laser(new Texture("TercerNivel/jl.png"),5300,0,1);
+        arrLaser.add(l9);
+        Laser l10=new Laser(new Texture("TercerNivel/jl.png"),5300,300,2);
+        arrLaser.add(l10);
+        Laser l11=new Laser(new Texture("TercerNivel/jl.png"),5300,600,1);
+        arrLaser.add(l11);
+        Laser l12=new Laser(new Texture("TercerNivel/jl.png"),5300,350,3);
+        arrLaser.add(l12);
+        Laser l13=new Laser(new Texture("TercerNivel/jl.png"),6100,0,2);
+        arrLaser.add(l13);
+        Laser l14=new Laser(new Texture("TercerNivel/jl.png"),6100,230,1);
+        arrLaser.add(l14);
+        Laser l15=new Laser(new Texture("TercerNivel/jl.png"),6100,500,1);
+        arrLaser.add(l15);
+        Laser l16=new Laser(new Texture("TercerNivel/jl.png"),6100,350,3);
+        arrLaser.add(l16);
+
+
     }
 
     private void moverEnemigos(boolean bandera){
@@ -259,7 +295,7 @@ class TercerNivel extends Pantalla {
 
     @Override
     public void render(float delta) {
-        verificarColisiones();
+        //verificarColisiones();
         if (estado == EstadoJuego.PAUSADO) {
             moverEnemigos(false);
             actualizarObjetos(delta, false);
@@ -270,7 +306,7 @@ class TercerNivel extends Pantalla {
 
 
 
-            moverEnemigos(true);
+            //moverEnemigos(true);
             actualizarObjetos(delta, true);
             musicaFondo.play();
             life.mover(-1, +random.nextInt(7 - (-7)) + (-7), true);
@@ -290,14 +326,19 @@ class TercerNivel extends Pantalla {
         render.setView(camara);
         render.render();
         batch.begin();
-        for(Enemigo enemigo: arrEnemigo){
-            enemigo.render(batch);
-        }
+        //for(Enemigo enemigo: arrEnemigo){
+           // enemigo.render(batch);
+       // }
+        for(Laser laser:arrLaser){
+            if(laser.getEstado()!= Laser.EstadoLaser.Vacio){
+
+
+            laser.render(batch);
+        }}
         nave.render(batch);
         batch.draw(barra,nave.getX()-380,ALTO-55);
         batch.draw(na,naX,ALTO-55);
-        //batch.draw(hitbox,nave.getX()+15,nave.getY()+15);
-        //batch.draw(hitbox2,nave.getX()+50,nave.getY()+15);
+
         life.render(batch);
         life2.render(batch);
         life3.render(batch);
@@ -383,6 +424,20 @@ class TercerNivel extends Pantalla {
                 dd++;
             }
         }
+        for(Laser laser:arrLaser){
+            if(laser.getEstado()== Laser.EstadoLaser.Vacio && !(laser.disparo())) {
+                if (laser.getX() - ANCHO / 2 -5 <= nave.getX()) {
+                    laser.activar();
+                }
+            }
+            else{
+                laser.setX(nave.getX()-ANCHO/2-5);
+                laser.Actualizar();
+            }
+
+        }
+
+
     }
 
     @Override
@@ -537,7 +592,7 @@ class TercerNivel extends Pantalla {
 
     }
 
-    private void verificarColisiones() {
+    private void verificarColisiones() {/*
         colisionesMapa(9,23,17,52);
         colisionesMapa(18,48,28,52);
         colisionesMapa(18,10,66,48);
@@ -596,6 +651,18 @@ class TercerNivel extends Pantalla {
         if (!"Estructura".equals(tipo)) {
             // No es obstáculo, puede pasar
             presed=34;}*/
+        for(Laser laser:arrLaser){
+            if(laser.getEstado()== Laser.EstadoLaser.Disparando){
+                if(laser.choque((int)nave.getY())){
+                    vida -= .01;
+                    if (vida <= 0) {
+                        estado = EstadoJuego.PERDIDO;
+
+                    }
+                    cadenaVida = "Vida: " + vida;
+                }
+            }
+        }
 
         if (life.estaColisionando(nave) || life2.estaColisionando(nave) || life3.estaColisionando(nave)) {
             vida += 20;
