@@ -399,9 +399,13 @@ class TercerNivel extends Pantalla {
             texto.mostrarMensaje(batch, cadenaVida, nave.getX() - 500, ALTO - 20);
         }
         if (nave.getX() >= ANCHO_MAPA - 500) {
-            texto2.mostrarMensaje(batch, "Level Completed", ANCHO_MAPA - 650, ALTO - 20);
+            if(controlTomado) {
+                texto2.mostrarMensaje(batch, "Level Completed", ANCHO_MAPA - 650, ALTO - 20);
+            }else{
+                texto2.mostrarMensaje(batch, "You\t miss the control!", ANCHO_MAPA - 650, ALTO - 20);
+            }
 
-            if (nave.getX() >= ANCHO_MAPA) {
+            if (nave.getX() >= ANCHO_MAPA && controlTomado) {
                 estado= EstadoJuego.GANADO;
                 musicaFondo.dispose();
             }
@@ -687,6 +691,11 @@ class TercerNivel extends Pantalla {
             }
 
 
+
+        }
+        if(control.estaColisionando(nave)){
+            controlTomado=true;
+            control.set(2,ALTO*2);
         }
     }
 
