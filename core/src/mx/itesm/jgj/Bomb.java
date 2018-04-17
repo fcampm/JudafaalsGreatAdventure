@@ -23,7 +23,7 @@ public class Bomb {
     public Bomb(float x, float y){
         this.x=x;
         this.y=y;
-        textura= new Texture("pruebas/explosive.png" );
+        textura= new Texture("pruebas/bomb.png" );
     }
 
     public void render(SpriteBatch batch){

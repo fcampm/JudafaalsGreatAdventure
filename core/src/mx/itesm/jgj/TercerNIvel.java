@@ -408,6 +408,8 @@ class TercerNivel extends Pantalla {
             if (nave.getX() >= ANCHO_MAPA && controlTomado) {
                 estado= EstadoJuego.GANADO;
                 musicaFondo.dispose();
+            }else{
+                estado=EstadoJuego.PERDIDO;
             }
         }
     }

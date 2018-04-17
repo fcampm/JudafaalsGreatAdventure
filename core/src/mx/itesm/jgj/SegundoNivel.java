@@ -37,7 +37,7 @@ class SegundoNivel extends Pantalla {
     private Random random = new Random();
     private boolean bombaTomada= false;
     private JudafaalsGreatAdventure jga;
-    private Bomb bomba = new Bomb(3500, 500);
+    private Bomb bomba = new Bomb(4000, 666);
 
     //Enemigos
     private Array<Enemigo> arrEnemigo;
@@ -68,6 +68,7 @@ class SegundoNivel extends Pantalla {
     private Sound choque;
     private Sound levelpassed;
     private Music musicaFondo;
+    private Music bombTaked;
 
     //vidas
     private Vida life;
@@ -501,6 +502,10 @@ class SegundoNivel extends Pantalla {
             if (bomba.estaColisionando(nave)) {
                 bombaTomada = true;
                 bomba.set(-50, ALTO * 2);
+                bombTaked = Gdx.audio.newMusic(Gdx.files.getFileHandle("Musica/bombTaked.mp3", Files.FileType.Internal));
+                bombTaked.setVolume(5f);
+                bombTaked.play();
+                bombTaked.setLooping(false);
             }
             int cx = (int) (nave.getX() + 32) / 32;
             int cy = (int) (nave.getY() + nave.getHeight() / 2) / 32;
