@@ -3,8 +3,12 @@ package mx.itesm.jgj;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+
+import javax.xml.soap.Text;
 
 /**
  * Created by fcamp on 10/04/2018.
@@ -42,6 +46,7 @@ public class PantallaCargando extends Pantalla {
     private void cargarRecursos() {
         switch(screen){
             case MENU:
+                // Cargamos las texturas a usar.
                 assetManager.load("Fondos/Pantalla principal.jpg", Texture.class);
                 assetManager.load("Botones/BotonPlay.png", Texture.class);
                 assetManager.load("Botones/BotonPlayPado.png", Texture.class);
@@ -51,14 +56,19 @@ public class PantallaCargando extends Pantalla {
                 assetManager.load("Botones/BotonMasPado.png", Texture.class);
                 assetManager.load("Botones/BotonConfiguracionN.png", Texture.class);
                 assetManager.load("Botones/BotonConfiguracionPado.png", Texture.class);
+
+                //Cargamos la música a usar.
+                assetManager.load("Musica/message.mp3", Music.class);
                 break;
             case SETTINGS:
+                // Cargamos las texturas a usar.
                 assetManager.load("Fondos/FondoConfig.png", Texture.class);
                 assetManager.load("Botones/sonido.png", Texture.class);
                 assetManager.load("Botones/noSonido.png", Texture.class);
                 assetManager.load("Botones/FlechaAtras.png", Texture.class);
                 break;
             case NIVELES:
+                // Cargamos las texturas a usar.
                 assetManager.load("Fondos/Pantalla principal.jpg", Texture.class);
                 assetManager.load("Naveinicio.png", Texture.class);
                 assetManager.load("Botones/BotonNivelUno.png", Texture.class);
@@ -67,10 +77,12 @@ public class PantallaCargando extends Pantalla {
                 assetManager.load("Botones/FlechaAtras.png", Texture.class);
                 break;
             case AYUDA:
+                // Cargamos las texturas a usar.
                 assetManager.load("Fondos/PantallaAyudaB.png", Texture.class);
                 assetManager.load("Botones/FlechaAtras.png", Texture.class);
                 break;
             case ABOUT:
+                // Cargamos las texturas a usar.
                 assetManager.load("AboutFotos/fabianCamp.png", Texture.class);
                 assetManager.load("AboutFotos/alfonsoAlquicer.png", Texture.class);
                 assetManager.load("AboutFotos/darwinJomair.png", Texture.class);
@@ -78,6 +90,28 @@ public class PantallaCargando extends Pantalla {
                 assetManager.load("Fondos/FondoAcercaDe.png", Texture.class);
                 assetManager.load("Botones/FlechaAtras.png", Texture.class);
                 break;
+            case PRIMERNIVEL:
+                // Cargamos las texturas a usar.
+                assetManager.load("pruebas/pausaa.png", Texture.class);
+                assetManager.load("PrimerNivel/NaveUReducida.png", Texture.class);
+                assetManager.load("PrimerNivel/flechas2.png", Texture.class);
+                assetManager.load("Botones/BotonExitN.png", Texture.class);
+                assetManager.load("Botones/BotonPlayN.png", Texture.class);
+                assetManager.load("Botones/BotonReinicioN.png", Texture.class);
+                assetManager.load("PrimerNivel/YouWin.png", Texture.class);
+                assetManager.load("Botones/BotonExitN.png", Texture.class);
+                assetManager.load("Botones/BotonReinicioN.png", Texture.class);
+                assetManager.load("PrimerNivel/youFailed.png", Texture.class);
+                assetManager.load("Botones/BotonExitN.png", Texture.class);
+                assetManager.load("Botones/BotonReinicioN.png", Texture.class);
+
+                // Cargamos todos los sonidos.
+                assetManager.load("Musica/level1.mp3", Music.class);
+                assetManager.load("Musica/choque.mp3", Sound.class);
+                assetManager.load("Musica/levelUp.wav", Sound.class);
+
+                // Cargamos el mapa.
+                assetManager.load("PrimerNivel/prueba1.tmx", TiledMap.class);
         }
     }
 

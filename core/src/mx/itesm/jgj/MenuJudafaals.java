@@ -77,7 +77,7 @@ class MenuJudafaals extends Pantalla {
 
     private void crearMusica() {
         float volumen = 0.5f;
-        musicaFondo = Gdx.audio.newMusic(Gdx.files.getFileHandle("Musica/message.mp3", Files.FileType.Internal));
+        musicaFondo = assetManager.get("Musica/message.mp3");
         musicaFondo.setVolume(volumen);
         boolean musicaActivada = soundPreferences.getBoolean("soundOn");
         if(musicaActivada) {
@@ -192,7 +192,7 @@ class MenuJudafaals extends Pantalla {
         assetManager.unload("Botones/BotonMasPado.png");
         assetManager.unload("Botones/BotonConfiguracionN.png");
         assetManager.unload("Botones/BotonConfiguracionPado.png");
-
+        assetManager.unload("Musica/message.mp3");
         
     }
 }

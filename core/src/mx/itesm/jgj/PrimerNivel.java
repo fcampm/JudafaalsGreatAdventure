@@ -38,6 +38,7 @@ class PrimerNivel extends Pantalla {
     private Random random = new Random();
 
     private JudafaalsGreatAdventure jga;
+    private AssetManager assetManager;
 
     // Preferencias del usuario
     private Preferences soundPreferences = Gdx.app.getPreferences("usersPreferences");
@@ -76,8 +77,10 @@ class PrimerNivel extends Pantalla {
     private Vida life3;
 
 
-    //Boton pausa
-    private Texture botonPausa;
+    //Texturas a usar.
+    private Texture texturaPausa;
+    private Texture texturaNave;
+
     //PAUSA
     private EscenaPausa escenaPausa;
     private EscenaGanar escenaGanar;
@@ -88,18 +91,18 @@ class PrimerNivel extends Pantalla {
 
 
     public PrimerNivel(JudafaalsGreatAdventure judafaalsGreatAdventure) {
-
         this.jga = judafaalsGreatAdventure;
+        assetManager = jga.getAssetManager();
     }
 
 
     @Override
     public void show() {
         cargarVidas();
+        cargarTexturas();
         cargarPersonaje();
         crearMusica();
         cargarTextos();
-        cargarTexturas();
         crearHUD();
         estado = EstadoJuego.JUGANDO;
         escenaGanar = new EscenaGanar(vistaHUD, batch);
@@ -107,8 +110,8 @@ class PrimerNivel extends Pantalla {
 
 
         //Sonidos
-        choque = Gdx.audio.newSound(Gdx.files.internal("Musica/choque.mp3"));
-        levelpassed = Gdx.audio.newSound(Gdx.files.internal("Musica/levelUp.wav"));
+        choque = assetManager.get("Musica/choque.mp3");
+        levelpassed = assetManager.get("Musica/levelUp.wav");
 
 
         cargarMapa();
@@ -123,8 +126,8 @@ class PrimerNivel extends Pantalla {
         camaraHUD.update();
         vistaHUD = new StretchViewport(ANCHO, ALTO, camaraHUD);
         Skin skin = new Skin();
-        skin.add("flechas", new Texture("PrimerNivel/flechas2.png"));
-        skin.add("pausa", new Texture("pruebas/pausaa.png"));
+        skin.add("flechas", flechas);
+        skin.add("pausa", texturaPausa);
         //Vista del pad
         Touchpad.TouchpadStyle estilo = new Touchpad.TouchpadStyle();
         Touchpad.TouchpadStyle estilo2 = new Touchpad.TouchpadStyle();
@@ -198,8 +201,9 @@ class PrimerNivel extends Pantalla {
 
 
     private void cargarTexturas() {
-        botonPausa = new Texture("pruebas/pausaa.png");
-        flechas = new Texture("PrimerNivel/flechas2.png");
+        texturaPausa = assetManager.get("pruebas/pausaa.png");
+        flechas = assetManager.get("PrimerNivel/flechas2.png");
+        texturaNave = assetManager.get("PrimerNivel/NaveUReducida.png");
     }
 
     private void cargarTextos() {
@@ -208,13 +212,13 @@ class PrimerNivel extends Pantalla {
     }
 
     private void cargarPersonaje() {
-        nave = new Personaje(new Texture("PrimerNivel/NaveUReducida.png"));
+        nave = new Personaje(texturaNave);
     }
 
 
     private void crearMusica() {
         float volumen = 0.5f;
-        musicaFondo = Gdx.audio.newMusic(Gdx.files.getFileHandle("Musica/level1.mp3", Files.FileType.Internal));
+        musicaFondo = assetManager.get("Musica/level1.mp3");
         musicaFondo.setVolume(volumen);
         if(musicaActivada) {
             musicaFondo.play();
@@ -224,11 +228,7 @@ class PrimerNivel extends Pantalla {
 
 
     private void cargarMapa() {
-        AssetManager manager = new AssetManager();
-        manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-        manager.load("PrimerNivel/prueba1.tmx", TiledMap.class);
-        manager.finishLoading();
-        mapa = manager.get("PrimerNivel/prueba1.tmx");
+        mapa = assetManager.get("PrimerNivel/prueba1.tmx");
         render = new OrthogonalTiledMapRenderer(mapa);
 
     }
@@ -355,6 +355,23 @@ class PrimerNivel extends Pantalla {
         }
 
         escenaHUD.dispose();
+
+        assetManager.unload("pruebas/pausaa.png");
+        assetManager.unload("PrimerNivel/NaveUReducida.png");
+        assetManager.unload("PrimerNivel/flechas2.png");
+        assetManager.unload("Botones/BotonExitN.png");
+        assetManager.unload("Botones/BotonPlayN.png");
+        assetManager.unload("Botones/BotonReinicioN.png");
+        assetManager.unload("PrimerNivel/YouWin.png");
+        assetManager.unload("Botones/BotonExitN.png");
+        assetManager.unload("Botones/BotonReinicioN.png");
+        assetManager.unload("PrimerNivel/youFailed.png");
+        assetManager.unload("Botones/BotonExitN.png");
+        assetManager.unload("Botones/BotonReinicioN.png");
+        assetManager.unload("Musica/level1.mp3");
+        assetManager.unload("Musica/choque.mp3");
+        assetManager.unload("Musica/levelUp.wav");
+        assetManager.unload("PrimerNivel/prueba1.tmx");
 
     }
 
@@ -513,6 +530,11 @@ class PrimerNivel extends Pantalla {
 
         public EscenaPausa(Viewport vista, SpriteBatch batch) {
             super(vista, batch);
+            // Creación de texturas
+            Texture texturaBtnSalir;
+            Texture texturaBtnContinuar;
+            Texture restartButton;
+
             Pixmap pixmap = new Pixmap((int) (ANCHO * 0.7f), (int) (ALTO * 0.8f), Pixmap.Format.RGBA8888);
             pixmap.setColor(0.65f, 1f, 4f, 1f);
             pixmap.fillRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
@@ -521,7 +543,7 @@ class PrimerNivel extends Pantalla {
             Image imgRectangulo = new Image(texturaRectangulo);
             imgRectangulo.setPosition(0.15f * ANCHO, 0.1f * ALTO);
             this.addActor(imgRectangulo);
-            Texture texturaBtnSalir = new Texture("Botones/BotonExitN.png");
+            texturaBtnSalir = assetManager.get("Botones/BotonExitN.png");
             TextureRegionDrawable trdSalir = new TextureRegionDrawable(
                     new TextureRegion(texturaBtnSalir));
             ImageButton btnSalir = new ImageButton(trdSalir);
@@ -539,7 +561,7 @@ class PrimerNivel extends Pantalla {
             });
             this.addActor(btnSalir);
 
-            Texture texturaBtnContinuar = new Texture("Botones/BotonPlayN.png");
+            texturaBtnContinuar = assetManager.get("Botones/BotonPlayN.png");
             TextureRegionDrawable trdContinuar = new TextureRegionDrawable(
                     new TextureRegion(texturaBtnContinuar));
             ImageButton btnContinuar = new ImageButton(trdContinuar);
@@ -557,7 +579,7 @@ class PrimerNivel extends Pantalla {
             this.addActor(btnContinuar);
 
 
-            Texture restartButton = new Texture("Botones/BotonReinicioN.png");
+            restartButton = assetManager.get("Botones/BotonReinicioN.png");
 
             TextureRegionDrawable trdRestart = new TextureRegionDrawable(new TextureRegion(restartButton));
 
@@ -591,6 +613,12 @@ class PrimerNivel extends Pantalla {
 
         public EscenaGanar(Viewport vista, SpriteBatch batch) {
             super(vista, batch);
+
+            // Texturas a usar
+            Texture texturaBtnSalir;
+            Texture texturaBtnContinuar;
+            Texture restartButton;
+
             Pixmap pixmap = new Pixmap((int) (ANCHO * 0.7f), (int) (ALTO * 0.8f), Pixmap.Format.RGBA8888);
             pixmap.setColor(0f, 0f, 0f, 1f);
             pixmap.fillRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
@@ -599,14 +627,14 @@ class PrimerNivel extends Pantalla {
             Image imgRectangulo = new Image(texturaRectangulo);
             imgRectangulo.setPosition(0.15f * ANCHO, 0.1f * ALTO);
             this.addActor(imgRectangulo);
-            Texture texturaBtnSalir = new Texture("PrimerNivel/YouWin.png");
+            texturaBtnSalir = assetManager.get("PrimerNivel/YouWin.png");
             TextureRegionDrawable trdSalir = new TextureRegionDrawable(
                     new TextureRegion(texturaBtnSalir));
             ImageButton btnSalir = new ImageButton(trdSalir);
             btnSalir.setPosition(ANCHO / 2 - btnSalir.getWidth() / 2, ALTO / 2);
             this.addActor(btnSalir);
 
-            Texture texturaBtnContinuar = new Texture("Botones/BotonExitN.png");
+            texturaBtnContinuar = assetManager.get("Botones/BotonExitN.png");
             TextureRegionDrawable trdContinuar = new TextureRegionDrawable(
                     new TextureRegion(texturaBtnContinuar));
             ImageButton btnExit = new ImageButton(trdContinuar);
@@ -625,7 +653,7 @@ class PrimerNivel extends Pantalla {
             this.addActor(btnExit);
 
 
-            Texture restartButton = new Texture("Botones/BotonReinicioN.png");
+            restartButton = assetManager.get("Botones/BotonReinicioN.png");
 
             TextureRegionDrawable trdRestart = new TextureRegionDrawable(new TextureRegion(restartButton));
 
@@ -656,6 +684,12 @@ class PrimerNivel extends Pantalla {
 
         public EscenaPerder(Viewport vista, SpriteBatch batch) {
             super(vista, batch);
+
+            // Texturas a usar.
+            Texture texturaBtnSalir;
+            Texture texturaBtnContinuar;
+            Texture restartButton;
+
             Pixmap pixmap = new Pixmap((int) (ANCHO * 0.7f), (int) (ALTO * 0.8f), Pixmap.Format.RGBA8888);
             pixmap.setColor(0f, 0f, 0f, 1f);
             pixmap.fillRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
@@ -664,14 +698,14 @@ class PrimerNivel extends Pantalla {
             Image imgRectangulo = new Image(texturaRectangulo);
             imgRectangulo.setPosition(0.15f * ANCHO, 0.1f * ALTO);
             this.addActor(imgRectangulo);
-            Texture texturaBtnSalir = new Texture("PrimerNivel/youFailed.png");
+            texturaBtnSalir = assetManager.get("PrimerNivel/youFailed.png");
             TextureRegionDrawable trdSalir = new TextureRegionDrawable(
                     new TextureRegion(texturaBtnSalir));
             ImageButton btnSalir = new ImageButton(trdSalir);
             btnSalir.setPosition(ANCHO / 2 - btnSalir.getWidth() / 2, ALTO / 2);
             this.addActor(btnSalir);
 
-            Texture texturaBtnContinuar = new Texture("Botones/BotonExitN.png");
+            texturaBtnContinuar = assetManager.get("Botones/BotonExitN.png");
             TextureRegionDrawable trdContinuar = new TextureRegionDrawable(
                     new TextureRegion(texturaBtnContinuar));
             ImageButton btnContinuar = new ImageButton(trdContinuar);
@@ -688,7 +722,7 @@ class PrimerNivel extends Pantalla {
             this.addActor(btnContinuar);
 
 
-            Texture restartButton = new Texture("Botones/BotonReinicioN.png");
+            restartButton = assetManager.get("Botones/BotonReinicioN.png");
 
             TextureRegionDrawable trdRestart = new TextureRegionDrawable(new TextureRegion(restartButton));
 
