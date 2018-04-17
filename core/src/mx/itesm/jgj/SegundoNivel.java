@@ -16,7 +16,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -36,8 +35,9 @@ import java.util.Random;
 class SegundoNivel extends Pantalla {
 
     private Random random = new Random();
-
+    private boolean bombaTomada= false;
     private JudafaalsGreatAdventure jga;
+    private Bomb bomba = new Bomb(3500, 500);
 
     //Enemigos
     private Array<Enemigo> arrEnemigo;
@@ -271,6 +271,7 @@ class SegundoNivel extends Pantalla {
             life.mover(-1, +random.nextInt(7 - (-7)) + (-7), true);
             life2.mover(-1, +random.nextInt(4 - (-4)) + (-4), true);
             life3.mover(-1, +random.nextInt(5 - (-5)) + (-5), true);
+            bomba.mover(-1, +random.nextInt(4 - (-4)) + (-4), true);
         }
 
         //if (estado == EstadoJuego.GANADO) {
@@ -296,6 +297,7 @@ class SegundoNivel extends Pantalla {
 
         //life.mover(+1,+1, true);
         GenerarTextosySonidos();
+        bomba.render(batch);
 
         //batch.draw(botonPausa, ANCHO*0.75f,ALTO*0.8f);
         //batch.draw(flechas,nave.getX()-570,50);
@@ -344,13 +346,21 @@ class SegundoNivel extends Pantalla {
             texto.mostrarMensaje(batch, cadenaVida, nave.getX() - 500, ALTO - 20);
         }
         if (nave.getX() >= ANCHO_MAPA - 500) {
+            if(bombaTomada)
             texto2.mostrarMensaje(batch, "Level Completed", ANCHO_MAPA - 650, ALTO - 20);
 
-            if (nave.getX() >= ANCHO_MAPA) {
+            if (nave.getX() >= ANCHO_MAPA && bombaTomada==true) {
                 estado = EstadoJuego.GANADO;
                 musicaFondo.dispose();
+            }else{
+                estado = EstadoJuego.PERDIDO;
+                if(!bombaTomada)
+                    texto2.mostrarMensaje(batch, "You forgot the bomb!", ANCHO_MAPA - 650, ALTO - 20);
             }
         }
+
+        if(bombaTomada)
+            texto2.mostrarMensaje(batch, "Bomba tomada!", nave.getX()+50, 50);
     }
 
     private void actualizarObjetos(float dt, boolean actualizar) {
@@ -481,6 +491,11 @@ class SegundoNivel extends Pantalla {
     }
 
     private void verificarColisiones() {
+
+        if(bomba.estaColisionando(nave)){
+            bombaTomada=true;
+            bomba.set(-50,ALTO*2);
+        }
         int cx = (int) (nave.getX() + 32) / 32;
         int cy = (int) (nave.getY()+nave.getHeight()/2) / 32;
         TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Estructura");
@@ -528,6 +543,8 @@ class SegundoNivel extends Pantalla {
             }
 
         }
+
+
 
     }
 
