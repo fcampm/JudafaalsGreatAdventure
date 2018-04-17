@@ -188,7 +188,7 @@ class TercerNivel extends Pantalla {
                     }
                 }
 
-                while(nave.getY()<=50){
+                while(nave.getY()<=10){
                     nave.setY(nave.getY()+101);
                     //nave.normal();
                     vida--;

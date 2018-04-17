@@ -92,6 +92,8 @@ class SegundoNivel extends Pantalla {
     }
 
 
+
+
     @Override
     public void show() {
         cargarVidas();
@@ -257,14 +259,15 @@ class SegundoNivel extends Pantalla {
     @Override
     public void render(float delta) {
         //moverEnemigos(true);
-        verificarColisiones();
         if (estado == EstadoJuego.PAUSADO) {
             moverEnemigos(false);
             actualizarObjetos(delta, false);
             musicaFondo.pause();
+            verificarColisiones(false);
         }
 
         if (estado == EstadoJuego.JUGANDO) {
+            verificarColisiones(true);
             moverEnemigos(true);
             actualizarObjetos(delta, true);
             musicaFondo.play();
@@ -315,6 +318,7 @@ class SegundoNivel extends Pantalla {
 
         if (estado == EstadoJuego.GANADO) {
             //escenaGanar = new EscenaGanar(vistaHUD, batch);
+            verificarColisiones(false);
             Gdx.input.setInputProcessor(escenaGanar);
 
             escenaGanar.draw();
@@ -360,7 +364,7 @@ class SegundoNivel extends Pantalla {
         }
 
         if(bombaTomada)
-            texto2.mostrarMensaje(batch, "Bomba tomada!", nave.getX()+50, 50);
+            texto2.mostrarMensaje(batch, "Bomba tomada!", nave.getX()-25, 50);
     }
 
     private void actualizarObjetos(float dt, boolean actualizar) {
@@ -369,7 +373,7 @@ class SegundoNivel extends Pantalla {
             //nave.actualizar(dt);
             nave.setY(nave.getY() + (float) presed);
         }
-        verificarColisiones();
+        //verificarColisiones(true);
     }
 
     @Override
@@ -490,61 +494,63 @@ class SegundoNivel extends Pantalla {
         }
     }
 
-    private void verificarColisiones() {
+    private void verificarColisiones(boolean bandera) {
 
-        if(bomba.estaColisionando(nave)){
-            bombaTomada=true;
-            bomba.set(-50,ALTO*2);
-        }
-        int cx = (int) (nave.getX() + 32) / 32;
-        int cy = (int) (nave.getY()+nave.getHeight()/2) / 32;
-        TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Estructura");
-        //String name=capa.getName();
-        //System.out.println(name+"ddd");
-        TiledMapTileLayer.Cell celda = capa.getCell(cx, cy);
-        if (celda != null) {
-            System.out.println(celda);
-            bajarVida(true,10);
-            if (vida <= 0) {
-                estado = EstadoJuego.PERDIDO;
+        if(bandera) {
+
+            if (bomba.estaColisionando(nave)) {
+                bombaTomada = true;
+                bomba.set(-50, ALTO * 2);
             }
-            cadenaVida = "Vida: " + vida;
-            choque.play();
-            nave.setX(nave.getX() - 260);
-        }
+            int cx = (int) (nave.getX() + 32) / 32;
+            int cy = (int) (nave.getY() + nave.getHeight() / 2) / 32;
+            TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Estructura");
+            //String name=capa.getName();
+            //System.out.println(name+"ddd");
+            TiledMapTileLayer.Cell celda = capa.getCell(cx, cy);
+            if (celda != null) {
+                System.out.println(celda);
+                bajarVida(true, 10);
+                if (vida <= 0) {
+                    estado = EstadoJuego.PERDIDO;
+                }
+                cadenaVida = "Vida: " + vida;
+                choque.play();
+                nave.setX(nave.getX() - 260);
+            }
         /*Object tipo = celda.getTile().getProperties().get("tipo");
         if (!"Estructura".equals(tipo)) {
             // No es obstáculo, puede pasar
             presed=34;}*/
 
-        if (life.estaColisionando(nave) || life2.estaColisionando(nave) || life3.estaColisionando(nave)) {
-            vida += 20;
-            cadenaVida = "Vida: " + vida;
-            if (life.estaColisionando(nave)) {
-                life.set(-50, ALTO * 2);
-                levelpassed.play();
-            }
-            if (life2.estaColisionando(nave)) {
-                life2.set(-50, ALTO * 2);
-                levelpassed.play();
-            }
-            if (life3.estaColisionando(nave)) {
-                life3.set(-50, ALTO * 2);
-                levelpassed.play();
+            if (life.estaColisionando(nave) || life2.estaColisionando(nave) || life3.estaColisionando(nave)) {
+                vida += 20;
+                cadenaVida = "Vida: " + vida;
+                if (life.estaColisionando(nave)) {
+                    life.set(-50, ALTO * 2);
+                    levelpassed.play();
+                }
+                if (life2.estaColisionando(nave)) {
+                    life2.set(-50, ALTO * 2);
+                    levelpassed.play();
+                }
+                if (life3.estaColisionando(nave)) {
+                    life3.set(-50, ALTO * 2);
+                    levelpassed.play();
+                }
+
+
             }
 
+            for (Enemigo enemy : arrEnemigo) {
+                if (enemy.estaColisionando(nave)) {
+                    vida--;
+                    cadenaVida = "Vida: " + vida;
+                }
+
+            }
 
         }
-
-        for(Enemigo enemy: arrEnemigo){
-            if (enemy.estaColisionando(nave)){
-                vida--;
-                cadenaVida= "Vida: "+vida;
-            }
-
-        }
-
-
 
     }
 
