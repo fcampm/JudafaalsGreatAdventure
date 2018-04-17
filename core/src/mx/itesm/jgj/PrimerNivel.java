@@ -288,7 +288,6 @@ class PrimerNivel extends Pantalla {
 
         if (estado == EstadoJuego.GANADO){
             Gdx.input.setInputProcessor(escenaGanar);
-
             escenaGanar.draw();
             if(musicaActivada) {
                 musicaFondo.dispose();

@@ -23,6 +23,7 @@ import static mx.itesm.jgj.MenuJudafaals.ANCHO;
 
 class MenuNiveles extends Pantalla {
 
+
     private JudafaalsGreatAdventure jga;
 
     // Texturas

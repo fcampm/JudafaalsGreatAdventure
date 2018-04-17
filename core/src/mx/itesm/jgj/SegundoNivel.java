@@ -39,13 +39,11 @@ class SegundoNivel extends Pantalla {
 
     private JudafaalsGreatAdventure jga;
 
-
     //Enemigos
     private Array<Enemigo> arrEnemigo;
 
     //
     private Personaje nave;
-    private Enemigo e;
     private static final float ANCHO_MAPA = 11520;
     private double presed = 0;
     private Texture flechas;
@@ -184,7 +182,7 @@ class SegundoNivel extends Pantalla {
                 while (nave.getY() <= 50) {
                     nave.setY(nave.getY() + 101);
                     //nave.normal();
-                    vida--;
+                    bajarVida(true, 1);
                     cadenaVida = "Vida: " + vida;
                 }
 
@@ -209,7 +207,6 @@ class SegundoNivel extends Pantalla {
 
     private void cargarPersonaje() {
         nave = new Personaje(new Texture("PrimerNivel/NaveUReducida.png"));
-        e=new Enemigo(nave.getX()+200,nave.getY()+200);
     }
 
     private void cargarEnemigos(){
@@ -221,6 +218,11 @@ class SegundoNivel extends Pantalla {
                 //ANCHO_MAPA+j*1000-1000
             }
         }
+    }
+
+    private void bajarVida(boolean bandera, int daño){
+        if(bandera)
+            this.vida=vida-daño;
     }
 
     private void moverEnemigos(boolean bandera){
@@ -288,7 +290,6 @@ class SegundoNivel extends Pantalla {
             enemigo.render(batch);
         }
         nave.render(batch);
-        e.render(batch);
         life.render(batch);
         life2.render(batch);
         life3.render(batch);
@@ -357,7 +358,6 @@ class SegundoNivel extends Pantalla {
             nave.setX(nave.getX() + (float)6.5);
             //nave.actualizar(dt);
             nave.setY(nave.getY() + (float) presed);
-            e.set(nave.getX()+200,nave.getY()+200);
         }
         verificarColisiones();
     }
@@ -489,7 +489,7 @@ class SegundoNivel extends Pantalla {
         TiledMapTileLayer.Cell celda = capa.getCell(cx, cy);
         if (celda != null) {
             System.out.println(celda);
-            vida -= 10;
+            bajarVida(true,10);
             if (vida <= 0) {
                 estado = EstadoJuego.PERDIDO;
             }
@@ -526,7 +526,9 @@ class SegundoNivel extends Pantalla {
                 vida--;
                 cadenaVida= "Vida: "+vida;
             }
+
         }
+
     }
 
     enum EstadoJuego {
@@ -639,7 +641,7 @@ class SegundoNivel extends Pantalla {
                 public void clicked(InputEvent event, float x, float y) {
                     // Regresa al juego
                     musicaFondo.dispose();
-                    jga.setScreen(new MenuNiveles(jga));
+                    jga.setScreen(new PantallaCargando(jga, Pantalla.NIVELES));
                 }
 
             });

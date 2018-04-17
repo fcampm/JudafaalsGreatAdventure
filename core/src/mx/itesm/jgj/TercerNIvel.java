@@ -267,6 +267,9 @@ class TercerNivel extends Pantalla {
         }
 
         if (estado == EstadoJuego.JUGANDO) {
+
+
+
             moverEnemigos(true);
             actualizarObjetos(delta, true);
             musicaFondo.play();
