@@ -276,6 +276,7 @@ class PrimerNivel extends Pantalla {
         //batch.draw(botonPausa, ANCHO*0.75f,ALTO*0.8f);
         //batch.draw(flechas,nave.getX()-570,50);
         batch.end();
+        Gdx.app.log("FPS: ", "" +(Gdx.graphics.getFramesPerSecond()));
         if (estado == EstadoJuego.PAUSADO) {
             escenaPausa.draw();
         }
