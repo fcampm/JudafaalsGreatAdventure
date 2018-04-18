@@ -37,7 +37,7 @@ class SegundoNivel extends Pantalla {
     private Random random = new Random();
     private boolean bombaTomada= false;
     private JudafaalsGreatAdventure jga;
-    private Bomb bomba = new Bomb(7000, 666);
+    private Bomb bomba = new Bomb(11000, 666);
 
     //Enemigos
     private Array<Enemigo> arrEnemigo;

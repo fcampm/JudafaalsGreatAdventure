@@ -69,7 +69,7 @@ public class Bomb {
             //    return true;
         //}
 
-        if(x+getWidth()>=nave.getX()+getWidth() && x<=nave.getX()+nave.getWidth()) {
+        if((x+getWidth()>=nave.getX()+getWidth() && x<=nave.getX()+nave.getWidth())||(x+getWidth()>=nave.getX()&&x<=nave.getX())) {
 
             if ((y <= nave.getY() + nave.getHeight() && y + getHeight() >= nave.getY() + nave.getHeight()) || (y + getHeight() >= nave.getY() && nave.getY() >= y))
                 return true;
