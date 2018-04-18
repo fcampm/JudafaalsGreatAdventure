@@ -39,10 +39,21 @@ public class Vida {
 
 
     public boolean estaColisionando(Personaje nave){
-        if(x>=nave.getX() && x<= nave.getX()+nave.getWidth()){
-            if(y>=nave.getY() && y <=nave.getY()+nave.getHeight())
+
+
+        //if(y>=nave.getY() && y <=nave.getY()+nave.getHeight())
+        //if((x<=nave.getX()+nave.getWidth() && x>=nave.getX()-70)||(nave.getX()>=x && nave.getX()<=this.getWidth())){
+        //  if((y<=nave.getY()+nave.getHeight() && y >= nave.getY())||(textura.getHeight()>=nave.getY() && y<=nave.getY()))
+        //    return true;
+        //}
+
+        if((x+getWidth()>=nave.getX()+getWidth() && x<=nave.getX()+nave.getWidth())||(x+getWidth()>=nave.getX()&&x<=nave.getX())) {
+
+
+            if ((y <= nave.getY() + nave.getHeight() && y + getHeight() >= nave.getY() + nave.getHeight()) || (y + getHeight() >= nave.getY() && nave.getY() >= y))
                 return true;
         }
+
         return false;
     }
 
@@ -53,4 +64,11 @@ public class Vida {
         }
     }
 
+    public float getWidth() {
+        return textura.getWidth();
+    }
+
+    public float getHeight() {
+        return textura.getHeight();
+    }
 }
