@@ -367,7 +367,7 @@ class TercerNivel extends Pantalla {
 
         if (estado == EstadoJuego.GANADO){
             Gdx.input.setInputProcessor(escenaGanar);
-
+            actualizarObjetos(1,true);
             escenaGanar.draw();
             musicaFondo.dispose();
         }
@@ -398,18 +398,14 @@ class TercerNivel extends Pantalla {
         if (nave.getX() < ANCHO_MAPA - 600) {
             texto.mostrarMensaje(batch, cadenaVida, nave.getX() - 500, ALTO - 20);
         }
-        if (nave.getX() >= ANCHO_MAPA - 500) {
+        if (nave.getX() >= ANCHO_MAPA - 150) {
             if(controlTomado) {
                 texto2.mostrarMensaje(batch, "Level Completed", ANCHO_MAPA - 650, ALTO - 20);
-            }else{
-                texto2.mostrarMensaje(batch, "You\t miss the control!", ANCHO_MAPA - 650, ALTO - 20);
-            }
-
-            if (nave.getX() >= ANCHO_MAPA && controlTomado) {
                 estado= EstadoJuego.GANADO;
                 musicaFondo.dispose();
             }else{
                 estado=EstadoJuego.PERDIDO;
+                texto2.mostrarMensaje(batch, "You\t miss the control!", ANCHO_MAPA - 650, ALTO - 20);
             }
         }
     }
@@ -714,7 +710,7 @@ class TercerNivel extends Pantalla {
         public EscenaPausa(Viewport vista, SpriteBatch batch) {
             super(vista, batch);
             Pixmap pixmap = new Pixmap((int) (ANCHO * 0.7f), (int) (ALTO * 0.8f), Pixmap.Format.RGBA8888);
-            pixmap.setColor(0.65f, 1f, 4f, 1f);
+            pixmap.setColor(1, 1f, 1f, 0f);
             pixmap.fillRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
             Texture texturaRectangulo = new Texture(pixmap);
             pixmap.dispose();
@@ -788,7 +784,7 @@ class TercerNivel extends Pantalla {
         public EscenaGanar(Viewport vista, SpriteBatch batch) {
             super(vista, batch);
             Pixmap pixmap = new Pixmap((int) (ANCHO * 0.7f), (int) (ALTO * 0.8f), Pixmap.Format.RGBA8888);
-            pixmap.setColor(0f, 0f, 0f, 1f);
+            pixmap.setColor(0f, 0f, 0f, 0f);
             pixmap.fillRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
             Texture texturaRectangulo = new Texture(pixmap);
             pixmap.dispose();
@@ -849,7 +845,7 @@ class TercerNivel extends Pantalla {
         public EscenaPerder(Viewport vista, SpriteBatch batch) {
             super(vista, batch);
             Pixmap pixmap = new Pixmap((int) (ANCHO * 0.7f), (int) (ALTO * 0.8f), Pixmap.Format.RGBA8888);
-            pixmap.setColor(0f, 0f, 0f, 1f);
+            pixmap.setColor(0f, 0f, 0f, 0f);
             pixmap.fillRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
             Texture texturaRectangulo = new Texture(pixmap);
             pixmap.dispose();

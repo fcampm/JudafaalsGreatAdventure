@@ -37,7 +37,7 @@ class SegundoNivel extends Pantalla {
     private Random random = new Random();
     private boolean bombaTomada= false;
     private JudafaalsGreatAdventure jga;
-    private Bomb bomba = new Bomb(11000, 666);
+    private Bomb bomba = new Bomb(11000, 866);
 
     //Enemigos
     private Array<Enemigo> arrEnemigo;
@@ -182,7 +182,7 @@ class SegundoNivel extends Pantalla {
                     }
                 }
 
-                while (nave.getY() <= 50) {
+                while (nave.getY() <= 10) {
                     nave.setY(nave.getY() + 101);
                     //nave.normal();
                     bajarVida(true, 1);
@@ -313,15 +313,14 @@ class SegundoNivel extends Pantalla {
         if (estado == EstadoJuego.PERDIDO) {
             //escenaPerder = new EscenaPerder(vistaHUD, batch);
             Gdx.input.setInputProcessor(escenaPerder);
-            nave.setY(ALTO*2);
             escenaPerder.draw();
         }
 
         if (estado == EstadoJuego.GANADO) {
+            actualizarObjetos(1,true);
             //escenaGanar = new EscenaGanar(vistaHUD, batch);
             verificarColisiones(false);
             Gdx.input.setInputProcessor(escenaGanar);
-
             escenaGanar.draw();
             musicaFondo.dispose();
         }
@@ -350,22 +349,19 @@ class SegundoNivel extends Pantalla {
         if (nave.getX() < ANCHO_MAPA - 600) {
             texto.mostrarMensaje(batch, cadenaVida, nave.getX() - 500, ALTO - 20);
         }
-        if (nave.getX() >= ANCHO_MAPA - 500) {
-            if(bombaTomada)
-            texto2.mostrarMensaje(batch, "Level Completed", ANCHO_MAPA - 650, ALTO - 20);
-
-            if (nave.getX() >= ANCHO_MAPA && bombaTomada==true) {
+        if (nave.getX() >= ANCHO_MAPA - 150) {
+            if(bombaTomada) {
+                texto2.mostrarMensaje(batch, "Level Completed", ANCHO_MAPA - 650, ALTO - 20);
                 estado = EstadoJuego.GANADO;
                 musicaFondo.dispose();
-            }else{
+            } else{
                 estado = EstadoJuego.PERDIDO;
-                if(!bombaTomada)
-                    texto2.mostrarMensaje(batch, "You forgot the bomb!", ANCHO_MAPA - 650, ALTO - 20);
+                texto2.mostrarMensaje(batch, "You forgot the bomb!", ANCHO_MAPA - 650, ALTO - 20);
             }
         }
 
         if(bombaTomada)
-            texto2.mostrarMensaje(batch, "Bomba tomada!", nave.getX()-25, 50);
+            texto2.mostrarMensaje(batch, "Bomba tomada!", nave.getX()-45, 50);
     }
 
     private void actualizarObjetos(float dt, boolean actualizar) {
@@ -549,8 +545,8 @@ class SegundoNivel extends Pantalla {
 
             for (Enemigo enemy : arrEnemigo) {
                 if (enemy.estaColisionando(nave)) {
-                    vida--;
-                    cadenaVida = "Vida: " + vida;
+                    //vida--;
+                    //cadenaVida = "Vida: " + vida;
                 }
 
             }
@@ -571,7 +567,7 @@ class SegundoNivel extends Pantalla {
         public EscenaPausa(Viewport vista, SpriteBatch batch) {
             super(vista, batch);
             Pixmap pixmap = new Pixmap((int) (ANCHO * 0.7f), (int) (ALTO * 0.8f), Pixmap.Format.RGBA8888);
-            pixmap.setColor(0.65f, 1f, 4f, 1f);
+            pixmap.setColor(1f, 1f, 1f, 0f);
             pixmap.fillRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
             Texture texturaRectangulo = new Texture(pixmap);
             pixmap.dispose();
@@ -645,7 +641,7 @@ class SegundoNivel extends Pantalla {
         public EscenaGanar(Viewport vista, SpriteBatch batch) {
             super(vista, batch);
             Pixmap pixmap = new Pixmap((int) (ANCHO * 0.7f), (int) (ALTO * 0.8f), Pixmap.Format.RGBA8888);
-            pixmap.setColor(0f, 0f, 0f, 1f);
+            pixmap.setColor(0f, 0f, 0f, 0f);
             pixmap.fillRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
             Texture texturaRectangulo = new Texture(pixmap);
             pixmap.dispose();
@@ -706,7 +702,7 @@ class SegundoNivel extends Pantalla {
         public EscenaPerder(Viewport vista, SpriteBatch batch) {
             super(vista, batch);
             Pixmap pixmap = new Pixmap((int) (ANCHO * 0.7f), (int) (ALTO * 0.8f), Pixmap.Format.RGBA8888);
-            pixmap.setColor(0f, 0f, 0f, 1f);
+            pixmap.setColor(0f, 0f, 0f, 0f);
             pixmap.fillRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
             Texture texturaRectangulo = new Texture(pixmap);
             pixmap.dispose();

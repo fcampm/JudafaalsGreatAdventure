@@ -290,6 +290,7 @@ class PrimerNivel extends Pantalla {
         if (estado == EstadoJuego.GANADO){
             Gdx.input.setInputProcessor(escenaGanar);
             escenaGanar.draw();
+            actualizarObjetos(2,true);
             if(musicaActivada) {
                 musicaFondo.dispose();
             }
@@ -319,13 +320,11 @@ class PrimerNivel extends Pantalla {
         if (nave.getX() < ANCHO_MAPA - 600) {
             texto.mostrarMensaje(batch, cadenaVida, nave.getX() - 500, ALTO - 20);
         }
-        if (nave.getX() >= ANCHO_MAPA - 500) {
+        if (nave.getX() >= ANCHO_MAPA - 150) {
             texto2.mostrarMensaje(batch, "Level Completed", ANCHO_MAPA - 650, ALTO - 20);
+            estado= EstadoJuego.GANADO;
+            musicaFondo.dispose();
 
-            if (nave.getX() >= ANCHO_MAPA) {
-                estado= EstadoJuego.GANADO;
-                musicaFondo.dispose();
-            }
         }
     }
 
@@ -537,7 +536,7 @@ class PrimerNivel extends Pantalla {
             Texture restartButton;
 
             Pixmap pixmap = new Pixmap((int) (ANCHO * 0.7f), (int) (ALTO * 0.8f), Pixmap.Format.RGBA8888);
-            pixmap.setColor(0.65f, 1f, 4f, 1f);
+            pixmap.setColor(0f, 0, 0, 0f);
             pixmap.fillRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
             Texture texturaRectangulo = new Texture(pixmap);
             pixmap.dispose();
@@ -621,7 +620,7 @@ class PrimerNivel extends Pantalla {
             Texture restartButton;
 
             Pixmap pixmap = new Pixmap((int) (ANCHO * 0.7f), (int) (ALTO * 0.8f), Pixmap.Format.RGBA8888);
-            pixmap.setColor(0f, 0f, 0f, 1f);
+            pixmap.setColor(0f, 0f, 0f, 0f);
             pixmap.fillRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
             Texture texturaRectangulo = new Texture(pixmap);
             pixmap.dispose();
@@ -692,7 +691,7 @@ class PrimerNivel extends Pantalla {
             Texture restartButton;
 
             Pixmap pixmap = new Pixmap((int) (ANCHO * 0.7f), (int) (ALTO * 0.8f), Pixmap.Format.RGBA8888);
-            pixmap.setColor(0f, 0f, 0f, 1f);
+            pixmap.setColor(0f, 0f, 0f, 0f);
             pixmap.fillRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
             Texture texturaRectangulo = new Texture(pixmap);
             pixmap.dispose();
