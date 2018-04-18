@@ -39,5 +39,9 @@ public class Nave {
         return x;
     }
 
+    public Texture getTexturanave(){
+        return this.texturanave;
+    }
+
 
 }
