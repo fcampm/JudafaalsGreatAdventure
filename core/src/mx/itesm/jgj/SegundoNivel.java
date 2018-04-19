@@ -360,8 +360,10 @@ class SegundoNivel extends Pantalla {
             }
         }
 
-        if(bombaTomada)
-            texto2.mostrarMensaje(batch, "Bomba tomada!", nave.getX()-45, 50);
+        if(bombaTomada) {
+            if(nave.getX()<=ANCHO_MAPA-530)
+            texto2.mostrarMensaje(batch, "Bomba tomada!", nave.getX() - 45, 50);
+        }
     }
 
     private void actualizarObjetos(float dt, boolean actualizar) {
