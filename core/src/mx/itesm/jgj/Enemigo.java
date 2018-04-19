@@ -22,8 +22,8 @@ public class Enemigo {
 
     public Enemigo(float x, float y){
         set(x,y);
-        TextureRegion region=new TextureRegion(new Texture("NaveEnemigaRFramesC.png"));
-        TextureRegion[][] frames=region.split(200,150);
+        TextureRegion region=new TextureRegion(new Texture("FramesNaveER.png"));
+        TextureRegion[][] frames=region.split(149,72);
         animacion=new Animation(0.2f,frames[0][0],frames[0][1],frames[0][2]);
         animacion.setPlayMode(Animation.PlayMode.LOOP);
 
@@ -42,18 +42,22 @@ public class Enemigo {
 
     }
 
-    public boolean estaColisionando(Personaje nave) {
-        Rectangle rectNave = new Rectangle(nave.getX(), nave.getY(), nave.getWidth(), nave.getHeight());
-        Rectangle rectFuego = new Rectangle(this.getX(), this.getY(), this.getWidth(), this.getHeight());
-        if (rectNave.overlaps(rectFuego)) {
-            return true;
-        }
-        if(this.getY()>PrimerNivel.ALTO/2)
-        if(nave.getY()<this.getY()){
+    public boolean estaColisionando(Personaje nave){
 
+
+        //if(y>=nave.getY() && y <=nave.getY()+nave.getHeight())
+        //if((x<=nave.getX()+nave.getWidth() && x>=nave.getX()-70)||(nave.getX()>=x && nave.getX()<=this.getWidth())){
+        //  if((y<=nave.getY()+nave.getHeight() && y >= nave.getY())||(textura.getHeight()>=nave.getY() && y<=nave.getY()))
+        //    return true;
+        //}
+
+        if((x+getWidth()>=nave.getX()+getWidth() && x<=nave.getX()+nave.getWidth())||(x+getWidth()>=nave.getX()&&x<=nave.getX())) {
+
+            if ((y <= nave.getY() + nave.getHeight() && y + getHeight()-45 >= nave.getY() + nave.getHeight()) || (y + getHeight()-45 >= nave.getY() && nave.getY() >= y))
+                return true;
         }
+
         return false;
-
     }
 
 
@@ -73,11 +77,6 @@ public class Enemigo {
         return ((TextureRegion) animacion.getKeyFrame(0)).getRegionHeight();
     }
 
-    public void disparar(){
-
-
-
-    }
 
     public void mover(float x, float y){
         this.x+=x;

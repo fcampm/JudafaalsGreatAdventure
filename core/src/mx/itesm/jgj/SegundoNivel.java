@@ -547,8 +547,8 @@ class SegundoNivel extends Pantalla {
 
             for (Enemigo enemy : arrEnemigo) {
                 if (enemy.estaColisionando(nave)) {
-                    //vida--;
-                    //cadenaVida = "Vida: " + vida;
+                    vida--;
+                    cadenaVida = "Vida: " + vida;
                 }
 
             }
