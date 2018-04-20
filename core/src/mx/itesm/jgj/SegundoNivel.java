@@ -3,6 +3,7 @@ package mx.itesm.jgj;
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
@@ -34,9 +35,15 @@ import java.util.Random;
 
 class SegundoNivel extends Pantalla {
 
+    private JudafaalsGreatAdventure jga;
+    private AssetManager assetManager;
+
+    // Preferencias del ususario del sonido
+    private Preferences soundPreferences = Gdx.app.getPreferences("usersPreferences");
+    boolean musicaActivada = soundPreferences.getBoolean("soundOn");
+
     private Random random = new Random();
     private boolean bombaTomada= false;
-    private JudafaalsGreatAdventure jga;
     private Bomb bomba = new Bomb(11000, 866);
 
     //Enemigos
@@ -44,6 +51,8 @@ class SegundoNivel extends Pantalla {
 
     //
     private Personaje nave;
+
+    // Nuevo tiled map tiene de ancho 14080 para cambiarlo.
     private static final float ANCHO_MAPA = 11520;
     private double presed = 0;
     private Texture flechas;
@@ -90,6 +99,7 @@ class SegundoNivel extends Pantalla {
     public SegundoNivel(JudafaalsGreatAdventure judafaalsGreatAdventure) {
 
         this.jga = judafaalsGreatAdventure;
+        assetManager = jga.getAssetManager();
     }
 
 
@@ -242,8 +252,10 @@ class SegundoNivel extends Pantalla {
         float volumen = 0.5f;
         musicaFondo = Gdx.audio.newMusic(Gdx.files.getFileHandle("Musica/level1.mp3", Files.FileType.Internal));
         musicaFondo.setVolume(volumen);
-        musicaFondo.play();
-        musicaFondo.setLooping(true);
+        if(musicaActivada) {
+            musicaFondo.play();
+            musicaFondo.setLooping(true);
+        }
     }
 
 
@@ -263,7 +275,9 @@ class SegundoNivel extends Pantalla {
         if (estado == EstadoJuego.PAUSADO) {
             moverEnemigos(false);
             actualizarObjetos(delta, false);
-            musicaFondo.pause();
+            if(musicaActivada) {
+                musicaFondo.pause();
+            }
             verificarColisiones(false);
         }
 
@@ -271,7 +285,9 @@ class SegundoNivel extends Pantalla {
             verificarColisiones(true);
             moverEnemigos(true);
             actualizarObjetos(delta, true);
-            musicaFondo.play();
+            if(musicaActivada) {
+                musicaFondo.play();
+            }
             life.mover(-1, +random.nextInt(7 - (-7)) + (-7), true);
             life2.mover(-1, +random.nextInt(4 - (-4)) + (-4), true);
             life3.mover(-1, +random.nextInt(5 - (-5)) + (-5), true);
@@ -322,7 +338,9 @@ class SegundoNivel extends Pantalla {
             verificarColisiones(false);
             Gdx.input.setInputProcessor(escenaGanar);
             escenaGanar.draw();
-            musicaFondo.dispose();
+            if(musicaActivada) {
+                musicaFondo.dispose();
+            }
         }
 
         //CamaraHUD
@@ -502,8 +520,10 @@ class SegundoNivel extends Pantalla {
                 bomba.set(-50, ALTO * 2);
                 bombTaked = Gdx.audio.newMusic(Gdx.files.getFileHandle("Musica/bombTaked.mp3", Files.FileType.Internal));
                 bombTaked.setVolume(5f);
-                bombTaked.play();
-                bombTaked.setLooping(false);
+                if(musicaActivada) {
+                    bombTaked.play();
+                    bombTaked.setLooping(false);
+                }
             }
             int cx = (int) (nave.getX() + 32) / 32;
             int cy = (int) (nave.getY() + nave.getHeight() / 2) / 32;
@@ -518,7 +538,9 @@ class SegundoNivel extends Pantalla {
                     estado = EstadoJuego.PERDIDO;
                 }
                 cadenaVida = "Vida: " + vida;
-                choque.play();
+                if(musicaActivada) {
+                    choque.play();
+                }
                 nave.setX(nave.getX() - 260);
             }
         /*Object tipo = celda.getTile().getProperties().get("tipo");
@@ -531,15 +553,21 @@ class SegundoNivel extends Pantalla {
                 cadenaVida = "Vida: " + vida;
                 if (life.estaColisionando(nave)) {
                     life.set(-50, ALTO * 2);
-                    levelpassed.play();
+                    if(musicaActivada) {
+                        levelpassed.play();
+                    }
                 }
                 if (life2.estaColisionando(nave)) {
                     life2.set(-50, ALTO * 2);
-                    levelpassed.play();
+                    if(musicaActivada) {
+                        levelpassed.play();
+                    }
                 }
                 if (life3.estaColisionando(nave)) {
                     life3.set(-50, ALTO * 2);
-                    levelpassed.play();
+                    if(musicaActivada) {
+                        levelpassed.play();
+                    }
                 }
 
 
@@ -585,7 +613,9 @@ class SegundoNivel extends Pantalla {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     // Regresa al menú
-                    musicaFondo.dispose();
+                    if(musicaActivada) {
+                        musicaFondo.dispose();
+                    }
                     jga.setScreen(new MenuJudafaals(jga));
 
                 }
@@ -623,7 +653,9 @@ class SegundoNivel extends Pantalla {
                 @Override
 
                 public void clicked(InputEvent event, float x, float y) {
-                    musicaFondo.stop();
+                    if(musicaActivada) {
+                        musicaFondo.stop();
+                    }
                     jga.setScreen(new SegundoNivel(jga));
 
                 }
@@ -666,7 +698,9 @@ class SegundoNivel extends Pantalla {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     // Regresa al juego
-                    musicaFondo.dispose();
+                    if(musicaActivada) {
+                        musicaFondo.dispose();
+                    }
                     jga.setScreen(new PantallaCargando(jga, Pantalla.NIVELES));
                 }
 
@@ -687,7 +721,9 @@ class SegundoNivel extends Pantalla {
                 @Override
 
                 public void clicked(InputEvent event, float x, float y) {
-                    musicaFondo.stop();
+                    if(musicaActivada) {
+                        musicaFondo.stop();
+                    }
                     jga.setScreen(new SegundoNivel(jga));
 
                 }
@@ -726,8 +762,9 @@ class SegundoNivel extends Pantalla {
             btnContinuar.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-
-                    musicaFondo.dispose();
+                    if(musicaActivada) {
+                        musicaFondo.dispose();
+                    }
                     jga.setScreen(new MenuJudafaals(jga));
                 }
             });
@@ -747,7 +784,9 @@ class SegundoNivel extends Pantalla {
                 @Override
 
                 public void clicked(InputEvent event, float x, float y) {
-                    musicaFondo.stop();
+                    if(musicaActivada) {
+                        musicaFondo.stop();
+                    }
                     jga.setScreen(new SegundoNivel(jga));
 
                 }
