@@ -595,7 +595,7 @@ class PrimerNivel extends Pantalla {
                     if(musicaActivada) {
                         musicaFondo.stop();
                     }
-                    jga.setScreen(new PrimerNivel(jga));
+                    jga.setScreen(new PantallaCargando(jga, Pantalla.PRIMERNIVEL));
 
                 }
 
@@ -669,7 +669,7 @@ class PrimerNivel extends Pantalla {
                     if(musicaActivada) {
                         musicaFondo.stop();
                     }
-                    jga.setScreen(new PrimerNivel(jga));
+                    jga.setScreen(new PantallaCargando(jga, Pantalla.PRIMERNIVEL));
 
                 }
 
@@ -738,7 +738,7 @@ class PrimerNivel extends Pantalla {
                     if(musicaActivada) {
                         musicaFondo.stop();
                     }
-                    jga.setScreen(new PrimerNivel(jga));
+                    jga.setScreen(new PantallaCargando(jga, Pantalla.PRIMERNIVEL));
 
                 }
 
