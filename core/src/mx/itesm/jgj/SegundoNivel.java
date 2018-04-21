@@ -44,7 +44,7 @@ class SegundoNivel extends Pantalla {
 
     private Random random = new Random();
     private boolean bombaTomada= false;
-    private Bomb bomba = new Bomb(11000, 866);
+    private Bomb bomba = new Bomb(12500, 900);
 
     //Enemigos
     private Array<Enemigo> arrEnemigo;
@@ -226,7 +226,7 @@ class SegundoNivel extends Pantalla {
         arrEnemigo=new Array<Enemigo>(11*10);
         for(int i =0; i<5; i++){
             for(int j=0; j<12;j++){
-                Enemigo enemy = new Enemigo(random.nextInt((int) (ANCHO_MAPA+7000 - (3500))) + (3500)+j*100,random.nextInt((int) (ALTO-150 - (100))) + (100)+i*100-250);
+                Enemigo enemy = new Enemigo(random.nextInt((int) (ANCHO_MAPA+7000 - (3500))) + (3500)+j*100,random.nextInt((int) (ALTO-300 - (300))) + (300)+i*100-250);
                 arrEnemigo.add(enemy);
                 //ANCHO_MAPA+j*1000-1000
             }
@@ -262,9 +262,9 @@ class SegundoNivel extends Pantalla {
     private void cargarMapa() {
         AssetManager manager = new AssetManager();
         manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-        manager.load("PrimerNivel/prueba1.tmx", TiledMap.class);
+        manager.load("SegundoNivel/mapaNivelDos.tmx", TiledMap.class);
         manager.finishLoading();
-        mapa = manager.get("PrimerNivel/prueba1.tmx");
+        mapa = manager.get("SegundoNivel/mapaNivelDos.tmx");
         render = new OrthogonalTiledMapRenderer(mapa);
 
     }
@@ -386,7 +386,7 @@ class SegundoNivel extends Pantalla {
 
     private void actualizarObjetos(float dt, boolean actualizar) {
         if (actualizar) {
-            nave.setX(nave.getX() + (float)6.5);
+            nave.setX(nave.getX() + (float)7.5);
             //nave.actualizar(dt);
             nave.setY(nave.getY() + (float) presed);
         }
@@ -527,7 +527,7 @@ class SegundoNivel extends Pantalla {
             }
             int cx = (int) (nave.getX() + 32) / 32;
             int cy = (int) (nave.getY() + nave.getHeight() / 2) / 32;
-            TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Estructura");
+            TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Estructuras");
             //String name=capa.getName();
             //System.out.println(name+"ddd");
             TiledMapTileLayer.Cell celda = capa.getCell(cx, cy);
@@ -577,6 +577,11 @@ class SegundoNivel extends Pantalla {
                 if (enemy.estaColisionando(nave)) {
                     vida--;
                     cadenaVida = "Vida: " + vida;
+                    if(vida<=0) {
+                        estado = EstadoJuego.PERDIDO;
+                        cadenaVida = "You lose!";
+                    }
+
                 }
 
             }

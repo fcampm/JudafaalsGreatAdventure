@@ -808,7 +808,7 @@ class TercerNivel extends Pantalla {
                 public void clicked(InputEvent event, float x, float y) {
                     // Regresa al juego
                     musicaFondo.dispose();
-                    jga.setScreen(new MenuNiveles(jga));
+                    jga.setScreen(new MenuJudafaals(jga));
                 }
 
             });
