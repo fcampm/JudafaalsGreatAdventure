@@ -60,7 +60,7 @@ class SegundoNivel extends Pantalla {
     float tiempoChoque =0;
 
     // Nuevo tiled map tiene de ancho 14080 para cambiarlo.
-    private static final float ANCHO_MAPA = 11520;
+    private static final float ANCHO_MAPA = 14080;
     private double presed = 0;
     private Texture flechas;
 
@@ -272,9 +272,9 @@ class SegundoNivel extends Pantalla {
     private void cargarMapa() {
         AssetManager manager = new AssetManager();
         manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-        manager.load("PrimerNivel/prueba1.tmx", TiledMap.class);
+        manager.load("SegundoNivel/mapaNivelDos.tmx", TiledMap.class);
         manager.finishLoading();
-        mapa = manager.get("PrimerNivel/prueba1.tmx");
+        mapa = manager.get("SegundoNivel/mapaNivelDos.tmx");
         render = new OrthogonalTiledMapRenderer(mapa);}
 
     @Override
@@ -475,7 +475,7 @@ class SegundoNivel extends Pantalla {
         }
     }
     private void colisionesMapa(int x1, int y1,int x2,int y2) {
-        TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Estructura");
+        TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Estructuras");
         int cx = (int)(nave.getX()+x2) / 32;
         int cy = (int)(nave.getY()+y2) / 32;
         int cx2 =(int)(nave.getX()+x1) / 32;
