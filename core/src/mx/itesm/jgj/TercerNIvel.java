@@ -16,7 +16,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -49,16 +48,16 @@ class TercerNivel extends Pantalla {
 
     private Personaje nave;
     private float velocidadNave=5;
-    private Texture barra;
-    private Texture na;
-    private float naX;
+    private Texture progresoBarra;
+    private Texture progresoIndicador;
+    private float progresoX;
+    float tiempoChoque =0;
 
     private static final float ANCHO_MAPA = 11520;
     private double presed = 0;
     private Texture flechas;
-    private Texture hitbox, hitbox2;
-    private double time=0;
-    float dd=0;
+
+
 
 
     //Otra camara para componentes
@@ -207,8 +206,8 @@ class TercerNivel extends Pantalla {
     private void cargarTexturas() {
         botonPausa = new Texture("pruebas/pausaa.png");
         flechas = new Texture("PrimerNivel/flechas2.png");
-        barra=new Texture("PrimerNivel/barra3.png");
-        na=new Texture("PrimerNivel/na.png");
+        progresoBarra =new Texture("PrimerNivel/progresoBarra.png");
+        progresoIndicador =new Texture("PrimerNivel/progresoIndicador.png");
     }
 
     private void cargarTextos() {
@@ -218,8 +217,7 @@ class TercerNivel extends Pantalla {
 
     private void cargarPersonaje() {
         nave = new Personaje(new Texture("PrimerNivel/NaveUReducida.png"));
-        hitbox=new Texture("PrimerNivel/hitbox2.png");
-        hitbox2=new Texture("PrimerNivel/hitbox2.png");
+
     }
 
     private void cargarEnemigos(){
@@ -299,17 +297,12 @@ class TercerNivel extends Pantalla {
 
     @Override
     public void render(float delta) {
-        //verificarColisiones();
         if (estado == EstadoJuego.PAUSADO) {
             moverEnemigos(false);
             actualizarObjetos(delta, false);
             musicaFondo.pause();
         }
-
         if (estado == EstadoJuego.JUGANDO) {
-
-
-
             //moverEnemigos(true);
             actualizarObjetos(delta, true);
             musicaFondo.play();
@@ -342,8 +335,8 @@ class TercerNivel extends Pantalla {
         }}
         nave.render(batch);
         control.render(batch);
-        batch.draw(barra,nave.getX()-380,ALTO-55);
-        batch.draw(na,naX,ALTO-55);
+        batch.draw(progresoBarra,nave.getX()-380,ALTO-55);
+        batch.draw(progresoIndicador, progresoX,ALTO-55);
 
         life.render(batch);
         life2.render(batch);
@@ -376,7 +369,7 @@ class TercerNivel extends Pantalla {
 
         batch.setProjectionMatrix(camaraHUD.combined);
         escenaHUD.draw();
-        time++;
+
 
     }
 
@@ -413,23 +406,19 @@ class TercerNivel extends Pantalla {
     private void actualizarObjetos(float dt, boolean actualizar) {
         if (actualizar) {
             nave.setX(nave.getX() + velocidadNave);
-            //nave.actualizar(dt);
             nave.setY(nave.getY() + (float)presed);
-            //System.out.println(time);
-
-            naX=(nave.getX()*817/ANCHO_MAPA)+nave.getX()-380;
+            progresoX =(nave.getX()*817/ANCHO_MAPA)+nave.getX()-380;
 
         }
         verificarColisiones();
-
         if(nave.getEstado()==EstadoNave.CHOQUE){
-            if(dd>50){
+            if(tiempoChoque >50){
                 nave.normal();
                 velocidadNave=5;
-                dd=0;
+                tiempoChoque =0;
             }
             else{
-                dd++;
+                tiempoChoque++;
             }
         }
         for(Laser laser:arrLaser){
@@ -487,71 +476,19 @@ class TercerNivel extends Pantalla {
         }
 
         @Override
-        public boolean touchDown(int screenX, int screenY, int pointer, int button) {/*
-            Vector3 v = new Vector3(screenX, screenY, 0);
-            camara.unproject(v);
+        public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
-            //if (v.x>=ANCHO*0.75f && v.x<=ANCHO*0.75f+botonPausa.getWidth()
-            //&& v.y>=ALTO*0.75f && v.y<=ALTO*0.75f+botonPausa.getHeight()) {
-            // Botón pausa!!
-            //if (escenaPausa == null) {
-            // escenaPausa = new EscenaPausa(vista, batch);
-            //}
-            // PASA EL CONTROL A LA ESCENA
-            //estado = EstadoJuego.PAUSADO;
-            //Gdx.input.setInputProcessor(escenaPausa);
-            //}// Ya ni detecta touch fuera de la escena
-            if (v.y >= 190 && v.y <= 280 && v.x < nave.getX() - 370) {
-                nave.subiendo();
-                //nave.setY(nave.getY()+2);
-                //touchDown(screenX,screenY,pointer,button);
-                presed = 4;
-            } else if (v.y >= 50 && v.y < 140 && v.x < nave.getX() - 370) {
-                nave.bajando();
-                //nave.setY(nave.getY()-1);
-                presed = -4;
-            }
-            */
             return false;
         }
 
         @Override
         public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-            /*nave.normal();
-            presed = 0;*/
+
             return false;
         }
 
         @Override
-        public boolean touchDragged(int screenX, int screenY, int pointer) {/*
-            // nave.setY(nave.getY()+2);
-            Vector3 v = new Vector3(screenX, screenY, 0);
-            camara.unproject(v);
-            /*if(nave.getY()+2>=v.y && nave.getY()-2<=v.y){
-                nave.normal();}
-
-            else if(v.y>nave.getY()){
-                nave.subiendo();
-            }
-            else if(v.y<nave.getY()){
-                nave.bajando();
-            }
-            nave.setY(v.y);
-            if (v.y >= 190 && v.y <= 280 && v.x < nave.getX() - 370) {
-                nave.subiendo();
-                //nave.setY(nave.getY()+2);
-                //touchDown(screenX,screenY,pointer,button);
-                presed = 4;
-            } else if (v.y >= 50 && v.y < 140 && v.x < nave.getX() - 370) {
-                nave.bajando();
-                //nave.setY(nave.getY()-1);
-                presed = -4;
-            } else if (v.y >= 140 && v.y < 190 && v.x < nave.getX() - 370) {
-                nave.normal();
-                presed = 0;
-            }
-
-*/
+        public boolean touchDragged(int screenX, int screenY, int pointer) {
             return false;
         }
 
@@ -600,7 +537,7 @@ class TercerNivel extends Pantalla {
 
     }
 
-    private void verificarColisiones() {/*
+    private void verificarColisiones() {
         colisionesMapa(9,23,17,52);
         colisionesMapa(18,48,28,52);
         colisionesMapa(18,10,66,48);
@@ -609,56 +546,7 @@ class TercerNivel extends Pantalla {
         colisionesMapa(67,19,118,26);
         colisionesMapa(67,12,106,19);
         colisionesMapa(107,16,128,19);
-        //colisionesMapa(50,15);
-        /**TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Estructura");
 
-        int cx = (int) (nave.getX()+47) / 32;
-        int cx2 = (int) (nave.getX()+15) / 32;
-        int cy = (int) (nave.getY()+47) / 32;
-        int cy2=(int)(nave.getY()+15)/32;
-
-        int dx = (int) (nave.getX()+82) / 32;
-        int dx2 = (int) (nave.getX()+50) / 32;
-        int dy = (int) (nave.getY()+47) / 32;
-        int dy2=(int)(nave.getY()+15)/32;
-
-
-        TiledMapTileLayer.Cell celda = capa.getCell(cx, cy);
-        TiledMapTileLayer.Cell celda2 = capa.getCell(cx, cy2);
-        TiledMapTileLayer.Cell celda3 = capa.getCell(cx2, cy);
-        TiledMapTileLayer.Cell celda4 = capa.getCell(cx2, cy2);
-
-        TiledMapTileLayer.Cell delda = capa.getCell(dx, dy);
-        TiledMapTileLayer.Cell delda2 = capa.getCell(dx, dy2);
-        TiledMapTileLayer.Cell delda3 = capa.getCell(dx2, dy);
-        TiledMapTileLayer.Cell delda4 = capa.getCell(dx2, dy2);
-
-
-        System.out.println(celda);
-        if (celda != null || celda2!=null || celda3 != null || celda4!=null) {
-            System.out.println(celda);
-            vida -= 10;
-            if (vida <= 0) {
-                estado = EstadoJuego.PERDIDO;
-            }
-            cadenaVida = "Vida: " + vida;
-            choque.play();
-            nave.setX(nave.getX() - 260);
-        }
-        if (delda != null || delda2!=null || delda3 != null || delda4!=null) {
-            System.out.println(celda);
-            vida -= 10;
-            if (vida <= 0) {
-                estado = EstadoJuego.PERDIDO;
-            }
-            cadenaVida = "Vida: " + vida;
-            choque.play();
-            nave.setX(nave.getX() - 260);
-        }
-        /*Object tipo = celda.getTile().getProperties().get("tipo");
-        if (!"Estructura".equals(tipo)) {
-            // No es obstáculo, puede pasar
-            presed=34;}*/
         for(Laser laser:arrLaser){
             if(laser.getEstado()== Laser.EstadoLaser.Disparando){
                 if(laser.choque((int)nave.getY())){

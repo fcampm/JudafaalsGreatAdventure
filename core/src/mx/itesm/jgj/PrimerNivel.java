@@ -46,6 +46,12 @@ class PrimerNivel extends Pantalla {
 
 
     private Personaje nave;
+    private float velocidadNave=5;
+    private Texture progresoBarra;
+    private Texture progresoIndicador;
+    private float progresoX;
+    float tiempoChoque =0;
+
     private static final float ANCHO_MAPA = 11520;
     private double presed = 0;
     private Texture flechas;
@@ -158,27 +164,31 @@ class PrimerNivel extends Pantalla {
             public void changed(ChangeEvent event, Actor actor) {
                 while(nave.getY()>=ALTO-50){
                     nave.setY(nave.getY()-101);
-                    //nave.normal();
+                    nave.normal();
                     vida--;
                     cadenaVida="Vida: "+vida;
                 }
                 if(nave.getY()<ALTO-50){
                     if (pad2.getKnobPercentY() > 0) {
+
                         nave.subiendo();
-                        presed = (-5) * pad2.getKnobPercentY();
-                        System.out.println(pad2.getKnobPercentY());
+                        System.out.println("subiendo");
+                        presed = (-6) * pad2.getKnobPercentY();
+                        //System.out.println(pad2.getKnobPercentY());
                     } else if (pad2.getKnobPercentY() < 0) {
+
                         nave.bajando();
-                        presed = (-5) * pad2.getKnobPercentY();
-                        System.out.println(pad2.getKnobPercentY());
+                        presed = (-6) * pad2.getKnobPercentY();
+                        //System.out.println(pad2.getKnobPercentY());
                     } else {
-                        nave.normal();
+                        if(velocidadNave!=0){
+                            nave.normal();}
                         presed = 0;
-                        System.out.println(pad2.getKnobPercentY());
+                        //System.out.println(pad2.getKnobPercentY());
                     }
                 }
 
-                while(nave.getY()<=50){
+                while(nave.getY()<=10){
                     nave.setY(nave.getY()+101);
                     //nave.normal();
                     vida--;
@@ -186,6 +196,8 @@ class PrimerNivel extends Pantalla {
                 }
 
             }
+
+
         });
         pad2.setColor(1, 1, 1, 1);
         escenaHUD = new Stage(vistaHUD);
@@ -204,6 +216,8 @@ class PrimerNivel extends Pantalla {
         texturaPausa = assetManager.get("pruebas/pausaa.png");
         flechas = assetManager.get("PrimerNivel/flechas2.png");
         texturaNave = assetManager.get("PrimerNivel/NaveUReducida.png");
+        progresoBarra =new Texture("PrimerNivel/progresoBarra.png");
+        progresoIndicador =new Texture("PrimerNivel/progresoIndicador.png");
     }
 
     private void cargarTextos() {
@@ -253,11 +267,6 @@ class PrimerNivel extends Pantalla {
             life3.mover(-1, +random.nextInt(5 - (-5)) + (-5), true);
         }
 
-        //if (estado == EstadoJuego.GANADO) {
-        //  Gdx.input.setInputProcessor(escenaGanar);
-        // escenaGanar.draw();
-        // musicaFondo.stop();
-        //}
 
         actualizarCamara();
         borrarPantalla();
@@ -266,15 +275,16 @@ class PrimerNivel extends Pantalla {
         render.render();
         batch.begin();
         nave.render(batch);
+        batch.draw(progresoBarra,nave.getX()-380,ALTO-55);
+        batch.draw(progresoIndicador, progresoX,ALTO-55);
+
         life.render(batch);
         life2.render(batch);
         life3.render(batch);
 
-        //life.mover(+1,+1, true);
+
         GenerarTextosySonidos();
 
-        //batch.draw(botonPausa, ANCHO*0.75f,ALTO*0.8f);
-        //batch.draw(flechas,nave.getX()-570,50);
         batch.end();
         Gdx.app.log("FPS: ", "" +(Gdx.graphics.getFramesPerSecond()));
         if (estado == EstadoJuego.PAUSADO) {
@@ -327,14 +337,57 @@ class PrimerNivel extends Pantalla {
 
         }
     }
+    private void colisionesMapa(int x1, int y1,int x2,int y2) {
+        TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Estructura");
+        int cx = (int)(nave.getX()+x2) / 32;
+        int cy = (int)(nave.getY()+y2) / 32;
+        int cx2 =(int)(nave.getX()+x1) / 32;
+        int cy2 =(int)(nave.getY()+y1) / 32;
+        TiledMapTileLayer.Cell celda = capa.getCell(cx, cy);
+        TiledMapTileLayer.Cell celda2 = capa.getCell(cx, cy2);
+        TiledMapTileLayer.Cell celda3 = capa.getCell(cx2, cy);
+        TiledMapTileLayer.Cell celda4 = capa.getCell(cx2, cy2);
+        if (celda != null || celda2!=null || celda3 != null || celda4!=null) {
+            vida -= 10;
+            if (vida <= 0) {
+                estado = EstadoJuego.PERDIDO;
+
+            }
+            cadenaVida = "Vida: " + vida;
+            choque.play();
+            choque();
+
+        }
+    }
+
+    private void choque() {
+
+        nave.setX(nave.getX() - 260);
+        velocidadNave=(float)0;
+        nave.chocar();
+
+
+
+    }
 
     private void actualizarObjetos(float dt, boolean actualizar) {
         if (actualizar) {
-            nave.setX(nave.getX() + 5);
-            //nave.actualizar(dt);
+            nave.setX(nave.getX() + velocidadNave);
             nave.setY(nave.getY() + (float)presed);
+            progresoX =(nave.getX()*817/ANCHO_MAPA)+nave.getX()-380;
+
         }
         verificarColisiones();
+        if(nave.getEstado()==EstadoNave.CHOQUE){
+            if(tiempoChoque >50){
+                nave.normal();
+                velocidadNave=5;
+                tiempoChoque =0;
+            }
+            else{
+                tiempoChoque++;
+            }
+        }
     }
 
     @Override
@@ -393,68 +446,18 @@ class PrimerNivel extends Pantalla {
         }
 
         @Override
-        public boolean touchDown(int screenX, int screenY, int pointer, int button) {/*
-            Vector3 v = new Vector3(screenX, screenY, 0);
-            camara.unproject(v);
-            //if (v.x>=ANCHO*0.75f && v.x<=ANCHO*0.75f+botonPausa.getWidth()
-            //&& v.y>=ALTO*0.75f && v.y<=ALTO*0.75f+botonPausa.getHeight()) {
-            // Botón pausa!!
-            //if (escenaPausa == null) {
-            // escenaPausa = new EscenaPausa(vista, batch);
-            //}
-            // PASA EL CONTROL A LA ESCENA
-            //estado = EstadoJuego.PAUSADO;
-            //Gdx.input.setInputProcessor(escenaPausa);
-            //}// Ya ni detecta touch fuera de la escena
-            if (v.y >= 190 && v.y <= 280 && v.x < nave.getX() - 370) {
-                nave.subiendo();
-                //nave.setY(nave.getY()+2);
-                //touchDown(screenX,screenY,pointer,button);
-                presed = 4;
-            } else if (v.y >= 50 && v.y < 140 && v.x < nave.getX() - 370) {
-                nave.bajando();
-                //nave.setY(nave.getY()-1);
-                presed = -4;
-            }
-            */
+        public boolean touchDown(int screenX, int screenY, int pointer, int button) {
             return false;
         }
 
         @Override
         public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-            /*nave.normal();
-            presed = 0;*/
+
             return false;
         }
 
         @Override
-        public boolean touchDragged(int screenX, int screenY, int pointer) {/*
-            // nave.setY(nave.getY()+2);
-            Vector3 v = new Vector3(screenX, screenY, 0);
-            camara.unproject(v);
-            /*if(nave.getY()+2>=v.y && nave.getY()-2<=v.y){
-                nave.normal();}
-            else if(v.y>nave.getY()){
-                nave.subiendo();
-            }
-            else if(v.y<nave.getY()){
-                nave.bajando();
-            }
-            nave.setY(v.y);
-            if (v.y >= 190 && v.y <= 280 && v.x < nave.getX() - 370) {
-                nave.subiendo();
-                //nave.setY(nave.getY()+2);
-                //touchDown(screenX,screenY,pointer,button);
-                presed = 4;
-            } else if (v.y >= 50 && v.y < 140 && v.x < nave.getX() - 370) {
-                nave.bajando();
-                //nave.setY(nave.getY()-1);
-                presed = -4;
-            } else if (v.y >= 140 && v.y < 190 && v.x < nave.getX() - 370) {
-                nave.normal();
-                presed = 0;
-            }
-*/
+        public boolean touchDragged(int screenX, int screenY, int pointer) {
             return false;
         }
 
@@ -470,29 +473,14 @@ class PrimerNivel extends Pantalla {
     }
 
     private void verificarColisiones() {
-        int cx = (int) (nave.getX() + 32) / 32;
-        int cy = (int) (nave.getY()) / 32;
-        TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Estructura");
-        //String name=capa.getName();
-        //System.out.println(name+"ddd");
-        TiledMapTileLayer.Cell celda = capa.getCell(cx, cy);
-        if (celda != null) {
-            System.out.println(celda);
-            vida -= 10;
-            if (vida <= 0) {
-                estado = EstadoJuego.PERDIDO;
-            }
-            cadenaVida = "Vida: " + vida;
-            if(musicaActivada) {
-                choque.play();
-            }
-            nave.setX(nave.getX() - 260);
-        }
-        /*Object tipo = celda.getTile().getProperties().get("tipo");
-        if (!"Estructura".equals(tipo)) {
-            // No es obstáculo, puede pasar
-            presed=34;}*/
-
+        colisionesMapa(9,23,17,52);
+        colisionesMapa(18,48,28,52);
+        colisionesMapa(18,10,66,48);
+        colisionesMapa(67,38,82,44);
+        colisionesMapa(67,29,104,36);
+        colisionesMapa(67,19,118,26);
+        colisionesMapa(67,12,106,19);
+        colisionesMapa(107,16,128,19);
         if (life.estaColisionando(nave) || life2.estaColisionando(nave) || life3.estaColisionando(nave)) {
             vida += 20;
             cadenaVida = "Vida: " + vida;
