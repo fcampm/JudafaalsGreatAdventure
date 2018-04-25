@@ -238,7 +238,7 @@ class SegundoNivel extends Pantalla {
     private void cargarEnemigos(){
         arrEnemigo=new Array<Enemigo>(11*10);
         for(int i =0; i<5; i++){
-            for(int j=0; j<12;j++){
+            for(int j=0; j<10;j++){
                 Enemigo enemy = new Enemigo(random.nextInt((int) (ANCHO_MAPA+7000 - (3500))) + (3500)+j*100,random.nextInt((int) (ALTO-300 - (300))) + (300)+i*100-250);
                 arrEnemigo.add(enemy);
 
