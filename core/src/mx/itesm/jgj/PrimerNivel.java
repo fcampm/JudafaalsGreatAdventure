@@ -216,8 +216,8 @@ class PrimerNivel extends Pantalla {
         texturaPausa = assetManager.get("pruebas/pausaa.png");
         flechas = assetManager.get("PrimerNivel/flechas2.png");
         texturaNave = assetManager.get("PrimerNivel/NaveUReducida.png");
-        progresoBarra =new Texture("PrimerNivel/progresoBarra.png");
-        progresoIndicador =new Texture("PrimerNivel/progresoIndicador.png");
+        progresoBarra = assetManager.get("PrimerNivel/progresoBarra.png");
+        progresoIndicador = assetManager.get("PrimerNivel/progresoIndicador.png");
     }
 
     private void cargarTextos() {
@@ -354,7 +354,9 @@ class PrimerNivel extends Pantalla {
 
             }
             cadenaVida = "Vida: " + vida;
-            choque.play();
+            if(musicaActivada) {
+                choque.play();
+            }
             choque();
 
         }
@@ -425,6 +427,8 @@ class PrimerNivel extends Pantalla {
         assetManager.unload("Musica/choque.mp3");
         assetManager.unload("Musica/levelUp.wav");
         assetManager.unload("PrimerNivel/prueba1.tmx");
+        assetManager.unload("PrimerNivel/progresoBarra.png");
+        assetManager.unload("PrimerNivel/progresoIndicador.png");
 
     }
 

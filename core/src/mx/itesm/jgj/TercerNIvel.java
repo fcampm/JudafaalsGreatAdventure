@@ -41,6 +41,9 @@ class TercerNivel extends Pantalla {
     //Enemigos
     private Array<Enemigo> arrEnemigo;
     private Array<Laser> arrLaser;
+    private Array<Boolean>arrIndex;
+    private boolean ind;
+    private float xx=0;
 
     //Items
     Control control = new Control (3500, 500);
@@ -230,42 +233,54 @@ class TercerNivel extends Pantalla {
             }
         }*/
         arrLaser=new Array<Laser>(10);
-        Laser laser1=new Laser(new Texture("TercerNivel/jl.png"),1500,ALTO/2,1);
-        arrLaser.add(laser1);
-        Laser laser2=new Laser(new Texture("TercerNivel/jl.png"),2600,0,1);
-        arrLaser.add(laser2);
-        Laser laser3=new Laser(new Texture("TercerNivel/jl.png"),2600,ALTO*.75f,3);
-        arrLaser.add(laser3);
-        Laser laser4=new Laser(new Texture("TercerNivel/jl.png"),3800,0,2);
-        arrLaser.add(laser4);
-        Laser laser5=new Laser(new Texture("TercerNivel/jl.png"),3800,ALTO-200,2);
-        arrLaser.add(laser5);
-        Laser laser6=new Laser(new Texture("TercerNivel/jl.png"),3800,ALTO-400,2);
-        arrLaser.add(laser6);
-        Laser laser7=new Laser(new Texture("TercerNivel/jl.png"),2600,ALTO-200,2);
-        arrLaser.add(laser7);
-        Laser l8=new Laser(new Texture("TercerNivel/jl.png"),4300,100,2);
-        arrLaser.add(l8);
-        Laser l9=new Laser(new Texture("TercerNivel/jl.png"),5300,0,1);
-        arrLaser.add(l9);
-        Laser l10=new Laser(new Texture("TercerNivel/jl.png"),5300,300,2);
-        arrLaser.add(l10);
-        Laser l11=new Laser(new Texture("TercerNivel/jl.png"),5300,600,1);
-        arrLaser.add(l11);
-        Laser l12=new Laser(new Texture("TercerNivel/jl.png"),5300,350,3);
-        arrLaser.add(l12);
-        Laser l13=new Laser(new Texture("TercerNivel/jl.png"),6100,0,2);
-        arrLaser.add(l13);
-        Laser l14=new Laser(new Texture("TercerNivel/jl.png"),6100,230,1);
-        arrLaser.add(l14);
-        Laser l15=new Laser(new Texture("TercerNivel/jl.png"),6100,500,1);
-        arrLaser.add(l15);
-        Laser l16=new Laser(new Texture("TercerNivel/jl.png"),6100,350,3);
-        arrLaser.add(l16);
+
+        arrIndex=new Array<Boolean>(22);
+        for(int i=0;i<22;i++){
+            ind=true;
+            if(i==20){
+                ind=true;
+            }
+            arrIndex.add(ind);
+            ind=true;
+        }
+        int c=0;
+        for(boolean i:arrIndex){
+            if(i==true){
+                System.out.println(c*32);
+            }
+c++;
+        }
+        System.out.println(arrIndex);
+
+
+
+        arregloLaser(1500,(int)ALTO/2,1);
+        arregloLaser(2600,0,1);
+        arregloLaser(2600,(int)(ALTO*.75f),3);
+        arregloLaser(3800,0,2);
+        arregloLaser(3800,(int)ALTO-200,2);
+        arregloLaser(3800,(int)ALTO-400,2);
+        arregloLaser(2600,(int)ALTO-200,2);
+        arregloLaser(4300,100,2);
+        arregloLaser(5300,0,1);
+        arregloLaser(5300,300,2);
+        arregloLaser(5300,600,1);
+        arregloLaser(5300,350,3);
+        arregloLaser(6100,0,2);
+        arregloLaser(6100,230,1);
+        arregloLaser(6100,500,1);
+        arregloLaser(6100,350,3);
+        arregloLaser(6900,0,2);
+        arregloLaser(7100,150,2);
+        arregloLaser(7300,300,2);
+        arregloLaser(7500,450,2);
 
 
     }
-
+    private void arregloLaser(int x,int y, int tipo){
+        Laser i=new Laser(new Texture("TercerNivel/jl.png"),x,y,tipo);
+        arrLaser.add(i);
+    }
     private void moverEnemigos(boolean bandera){
         if(bandera) {
             for (Enemigo enemy : arrEnemigo) {
@@ -288,9 +303,9 @@ class TercerNivel extends Pantalla {
     private void cargarMapa() {
         AssetManager manager = new AssetManager();
         manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-        manager.load("PrimerNivel/prueba1.tmx", TiledMap.class);
+        manager.load("PrimerNivel/prueba2.tmx", TiledMap.class);
         manager.finishLoading();
-        mapa = manager.get("PrimerNivel/prueba1.tmx");
+        mapa = manager.get("PrimerNivel/prueba2.tmx");
         render = new OrthogonalTiledMapRenderer(mapa);
 
     }
@@ -408,8 +423,12 @@ class TercerNivel extends Pantalla {
             nave.setX(nave.getX() + velocidadNave);
             nave.setY(nave.getY() + (float)presed);
             progresoX =(nave.getX()*817/ANCHO_MAPA)+nave.getX()-380;
+            xx+=32;
+
+
 
         }
+
         verificarColisiones();
         if(nave.getEstado()==EstadoNave.CHOQUE){
             if(tiempoChoque >50){
@@ -527,6 +546,7 @@ class TercerNivel extends Pantalla {
         }
     }
 
+
     private void choque() {
 
         nave.setX(nave.getX() - 260);
@@ -536,8 +556,37 @@ class TercerNivel extends Pantalla {
 
 
     }
+    private void colisionesIndex(int xxx, int yyy) {
+        TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("uno");
+        int cx = (int)(xxx) / 32;
+        int cy = (int)(yyy) / 32;
+        int cx2 =(int)(xxx+31) / 32;
+        int cy2 =(int)(yyy+31) / 32;
+        TiledMapTileLayer.Cell celda = capa.getCell(cx, cy);
+        TiledMapTileLayer.Cell celda2 = capa.getCell(cx, cy2);
+        TiledMapTileLayer.Cell celda3 = capa.getCell(cx2, cy);
+        TiledMapTileLayer.Cell celda4 = capa.getCell(cx2, cy2);
+        if (celda != null || celda2!=null || celda3 != null || celda4!=null) {
+            System.out.println("j");
+            Laser laser1=new Laser(new Texture("TercerNivel/jl.png"),xxx+320,yyy,3);
+            arrLaser.add(laser1);
+
+        }
+    }
+
 
     private void verificarColisiones() {
+        int c=0;
+        for(boolean i:arrIndex){
+            if(i==true){
+                //colisionesIndex((int)xx,c*32);
+
+
+            }
+            c++;
+        }
+/*
+
         colisionesMapa(9,23,17,52);
         colisionesMapa(18,48,28,52);
         colisionesMapa(18,10,66,48);
@@ -546,7 +595,7 @@ class TercerNivel extends Pantalla {
         colisionesMapa(67,19,118,26);
         colisionesMapa(67,12,106,19);
         colisionesMapa(107,16,128,19);
-
+*/
         for(Laser laser:arrLaser){
             if(laser.getEstado()== Laser.EstadoLaser.Disparando){
                 if(laser.choque((int)nave.getY())){

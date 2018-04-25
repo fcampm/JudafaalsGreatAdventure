@@ -50,10 +50,17 @@ class SegundoNivel extends Pantalla {
     private Array<Enemigo> arrEnemigo;
 
     //
+
+
     private Personaje nave;
+    private float velocidadNave=5;
+    private Texture progresoBarra;
+    private Texture progresoIndicador;
+    private float progresoX;
+    float tiempoChoque =0;
 
     // Nuevo tiled map tiene de ancho 14080 para cambiarlo.
-    private static final float ANCHO_MAPA = 11520;
+    private static final float ANCHO_MAPA = 14080;
     private double presed = 0;
     private Texture flechas;
 
@@ -87,6 +94,8 @@ class SegundoNivel extends Pantalla {
 
     //Boton pausa
     private Texture botonPausa;
+    private Texture texturaNave;
+
     //PAUSA
     private EscenaPausa escenaPausa;
     private EscenaGanar escenaGanar;
@@ -109,10 +118,10 @@ class SegundoNivel extends Pantalla {
     public void show() {
         cargarVidas();
         cargarEnemigos();
+        cargarTexturas();
         crearMusica();
         cargarPersonaje();
         cargarTextos();
-        cargarTexturas();
         crearHUD();
         estado = EstadoJuego.JUGANDO;
         escenaGanar = new EscenaGanar(vistaHUD, batch);
@@ -120,8 +129,8 @@ class SegundoNivel extends Pantalla {
 
 
         //Sonidos
-        choque = Gdx.audio.newSound(Gdx.files.internal("Musica/choque.mp3"));
-        levelpassed = Gdx.audio.newSound(Gdx.files.internal("Musica/levelUp.wav"));
+        choque = assetManager.get("Musica/choque.mp3");
+        levelpassed = assetManager.get("Musica/levelUp.wav");
         cargarMapa();
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
         Gdx.input.setInputProcessor(escenaHUD);
@@ -140,8 +149,8 @@ class SegundoNivel extends Pantalla {
         camaraHUD.update();
         vistaHUD = new StretchViewport(ANCHO, ALTO, camaraHUD);
         Skin skin = new Skin();
-        skin.add("flechas", new Texture("PrimerNivel/flechas2.png"));
-        skin.add("pausa", new Texture("pruebas/pausaa.png"));
+        skin.add("flechas", flechas);
+        skin.add("pausa", botonPausa);
         //Vista del pad
         Touchpad.TouchpadStyle estilo = new Touchpad.TouchpadStyle();
         Touchpad.TouchpadStyle estilo2 = new Touchpad.TouchpadStyle();
@@ -170,36 +179,37 @@ class SegundoNivel extends Pantalla {
         pad2.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                while (nave.getY() >= ALTO - 50) {
-                    nave.setY(nave.getY() - 101);
-                    //nave.normal();
+                while(nave.getY()>=ALTO-50){
+                    nave.setY(nave.getY()-101);
+                    nave.normal();
                     vida--;
-                    cadenaVida = "Vida: " + vida;
+                    cadenaVida="Vida: "+vida;
                 }
-                if (nave.getY() < ALTO - 50) {
+                if(nave.getY()<ALTO-50){
                     if (pad2.getKnobPercentY() > 0) {
+
                         nave.subiendo();
+                        System.out.println("subiendo");
                         presed = (-6) * pad2.getKnobPercentY();
-                        System.out.println(pad2.getKnobPercentY());
                     } else if (pad2.getKnobPercentY() < 0) {
+
                         nave.bajando();
                         presed = (-6) * pad2.getKnobPercentY();
-                        System.out.println(pad2.getKnobPercentY());
                     } else {
-                        nave.normal();
+                        if(velocidadNave!=0){
+                            nave.normal();}
                         presed = 0;
-                        System.out.println(pad2.getKnobPercentY());
                     }
                 }
 
-                while (nave.getY() <= 10) {
-                    nave.setY(nave.getY() + 101);
-                    //nave.normal();
-                    bajarVida(true, 1);
-                    cadenaVida = "Vida: " + vida;
+                while(nave.getY()<=10){
+                    nave.setY(nave.getY()+101);
+                    vida--;
+                    cadenaVida="Vida: "+vida;
                 }
 
             }
+
         });
         pad2.setColor(1, 1, 1, 1);
         escenaHUD = new Stage(vistaHUD);
@@ -209,8 +219,11 @@ class SegundoNivel extends Pantalla {
 
 
     private void cargarTexturas() {
-        botonPausa = new Texture("pruebas/pausaa.png");
-        flechas = new Texture("PrimerNivel/flechas2.png");
+        botonPausa = assetManager.get("pruebas/pausaa.png");
+        flechas = assetManager.get("PrimerNivel/flechas2.png");
+        progresoBarra = assetManager.get("PrimerNivel/progresoBarra.png");
+        progresoIndicador = assetManager.get("PrimerNivel/progresoIndicador.png");
+        texturaNave = assetManager.get("PrimerNivel/NaveUReducida.png");
     }
 
     private void cargarTextos() {
@@ -219,7 +232,7 @@ class SegundoNivel extends Pantalla {
     }
 
     private void cargarPersonaje() {
-        nave = new Personaje(new Texture("PrimerNivel/NaveUReducida.png"));
+        nave = new Personaje(texturaNave);
     }
 
     private void cargarEnemigos(){
@@ -228,7 +241,7 @@ class SegundoNivel extends Pantalla {
             for(int j=0; j<12;j++){
                 Enemigo enemy = new Enemigo(random.nextInt((int) (ANCHO_MAPA+7000 - (3500))) + (3500)+j*100,random.nextInt((int) (ALTO-300 - (300))) + (300)+i*100-250);
                 arrEnemigo.add(enemy);
-                //ANCHO_MAPA+j*1000-1000
+
             }
         }
     }
@@ -250,7 +263,7 @@ class SegundoNivel extends Pantalla {
 
     private void crearMusica() {
         float volumen = 0.5f;
-        musicaFondo = Gdx.audio.newMusic(Gdx.files.getFileHandle("Musica/level1.mp3", Files.FileType.Internal));
+        musicaFondo = assetManager.get("Musica/level1.mp3");
         musicaFondo.setVolume(volumen);
         if(musicaActivada) {
             musicaFondo.play();
@@ -260,18 +273,11 @@ class SegundoNivel extends Pantalla {
 
 
     private void cargarMapa() {
-        AssetManager manager = new AssetManager();
-        manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-        manager.load("SegundoNivel/mapaNivelDos.tmx", TiledMap.class);
-        manager.finishLoading();
-        mapa = manager.get("SegundoNivel/mapaNivelDos.tmx");
-        render = new OrthogonalTiledMapRenderer(mapa);
-
-    }
+        mapa = assetManager.get("SegundoNivel/mapaNivelDos.tmx");
+        render = new OrthogonalTiledMapRenderer(mapa);}
 
     @Override
     public void render(float delta) {
-        //moverEnemigos(true);
         if (estado == EstadoJuego.PAUSADO) {
             moverEnemigos(false);
             actualizarObjetos(delta, false);
@@ -294,12 +300,6 @@ class SegundoNivel extends Pantalla {
             bomba.mover(-1, +random.nextInt(4 - (-4)) + (-4), true);
         }
 
-        //if (estado == EstadoJuego.GANADO) {
-         //   escenaGanar = new EscenaGanar(vistaHUD, batch);
-           // Gdx.input.setInputProcessor(escenaGanar);
-            //escenaGanar.draw();
-            //musicaFondo.stop();
-        //}
 
         actualizarCamara();
         borrarPantalla();
@@ -311,6 +311,9 @@ class SegundoNivel extends Pantalla {
             enemigo.render(batch);
         }
         nave.render(batch);
+        batch.draw(progresoBarra,nave.getX()-380,ALTO-55);
+        batch.draw(progresoIndicador, progresoX,ALTO-55);
+
         life.render(batch);
         life2.render(batch);
         life3.render(batch);
@@ -319,8 +322,7 @@ class SegundoNivel extends Pantalla {
         GenerarTextosySonidos();
         bomba.render(batch);
 
-        //batch.draw(botonPausa, ANCHO*0.75f,ALTO*0.8f);
-        //batch.draw(flechas,nave.getX()-570,50);
+
         batch.end();
         if (estado == EstadoJuego.PAUSADO) {
             escenaPausa.draw();
@@ -346,7 +348,7 @@ class SegundoNivel extends Pantalla {
         //CamaraHUD
         batch.setProjectionMatrix(camaraHUD.combined);
         escenaHUD.draw();
-
+        Gdx.app.log("fps", "FPS:" + Gdx.graphics.getFramesPerSecond());
     }
 
     private void actualizarCamara() {
@@ -386,11 +388,22 @@ class SegundoNivel extends Pantalla {
 
     private void actualizarObjetos(float dt, boolean actualizar) {
         if (actualizar) {
-            nave.setX(nave.getX() + (float)9.1);
-            //nave.actualizar(dt);
-            nave.setY(nave.getY() + (float) presed);
+            nave.setX(nave.getX() + velocidadNave);
+            nave.setY(nave.getY() + (float)presed);
+            progresoX =(nave.getX()*817/ANCHO_MAPA)+nave.getX()-380;
+
         }
-        //verificarColisiones(true);
+        verificarColisiones(true);
+        if(nave.getEstado()==EstadoNave.CHOQUE){
+            if(tiempoChoque >50){
+                nave.normal();
+                velocidadNave=5;
+                tiempoChoque =0;
+            }
+            else{
+                tiempoChoque++;
+            }
+        }
     }
 
     @Override
@@ -412,6 +425,26 @@ class SegundoNivel extends Pantalla {
 
         escenaHUD.dispose();
 
+        assetManager.unload("pruebas/pausaa.png");
+        assetManager.unload("PrimerNivel/flechas2.png");
+        assetManager.unload("PrimerNivel/NaveUReducida.png");
+        assetManager.unload("Botones/BotonExitN.png");
+        assetManager.unload("Botones/BotonPlayN.png");
+        assetManager.unload("Botones/BotonReinicioN.png");
+        assetManager.unload("PrimerNivel/YouWin.png");
+        assetManager.unload("Botones/BotonExitN.png");
+        assetManager.unload("Botones/BotonReinicioN.png");
+        assetManager.unload("PrimerNivel/youFailed.png");
+        assetManager.unload("Botones/BotonExitN.png");
+        assetManager.unload("Botones/BotonReinicioN.png");
+        assetManager.unload("Musica/choque.mp3");
+        assetManager.unload("Musica/levelUp.wav");
+        assetManager.unload("Musica/level1.mp3");
+        assetManager.unload("Musica/bombTaked.mp3");
+        assetManager.unload("SegundoNivel/mapaNivelDos.tmx");
+        assetManager.unload("PrimerNivel/progresoBarra.png");
+        assetManager.unload("PrimerNivel/progresoIndicador.png");
+
     }
 
 
@@ -432,71 +465,20 @@ class SegundoNivel extends Pantalla {
         }
 
         @Override
-        public boolean touchDown(int screenX, int screenY, int pointer, int button) {/*
-            Vector3 v = new Vector3(screenX, screenY, 0);
-            camara.unproject(v);
+        public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
-            //if (v.x>=ANCHO*0.75f && v.x<=ANCHO*0.75f+botonPausa.getWidth()
-            //&& v.y>=ALTO*0.75f && v.y<=ALTO*0.75f+botonPausa.getHeight()) {
-            // Botón pausa!!
-            //if (escenaPausa == null) {
-            // escenaPausa = new EscenaPausa(vista, batch);
-            //}
-            // PASA EL CONTROL A LA ESCENA
-            //estado = EstadoJuego.PAUSADO;
-            //Gdx.input.setInputProcessor(escenaPausa);
-            //}// Ya ni detecta touch fuera de la escena
-            if (v.y >= 190 && v.y <= 280 && v.x < nave.getX() - 370) {
-                nave.subiendo();
-                //nave.setY(nave.getY()+2);
-                //touchDown(screenX,screenY,pointer,button);
-                presed = 4;
-            } else if (v.y >= 50 && v.y < 140 && v.x < nave.getX() - 370) {
-                nave.bajando();
-                //nave.setY(nave.getY()-1);
-                presed = -4;
-            }
-            */
             return false;
         }
 
         @Override
         public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-            /*nave.normal();
-            presed = 0;*/
+
             return false;
         }
 
         @Override
-        public boolean touchDragged(int screenX, int screenY, int pointer) {/*
-            // nave.setY(nave.getY()+2);
-            Vector3 v = new Vector3(screenX, screenY, 0);
-            camara.unproject(v);
-            /*if(nave.getY()+2>=v.y && nave.getY()-2<=v.y){
-                nave.normal();}
+        public boolean touchDragged(int screenX, int screenY, int pointer) {
 
-            else if(v.y>nave.getY()){
-                nave.subiendo();
-            }
-            else if(v.y<nave.getY()){
-                nave.bajando();
-            }
-            nave.setY(v.y);
-            if (v.y >= 190 && v.y <= 280 && v.x < nave.getX() - 370) {
-                nave.subiendo();
-                //nave.setY(nave.getY()+2);
-                //touchDown(screenX,screenY,pointer,button);
-                presed = 4;
-            } else if (v.y >= 50 && v.y < 140 && v.x < nave.getX() - 370) {
-                nave.bajando();
-                //nave.setY(nave.getY()-1);
-                presed = -4;
-            } else if (v.y >= 140 && v.y < 190 && v.x < nave.getX() - 370) {
-                nave.normal();
-                presed = 0;
-            }
-
-*/
             return false;
         }
 
@@ -510,15 +492,57 @@ class SegundoNivel extends Pantalla {
             return false;
         }
     }
+    private void colisionesMapa(int x1, int y1,int x2,int y2) {
+        TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Estructuras");
+        int cx = (int)(nave.getX()+x2) / 32;
+        int cy = (int)(nave.getY()+y2) / 32;
+        int cx2 =(int)(nave.getX()+x1) / 32;
+        int cy2 =(int)(nave.getY()+y1) / 32;
+        TiledMapTileLayer.Cell celda = capa.getCell(cx, cy);
+        TiledMapTileLayer.Cell celda2 = capa.getCell(cx, cy2);
+        TiledMapTileLayer.Cell celda3 = capa.getCell(cx2, cy);
+        TiledMapTileLayer.Cell celda4 = capa.getCell(cx2, cy2);
+        if (celda != null || celda2!=null || celda3 != null || celda4!=null) {
+            vida -= 10;
+            if (vida <= 0) {
+                estado = EstadoJuego.PERDIDO;
+
+            }
+            cadenaVida = "Vida: " + vida;
+            if(musicaActivada) {
+                choque.play();
+            }
+            choque();
+
+        }
+    }
+
+    private void choque() {
+
+        nave.setX(nave.getX() - 260);
+        velocidadNave=(float)0;
+        nave.chocar();
+
+
+
+    }
 
     private void verificarColisiones(boolean bandera) {
+        colisionesMapa(9,23,17,52);
+        colisionesMapa(18,48,28,52);
+        colisionesMapa(18,10,66,48);
+        colisionesMapa(67,38,82,44);
+        colisionesMapa(67,29,104,36);
+        colisionesMapa(67,19,118,26);
+        colisionesMapa(67,12,106,19);
+        colisionesMapa(107,16,128,19);
 
         if(bandera) {
 
             if (bomba.estaColisionando(nave)) {
                 bombaTomada = true;
                 bomba.set(-50, ALTO * 2);
-                bombTaked = Gdx.audio.newMusic(Gdx.files.getFileHandle("Musica/bombTaked.mp3", Files.FileType.Internal));
+                bombTaked = assetManager.get("Musica/bombTaked.mp3");
                 bombTaked.setVolume(5f);
                 if(musicaActivada) {
                     bombTaked.play();
@@ -528,8 +552,6 @@ class SegundoNivel extends Pantalla {
             int cx = (int) (nave.getX() + 32) / 32;
             int cy = (int) (nave.getY() + nave.getHeight() / 2) / 32;
             TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("Estructuras");
-            //String name=capa.getName();
-            //System.out.println(name+"ddd");
             TiledMapTileLayer.Cell celda = capa.getCell(cx, cy);
             if (celda != null) {
                 System.out.println(celda);
@@ -543,11 +565,6 @@ class SegundoNivel extends Pantalla {
                 }
                 nave.setX(nave.getX() - 260);
             }
-        /*Object tipo = celda.getTile().getProperties().get("tipo");
-        if (!"Estructura".equals(tipo)) {
-            // No es obstáculo, puede pasar
-            presed=34;}*/
-
             if (life.estaColisionando(nave) || life2.estaColisionando(nave) || life3.estaColisionando(nave)) {
                 vida += 20;
                 cadenaVida = "Vida: " + vida;
@@ -601,6 +618,12 @@ class SegundoNivel extends Pantalla {
 
         public EscenaPausa(Viewport vista, SpriteBatch batch) {
             super(vista, batch);
+
+            // Creación de texturas.
+            Texture texturaBtnSalir;
+            Texture texturaBtnContinuar;
+            Texture restartButton;
+
             Pixmap pixmap = new Pixmap((int) (ANCHO * 0.7f), (int) (ALTO * 0.8f), Pixmap.Format.RGBA8888);
             pixmap.setColor(1f, 1f, 1f, 0f);
             pixmap.fillRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
@@ -609,7 +632,7 @@ class SegundoNivel extends Pantalla {
             Image imgRectangulo = new Image(texturaRectangulo);
             imgRectangulo.setPosition(0.15f * ANCHO, 0.1f * ALTO);
             this.addActor(imgRectangulo);
-            Texture texturaBtnSalir = new Texture("Botones/BotonExitN.png");
+            texturaBtnSalir = assetManager.get("Botones/BotonExitN.png");
             TextureRegionDrawable trdSalir = new TextureRegionDrawable(
                     new TextureRegion(texturaBtnSalir));
             ImageButton btnSalir = new ImageButton(trdSalir);
@@ -627,7 +650,7 @@ class SegundoNivel extends Pantalla {
             });
             this.addActor(btnSalir);
 
-            Texture texturaBtnContinuar = new Texture("Botones/BotonPlayN.png");
+            texturaBtnContinuar = assetManager.get("Botones/BotonPlayN.png");
             TextureRegionDrawable trdContinuar = new TextureRegionDrawable(
                     new TextureRegion(texturaBtnContinuar));
             ImageButton btnContinuar = new ImageButton(trdContinuar);
@@ -645,7 +668,7 @@ class SegundoNivel extends Pantalla {
             this.addActor(btnContinuar);
 
 
-            Texture restartButton = new Texture("Botones/BotonReinicioN.png");
+            restartButton = assetManager.get("Botones/BotonReinicioN.png");
 
             TextureRegionDrawable trdRestart = new TextureRegionDrawable(new TextureRegion(restartButton));
 
@@ -679,6 +702,12 @@ class SegundoNivel extends Pantalla {
 
         public EscenaGanar(Viewport vista, SpriteBatch batch) {
             super(vista, batch);
+
+            // Creación de texturas.
+            Texture texturaBtnSalir;
+            Texture texturaBtnContinuar;
+            Texture restartButton;
+
             Pixmap pixmap = new Pixmap((int) (ANCHO * 0.7f), (int) (ALTO * 0.8f), Pixmap.Format.RGBA8888);
             pixmap.setColor(0f, 0f, 0f, 0f);
             pixmap.fillRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
@@ -687,14 +716,14 @@ class SegundoNivel extends Pantalla {
             Image imgRectangulo = new Image(texturaRectangulo);
             imgRectangulo.setPosition(0.15f * ANCHO, 0.1f * ALTO);
             this.addActor(imgRectangulo);
-            Texture texturaBtnSalir = new Texture("PrimerNivel/YouWin.png");
+            texturaBtnSalir = assetManager.get("PrimerNivel/YouWin.png");
             TextureRegionDrawable trdSalir = new TextureRegionDrawable(
                     new TextureRegion(texturaBtnSalir));
             ImageButton btnSalir = new ImageButton(trdSalir);
             btnSalir.setPosition(ANCHO / 2 - btnSalir.getWidth() / 2, ALTO / 2);
             this.addActor(btnSalir);
 
-            Texture texturaBtnContinuar = new Texture("Botones/BotonExitN.png");
+            texturaBtnContinuar = assetManager.get("Botones/BotonExitN.png");
             TextureRegionDrawable trdContinuar = new TextureRegionDrawable(
                     new TextureRegion(texturaBtnContinuar));
             ImageButton btnExit = new ImageButton(trdContinuar);
@@ -713,7 +742,7 @@ class SegundoNivel extends Pantalla {
             this.addActor(btnExit);
 
 
-            Texture restartButton = new Texture("Botones/BotonReinicioN.png");
+            restartButton = assetManager.get("Botones/BotonReinicioN.png");
 
             TextureRegionDrawable trdRestart = new TextureRegionDrawable(new TextureRegion(restartButton));
 
@@ -744,6 +773,12 @@ class SegundoNivel extends Pantalla {
 
         public EscenaPerder(Viewport vista, SpriteBatch batch) {
             super(vista, batch);
+
+            // Creación de texturas.
+            Texture texturaBtnSalir;
+            Texture texturaBtnContinuar;
+            Texture restartButton;
+
             Pixmap pixmap = new Pixmap((int) (ANCHO * 0.7f), (int) (ALTO * 0.8f), Pixmap.Format.RGBA8888);
             pixmap.setColor(0f, 0f, 0f, 0f);
             pixmap.fillRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
@@ -752,14 +787,14 @@ class SegundoNivel extends Pantalla {
             Image imgRectangulo = new Image(texturaRectangulo);
             imgRectangulo.setPosition(0.15f * ANCHO, 0.1f * ALTO);
             this.addActor(imgRectangulo);
-            Texture texturaBtnSalir = new Texture("PrimerNivel/youFailed.png");
+            texturaBtnSalir = assetManager.get("PrimerNivel/youFailed.png");
             TextureRegionDrawable trdSalir = new TextureRegionDrawable(
                     new TextureRegion(texturaBtnSalir));
             ImageButton btnSalir = new ImageButton(trdSalir);
             btnSalir.setPosition(ANCHO / 2 - btnSalir.getWidth() / 2, ALTO / 2);
             this.addActor(btnSalir);
 
-            Texture texturaBtnContinuar = new Texture("Botones/BotonExitN.png");
+            texturaBtnContinuar = assetManager.get("Botones/BotonExitN.png");
             TextureRegionDrawable trdContinuar = new TextureRegionDrawable(
                     new TextureRegion(texturaBtnContinuar));
             ImageButton btnContinuar = new ImageButton(trdContinuar);
@@ -776,7 +811,7 @@ class SegundoNivel extends Pantalla {
             this.addActor(btnContinuar);
 
 
-            Texture restartButton = new Texture("Botones/BotonReinicioN.png");
+            restartButton = assetManager.get("Botones/BotonReinicioN.png");
 
             TextureRegionDrawable trdRestart = new TextureRegionDrawable(new TextureRegion(restartButton));
 

@@ -77,7 +77,7 @@ class MenuNiveles extends Pantalla {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                jga.setScreen(new SegundoNivel(jga));
+                jga.setScreen(new PantallaCargando(jga, Pantalla.SEGUNDONIVEL));
             }
         });
         escenaMenuNivel.addActor(btnSegundoNivel);

@@ -110,8 +110,36 @@ public class PantallaCargando extends Pantalla {
                 assetManager.load("Musica/choque.mp3", Sound.class);
                 assetManager.load("Musica/levelUp.wav", Sound.class);
 
-                // Cargamos el mapa.
+                // Cargamos el mapa y sus componentes.
                 assetManager.load("PrimerNivel/prueba1.tmx", TiledMap.class);
+                assetManager.load("PrimerNivel/progresoBarra.png", Texture.class);
+                assetManager.load("PrimerNivel/progresoIndicador.png", Texture.class);
+                break;
+            case SEGUNDONIVEL:
+                // Cargamos las texturas a usar.
+                assetManager.load("pruebas/pausaa.png", Texture.class);
+                assetManager.load("PrimerNivel/flechas2.png", Texture.class);
+                assetManager.load("PrimerNivel/NaveUReducida.png", Texture.class);
+                assetManager.load("Botones/BotonExitN.png", Texture.class);
+                assetManager.load("Botones/BotonPlayN.png", Texture.class);
+                assetManager.load("Botones/BotonReinicioN.png", Texture.class);
+                assetManager.load("PrimerNivel/YouWin.png", Texture.class);
+                assetManager.load("Botones/BotonExitN.png", Texture.class);
+                assetManager.load("Botones/BotonReinicioN.png", Texture.class);
+                assetManager.load("PrimerNivel/youFailed.png", Texture.class);
+                assetManager.load("Botones/BotonExitN.png", Texture.class);
+                assetManager.load("Botones/BotonReinicioN.png", Texture.class);
+
+                // Cargamos todos los sonidos.
+                assetManager.load("Musica/choque.mp3", Sound.class);
+                assetManager.load("Musica/levelUp.wav", Sound.class);
+                assetManager.load("Musica/level1.mp3", Music.class);
+                assetManager.load("Musica/bombTaked.mp3", Music.class);
+
+                // Cargamos el mapa y sus componentes.
+                assetManager.load("SegundoNivel/mapaNivelDos.tmx", TiledMap.class);
+                assetManager.load("PrimerNivel/progresoBarra.png", Texture.class);
+                assetManager.load("PrimerNivel/progresoIndicador.png", Texture.class);
         }
     }
 
