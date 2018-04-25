@@ -323,8 +323,7 @@ class SegundoNivel extends Pantalla {
         GenerarTextosySonidos();
         bomba.render(batch);
 
-        //batch.draw(botonPausa, ANCHO*0.75f,ALTO*0.8f);
-        //batch.draw(flechas,nave.getX()-570,50);
+
         batch.end();
         if (estado == EstadoJuego.PAUSADO) {
             escenaPausa.draw();

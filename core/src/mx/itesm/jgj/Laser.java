@@ -42,6 +42,13 @@ public class Laser {
             animacionDisparando = new Animation(0.2f, frames[0][1], frames[0][1], frames[0][1]);
             animacionDisparando.setPlayMode(Animation.PlayMode.LOOP);
         }
+        else if(tipo==4){
+            TextureRegion[][] frames = region.split(1320, 32);
+            animacionNormal = new Animation(0.2f, frames[0][0], frames[0][0], frames[0][0]);
+            animacionNormal.setPlayMode(Animation.PlayMode.LOOP);
+            animacionDisparando = new Animation(0.2f, frames[0][1], frames[0][1], frames[0][1]);
+            animacionDisparando.setPlayMode(Animation.PlayMode.LOOP);
+        }
         estadoLaser=EstadoLaser.Vacio;
         this.xx=x-1285;
         this.x=x;
@@ -98,14 +105,14 @@ public class Laser {
     public void Actualizar() {
         if(estadoLaser==EstadoLaser.Cargando){
 
-            if(xx+350<x){
+            if(xx+406<x){
                 estadoLaser=EstadoLaser.Disparando;
 
             }
 
         }
         else if(estadoLaser==EstadoLaser.Disparando){
-            if(xx+850<x){
+            if(xx+832<x){
                 estadoLaser=EstadoLaser.Vacio;
                 disparo=true;
             }
