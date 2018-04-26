@@ -644,7 +644,7 @@ class SegundoNivel extends Pantalla {
                     if(musicaActivada) {
                         musicaFondo.dispose();
                     }
-                    jga.setScreen(new MenuJudafaals(jga));
+                    jga.setScreen(new PantallaCargando(jga, Pantalla.MENU));
 
                 }
             });
@@ -684,7 +684,7 @@ class SegundoNivel extends Pantalla {
                     if(musicaActivada) {
                         musicaFondo.stop();
                     }
-                    jga.setScreen(new SegundoNivel(jga));
+                    jga.setScreen(new PantallaCargando(jga, Pantalla.SEGUNDONIVEL));
 
                 }
 
@@ -758,7 +758,7 @@ class SegundoNivel extends Pantalla {
                     if(musicaActivada) {
                         musicaFondo.stop();
                     }
-                    jga.setScreen(new SegundoNivel(jga));
+                    jga.setScreen(new PantallaCargando(jga, Pantalla.SEGUNDONIVEL));
 
                 }
 
@@ -805,7 +805,7 @@ class SegundoNivel extends Pantalla {
                     if(musicaActivada) {
                         musicaFondo.dispose();
                     }
-                    jga.setScreen(new MenuJudafaals(jga));
+                    jga.setScreen(new PantallaCargando(jga, Pantalla.MENU));
                 }
             });
             this.addActor(btnContinuar);
@@ -827,7 +827,7 @@ class SegundoNivel extends Pantalla {
                     if(musicaActivada) {
                         musicaFondo.stop();
                     }
-                    jga.setScreen(new SegundoNivel(jga));
+                    jga.setScreen(new PantallaCargando(jga, Pantalla.SEGUNDONIVEL));
 
                 }
 
