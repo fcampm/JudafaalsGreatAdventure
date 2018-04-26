@@ -60,7 +60,7 @@ class MenuNiveles extends Pantalla {
 
         // Botón primer nivel.
         ImageButton btnPrimerNivel = new ImageButton(imagenPrimerNivel);
-        btnPrimerNivel.setPosition(ANCHO / 2 - btnPrimerNivel.getWidth() / 2, ALTO / 2 - btnPrimerNivel.getHeight());
+        btnPrimerNivel.setPosition(250, ALTO / 3);
         btnPrimerNivel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -84,7 +84,7 @@ class MenuNiveles extends Pantalla {
 
         // Botón nivel tres.
         ImageButton btnTercerNivel = new ImageButton(imagenTecerNivel);
-        btnTercerNivel.setPosition(ANCHO / 2 - btnTercerNivel.getWidth() / 2, ALTO / 2 - (btnTercerNivel.getHeight() * 3));
+        btnTercerNivel.setPosition(850, ALTO / 2 - (btnTercerNivel.getHeight() * 3));
         btnTercerNivel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

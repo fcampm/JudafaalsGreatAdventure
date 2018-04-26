@@ -140,6 +140,9 @@ public class PantallaCargando extends Pantalla {
                 assetManager.load("SegundoNivel/mapaNivelDos.tmx", TiledMap.class);
                 assetManager.load("PrimerNivel/progresoBarra.png", Texture.class);
                 assetManager.load("PrimerNivel/progresoIndicador.png", Texture.class);
+                break;
+            case TERCERNIVEL:
+
         }
     }
 

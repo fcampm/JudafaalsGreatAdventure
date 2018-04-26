@@ -3,6 +3,7 @@ package mx.itesm.jgj;
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
@@ -37,6 +38,8 @@ class TercerNivel extends Pantalla {
     private Random random = new Random();
 
     private JudafaalsGreatAdventure jga;
+    private Preferences soundPreferences = Gdx.app.getPreferences("usersPreferences");
+    boolean musicaActivada = soundPreferences.getBoolean("soundOn");
 
     //Enemigos
     private Array<Enemigo> arrEnemigo;
@@ -103,6 +106,7 @@ class TercerNivel extends Pantalla {
     public TercerNivel(JudafaalsGreatAdventure judafaalsGreatAdventure) {
 
         this.jga = judafaalsGreatAdventure;
+
     }
 
 
@@ -295,8 +299,10 @@ c++;
         float volumen = 0.5f;
         musicaFondo = Gdx.audio.newMusic(Gdx.files.getFileHandle("Musica/level1.mp3", Files.FileType.Internal));
         musicaFondo.setVolume(volumen);
-        musicaFondo.play();
-        musicaFondo.setLooping(true);
+        if(musicaActivada) {
+            musicaFondo.play();
+            musicaFondo.setLooping(true);
+        }
     }
 
 
@@ -315,12 +321,16 @@ c++;
         if (estado == EstadoJuego.PAUSADO) {
             moverEnemigos(false);
             actualizarObjetos(delta, false);
-            musicaFondo.pause();
+            if(musicaActivada) {
+                musicaFondo.pause();
+            }
         }
         if (estado == EstadoJuego.JUGANDO) {
             //moverEnemigos(true);
             actualizarObjetos(delta, true);
-            musicaFondo.play();
+            if(musicaActivada) {
+                musicaFondo.play();
+            }
             life.mover(-1, +random.nextInt(7 - (-7)) + (-7), true);
             life2.mover(-1, +random.nextInt(4 - (-4)) + (-4), true);
             life3.mover(-1, +random.nextInt(5 - (-5)) + (-5), true);
@@ -330,7 +340,9 @@ c++;
         if (estado == EstadoJuego.GANADO) {
             Gdx.input.setInputProcessor(escenaGanar);
             escenaGanar.draw();
-            musicaFondo.stop();
+            if(musicaActivada) {
+                musicaFondo.stop();
+            }
         }
 
         actualizarCamara();
@@ -377,7 +389,9 @@ c++;
             Gdx.input.setInputProcessor(escenaGanar);
             actualizarObjetos(1,true);
             escenaGanar.draw();
-            musicaFondo.dispose();
+            if(musicaActivada) {
+                musicaFondo.dispose();
+            }
         }
 
         //CamaraHUD
@@ -410,7 +424,9 @@ c++;
             if(controlTomado) {
                 texto2.mostrarMensaje(batch, "Level Completed", ANCHO_MAPA - 650, ALTO - 20);
                 estado= EstadoJuego.GANADO;
-                musicaFondo.dispose();
+                if(musicaActivada) {
+                    musicaFondo.dispose();
+                }
             }else{
                 estado=EstadoJuego.PERDIDO;
                 texto2.mostrarMensaje(batch, "You\t miss the control!", ANCHO_MAPA - 650, ALTO - 20);
@@ -540,7 +556,9 @@ c++;
 
             }
             cadenaVida = "Vida: " + vida;
-            choque.play();
+            if(musicaActivada) {
+                choque.play();
+            }
             choque();
 
         }
@@ -614,15 +632,21 @@ c++;
             cadenaVida = "Vida: " + vida;
             if (life.estaColisionando(nave)) {
                 life.set(-50, ALTO * 2);
-                levelpassed.play();
+                if(musicaActivada){
+                    levelpassed.play();
+                }
             }
             if (life2.estaColisionando(nave)) {
                 life2.set(-50, ALTO * 2);
-                levelpassed.play();
+                if(musicaActivada) {
+                    levelpassed.play();
+                }
             }
             if (life3.estaColisionando(nave)) {
                 life3.set(-50, ALTO * 2);
-                levelpassed.play();
+                if(musicaActivada) {
+                    levelpassed.play();
+                }
             }
 
 
@@ -663,7 +687,9 @@ c++;
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     // Regresa al menú
-                    musicaFondo.dispose();
+                    if(musicaActivada) {
+                        musicaFondo.dispose();
+                    }
                     jga.setScreen(new MenuJudafaals(jga));
 
                 }
@@ -701,7 +727,9 @@ c++;
                 @Override
 
                 public void clicked(InputEvent event, float x, float y) {
-                    musicaFondo.stop();
+                    if(musicaActivada) {
+                        musicaFondo.stop();
+                    }
                     jga.setScreen(new TercerNivel(jga));
 
                 }
@@ -744,7 +772,9 @@ c++;
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     // Regresa al juego
-                    musicaFondo.dispose();
+                    if(musicaActivada) {
+                        musicaFondo.dispose();
+                    }
                     jga.setScreen(new MenuJudafaals(jga));
                 }
 
@@ -765,7 +795,9 @@ c++;
                 @Override
 
                 public void clicked(InputEvent event, float x, float y) {
-                    musicaFondo.stop();
+                    if(musicaActivada) {
+                        musicaFondo.stop();
+                    }
                     jga.setScreen(new TercerNivel(jga));
 
                 }
@@ -804,8 +836,9 @@ c++;
             btnContinuar.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-
-                    musicaFondo.dispose();
+                    if(musicaActivada) {
+                        musicaFondo.dispose();
+                    }
                     jga.setScreen(new MenuJudafaals(jga));
                 }
             });
@@ -825,7 +858,9 @@ c++;
                 @Override
 
                 public void clicked(InputEvent event, float x, float y) {
-                    musicaFondo.stop();
+                    if(musicaActivada) {
+                        musicaFondo.stop();
+                    }
                     jga.setScreen(new TercerNivel(jga));
 
                 }

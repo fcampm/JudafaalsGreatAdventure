@@ -92,7 +92,7 @@ class MenuJudafaals extends Pantalla {
         ImageButton btnPlay = crearBotonTodo(texturaPlay, texturaPlayOnClick, ANCHO/2 - 95, ALTO/2 - 85,  new PantallaCargando(jga, Pantalla.NIVELES));
         ImageButton btnAyuda= crearBotonTodo(texturaAyuda, texturaAyudaOnClick,ANCHO - 240,ALTO/2 -350, new PantallaCargando(jga, Pantalla.AYUDA));
         ImageButton btnMas = crearBotonTodo(texturaAcercaDe, texturaAcercaDeOnClick, ANCHO/24 - 50, ALTO/2 -350, new PantallaCargando(jga, Pantalla.ABOUT));
-        ImageButton btnSetting = crearBotonTodo(texturaSettings, texturaSettingsOnClick, ANCHO/2 - 115, 50, new PantallaCargando(jga, Pantalla.SETTINGS));
+        ImageButton btnSetting = crearBotonTodo(texturaSettings, texturaSettingsOnClick, ANCHO/2 - 72, 50, new PantallaCargando(jga, Pantalla.SETTINGS));
     }
     //metodo para crear todos los componentes del boton en uno{
     private ImageButton crearBotonTodo(Texture texturaNormal, Texture texturaOnClick, float x, float y, final Screen screen) {
