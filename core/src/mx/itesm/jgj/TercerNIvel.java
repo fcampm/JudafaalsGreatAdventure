@@ -235,7 +235,7 @@ class TercerNivel extends Pantalla {
         arrEnemigo=new Array<Enemigo>(11*10);
         for(int i =0; i<5; i++){
             for(int j=0; j<12;j++){
-                Enemigo enemy = new Enemigo(random.nextInt((int) (ANCHO_MAPA+10000 - (ANCHO_MAPA+3500))) + (ANCHO_MAPA+3500)+j*100,random.nextInt((int) (ALTO-150 - (100))) + (100)+i*100-250);
+                Enemigo enemy = new Enemigo(random.nextInt((int) (ANCHO_MAPA+9000 - (ANCHO_MAPA+3000))) + (ANCHO_MAPA+3000)+j*100,random.nextInt((int) (ALTO-150 - (100))) + (100)+i*100-250);
                 arrEnemigo.add(enemy);
                 //ANCHO_MAPA+j*1000-1000
             }
@@ -286,7 +286,7 @@ c++;
 
     }
     private void arregloLaser(int x,int y, int tipo){
-        Laser i=new Laser(new Texture("TercerNivel/rayo2.png"),x,y,tipo);
+        Laser i=new Laser(new Texture("PrimerNivel/RayosFr.png"),x,y,tipo);
         arrLaser.add(i);
     }
     private void moverEnemigos(boolean bandera){
