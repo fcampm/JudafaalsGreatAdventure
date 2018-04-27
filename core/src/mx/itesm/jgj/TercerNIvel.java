@@ -38,6 +38,8 @@ class TercerNivel extends Pantalla {
     private Random random = new Random();
 
     private JudafaalsGreatAdventure jga;
+    private AssetManager assetManager;
+
     private Preferences soundPreferences = Gdx.app.getPreferences("usersPreferences");
     boolean musicaActivada = soundPreferences.getBoolean("soundOn");
 
@@ -94,6 +96,8 @@ class TercerNivel extends Pantalla {
 
     //Boton pausa
     private Texture botonPausa;
+    private Texture texturaNave;
+
     //PAUSA
     private EscenaPausa escenaPausa;
     private EscenaGanar escenaGanar;
@@ -106,7 +110,7 @@ class TercerNivel extends Pantalla {
     public TercerNivel(JudafaalsGreatAdventure judafaalsGreatAdventure) {
 
         this.jga = judafaalsGreatAdventure;
-
+        assetManager = jga.getAssetManager();
     }
 
 
@@ -114,9 +118,9 @@ class TercerNivel extends Pantalla {
     public void show() {
         cargarEnemigos();
         crearMusica();
+        cargarTexturas();
         cargarPersonaje();
         cargarTextos();
-        cargarTexturas();
         crearHUD();
         estado = EstadoJuego.JUGANDO;
         escenaGanar = new EscenaGanar(vistaHUD, batch);
@@ -124,8 +128,8 @@ class TercerNivel extends Pantalla {
 
 
         //Sonidos
-        choque = Gdx.audio.newSound(Gdx.files.internal("Musica/choque.mp3"));
-        levelpassed = Gdx.audio.newSound(Gdx.files.internal("Musica/levelUp.wav"));
+        choque = assetManager.get("Musica/choque.mp3");
+        levelpassed = assetManager.get("Musica/levelUp.wav");
         cargarMapa();
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
         Gdx.input.setInputProcessor(escenaHUD);
@@ -138,8 +142,8 @@ class TercerNivel extends Pantalla {
         camaraHUD.update();
         vistaHUD = new StretchViewport(ANCHO, ALTO, camaraHUD);
         Skin skin = new Skin();
-        skin.add("flechas", new Texture("PrimerNivel/flechas2.png"));
-        skin.add("pausa", new Texture("pruebas/pausaa.png"));
+        skin.add("flechas", flechas);
+        skin.add("pausa", botonPausa);
         //Vista del pad
         Touchpad.TouchpadStyle estilo = new Touchpad.TouchpadStyle();
         Touchpad.TouchpadStyle estilo2 = new Touchpad.TouchpadStyle();
@@ -211,10 +215,11 @@ class TercerNivel extends Pantalla {
 
 
     private void cargarTexturas() {
-        botonPausa = new Texture("pruebas/pausaa.png");
-        flechas = new Texture("PrimerNivel/flechas2.png");
-        progresoBarra =new Texture("PrimerNivel/progresoBarra.png");
-        progresoIndicador =new Texture("PrimerNivel/progresoIndicador.png");
+        botonPausa = assetManager.get("pruebas/pausaa.png");
+        flechas = assetManager.get("PrimerNivel/flechas2.png");
+        progresoBarra = assetManager.get("PrimerNivel/progresoBarra.png");
+        progresoIndicador = assetManager.get("PrimerNivel/progresoIndicador.png");
+        texturaNave = assetManager.get("PrimerNivel/NaveUReducida.png");
     }
 
     private void cargarTextos() {
@@ -223,8 +228,7 @@ class TercerNivel extends Pantalla {
     }
 
     private void cargarPersonaje() {
-        nave = new Personaje(new Texture("PrimerNivel/NaveUReducida.png"));
-
+        nave = new Personaje(texturaNave);
     }
 
     private void cargarEnemigos(){
@@ -297,7 +301,7 @@ c++;
 
     private void crearMusica() {
         float volumen = 0.5f;
-        musicaFondo = Gdx.audio.newMusic(Gdx.files.getFileHandle("Musica/level1.mp3", Files.FileType.Internal));
+        musicaFondo = assetManager.get("Musica/level1.mp3");
         musicaFondo.setVolume(volumen);
         if(musicaActivada) {
             musicaFondo.play();
@@ -307,11 +311,7 @@ c++;
 
 
     private void cargarMapa() {
-        AssetManager manager = new AssetManager();
-        manager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-        manager.load("PrimerNivel/prueba2.tmx", TiledMap.class);
-        manager.finishLoading();
-        mapa = manager.get("PrimerNivel/prueba2.tmx");
+        mapa = assetManager.get("PrimerNivel/prueba2.tmx");
         render = new OrthogonalTiledMapRenderer(mapa);
 
     }
@@ -399,7 +399,7 @@ c++;
         batch.setProjectionMatrix(camaraHUD.combined);
         escenaHUD.draw();
 
-
+        Gdx.app.log("FPS", "FPS: " + Gdx.graphics.getFramesPerSecond());
     }
 
     private void actualizarCamara() {
@@ -490,6 +490,25 @@ c++;
         }
 
         escenaHUD.dispose();
+
+        assetManager.unload("pruebas/pausaa.png");
+        assetManager.unload("PrimerNivel/flechas2.png");
+        assetManager.unload("PrimerNivel/NaveUReducida.png");
+        assetManager.unload("Botones/BotonExitN.png");
+        assetManager.unload("Botones/BotonPlayN.png");
+        assetManager.unload("Botones/BotonReinicioN.png");
+        assetManager.unload("PrimerNivel/YouWin.png");
+        assetManager.unload("Botones/BotonExitN.png");
+        assetManager.unload("Botones/BotonReinicioN.png");
+        assetManager.unload("PrimerNivel/youFailed.png");
+        assetManager.unload("Botones/BotonExitN.png");
+        assetManager.unload("Botones/BotonReinicioN.png");
+        assetManager.unload("Musica/choque.mp3");
+        assetManager.unload("Musica/levelUp.wav");
+        assetManager.unload("Musica/level1.mp3");
+        assetManager.unload("PrimerNivel/prueba2.tmx");
+        assetManager.unload("PrimerNivel/progresoBarra.png");
+        assetManager.unload("PrimerNivel/progresoIndicador.png");
 
     }
 
@@ -685,6 +704,12 @@ c++;
 
         public EscenaPausa(Viewport vista, SpriteBatch batch) {
             super(vista, batch);
+
+            // Creación de texturas
+            Texture texturaBtnSalir;
+            Texture texturaBtnContinuar;
+            Texture restartButton;
+
             Pixmap pixmap = new Pixmap((int) (ANCHO * 0.7f), (int) (ALTO * 0.8f), Pixmap.Format.RGBA8888);
             pixmap.setColor(1, 1f, 1f, 0f);
             pixmap.fillRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
@@ -693,7 +718,7 @@ c++;
             Image imgRectangulo = new Image(texturaRectangulo);
             imgRectangulo.setPosition(0.15f * ANCHO, 0.1f * ALTO);
             this.addActor(imgRectangulo);
-            Texture texturaBtnSalir = new Texture("Botones/BotonExitN.png");
+            texturaBtnSalir = assetManager.get("Botones/BotonExitN.png");
             TextureRegionDrawable trdSalir = new TextureRegionDrawable(
                     new TextureRegion(texturaBtnSalir));
             ImageButton btnSalir = new ImageButton(trdSalir);
@@ -705,13 +730,13 @@ c++;
                     if(musicaActivada) {
                         musicaFondo.dispose();
                     }
-                    jga.setScreen(new MenuJudafaals(jga));
+                    jga.setScreen(new PantallaCargando(jga, Pantalla.MENU));
 
                 }
             });
             this.addActor(btnSalir);
 
-            Texture texturaBtnContinuar = new Texture("Botones/BotonPlayN.png");
+            texturaBtnContinuar = assetManager.get("Botones/BotonPlayN.png");
             TextureRegionDrawable trdContinuar = new TextureRegionDrawable(
                     new TextureRegion(texturaBtnContinuar));
             ImageButton btnContinuar = new ImageButton(trdContinuar);
@@ -729,7 +754,7 @@ c++;
             this.addActor(btnContinuar);
 
 
-            Texture restartButton = new Texture("Botones/BotonReinicioN.png");
+            restartButton = assetManager.get("Botones/BotonReinicioN.png");
 
             TextureRegionDrawable trdRestart = new TextureRegionDrawable(new TextureRegion(restartButton));
 
@@ -745,7 +770,7 @@ c++;
                     if(musicaActivada) {
                         musicaFondo.stop();
                     }
-                    jga.setScreen(new TercerNivel(jga));
+                    jga.setScreen(new PantallaCargando(jga, Pantalla.TERCERNIVEL));
 
                 }
 
@@ -763,6 +788,12 @@ c++;
 
         public EscenaGanar(Viewport vista, SpriteBatch batch) {
             super(vista, batch);
+
+            // Creación de textures.
+            Texture texturaBtnSalir;
+            Texture texturaBtnContinuar;
+            Texture restartButton;
+
             Pixmap pixmap = new Pixmap((int) (ANCHO * 0.7f), (int) (ALTO * 0.8f), Pixmap.Format.RGBA8888);
             pixmap.setColor(0f, 0f, 0f, 0f);
             pixmap.fillRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
@@ -771,14 +802,14 @@ c++;
             Image imgRectangulo = new Image(texturaRectangulo);
             imgRectangulo.setPosition(0.15f * ANCHO, 0.1f * ALTO);
             this.addActor(imgRectangulo);
-            Texture texturaBtnSalir = new Texture("PrimerNivel/YouWin.png");
+            texturaBtnSalir = assetManager.get("PrimerNivel/YouWin.png");
             TextureRegionDrawable trdSalir = new TextureRegionDrawable(
                     new TextureRegion(texturaBtnSalir));
             ImageButton btnSalir = new ImageButton(trdSalir);
             btnSalir.setPosition(ANCHO / 2 - btnSalir.getWidth() / 2, ALTO / 2);
             this.addActor(btnSalir);
 
-            Texture texturaBtnContinuar = new Texture("Botones/BotonExitN.png");
+            texturaBtnContinuar = assetManager.get("Botones/BotonExitN.png");
             TextureRegionDrawable trdContinuar = new TextureRegionDrawable(
                     new TextureRegion(texturaBtnContinuar));
             ImageButton btnExit = new ImageButton(trdContinuar);
@@ -790,14 +821,14 @@ c++;
                     if(musicaActivada) {
                         musicaFondo.dispose();
                     }
-                    jga.setScreen(new MenuJudafaals(jga));
+                    jga.setScreen(new PantallaCargando(jga, Pantalla.MENU));
                 }
 
             });
             this.addActor(btnExit);
 
 
-            Texture restartButton = new Texture("Botones/BotonReinicioN.png");
+            restartButton = assetManager.get("Botones/BotonReinicioN.png");
 
             TextureRegionDrawable trdRestart = new TextureRegionDrawable(new TextureRegion(restartButton));
 
@@ -813,7 +844,7 @@ c++;
                     if(musicaActivada) {
                         musicaFondo.stop();
                     }
-                    jga.setScreen(new TercerNivel(jga));
+                    jga.setScreen(new PantallaCargando(jga, Pantalla.TERCERNIVEL));
 
                 }
 
@@ -828,6 +859,12 @@ c++;
 
         public EscenaPerder(Viewport vista, SpriteBatch batch) {
             super(vista, batch);
+
+            // Creación de texturas.
+            Texture texturaBtnSalir;
+            Texture texturaBtnContinuar;
+            Texture restartButton;
+
             Pixmap pixmap = new Pixmap((int) (ANCHO * 0.7f), (int) (ALTO * 0.8f), Pixmap.Format.RGBA8888);
             pixmap.setColor(0f, 0f, 0f, 0f);
             pixmap.fillRectangle(0, 0, pixmap.getWidth(), pixmap.getHeight());
@@ -836,14 +873,14 @@ c++;
             Image imgRectangulo = new Image(texturaRectangulo);
             imgRectangulo.setPosition(0.15f * ANCHO, 0.1f * ALTO);
             this.addActor(imgRectangulo);
-            Texture texturaBtnSalir = new Texture("PrimerNivel/youFailed.png");
+            texturaBtnSalir = assetManager.get("PrimerNivel/youFailed.png");
             TextureRegionDrawable trdSalir = new TextureRegionDrawable(
                     new TextureRegion(texturaBtnSalir));
             ImageButton btnSalir = new ImageButton(trdSalir);
             btnSalir.setPosition(ANCHO / 2 - btnSalir.getWidth() / 2, ALTO / 2);
             this.addActor(btnSalir);
 
-            Texture texturaBtnContinuar = new Texture("Botones/BotonExitN.png");
+            texturaBtnContinuar = assetManager.get("Botones/BotonExitN.png");
             TextureRegionDrawable trdContinuar = new TextureRegionDrawable(
                     new TextureRegion(texturaBtnContinuar));
             ImageButton btnContinuar = new ImageButton(trdContinuar);
@@ -854,13 +891,13 @@ c++;
                     if(musicaActivada) {
                         musicaFondo.dispose();
                     }
-                    jga.setScreen(new MenuJudafaals(jga));
+                    jga.setScreen(new PantallaCargando(jga, Pantalla.MENU));
                 }
             });
             this.addActor(btnContinuar);
 
 
-            Texture restartButton = new Texture("Botones/BotonReinicioN.png");
+            restartButton = assetManager.get("Botones/BotonReinicioN.png");
 
             TextureRegionDrawable trdRestart = new TextureRegionDrawable(new TextureRegion(restartButton));
 
@@ -876,7 +913,7 @@ c++;
                     if(musicaActivada) {
                         musicaFondo.stop();
                     }
-                    jga.setScreen(new TercerNivel(jga));
+                    jga.setScreen(new PantallaCargando(jga, Pantalla.TERCERNIVEL));
 
                 }
 
