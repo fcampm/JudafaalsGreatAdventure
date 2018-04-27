@@ -46,9 +46,7 @@ class TercerNivel extends Pantalla {
     //Enemigos
     private Array<Enemigo> arrEnemigo;
     private Array<Laser> arrLaser;
-    private Array<Boolean>arrIndex;
-    private boolean ind;
-    private float xx=0;
+
 
     //Items
     Control control = new Control (3500, 500);
@@ -240,25 +238,7 @@ class TercerNivel extends Pantalla {
                 //ANCHO_MAPA+j*1000-1000
             }
         }
-        arrLaser=new Array<Laser>(10);
-
-        arrIndex=new Array<Boolean>(22);
-        for(int i=0;i<22;i++){
-            ind=true;
-            if(i==20){
-                ind=true;
-            }
-            arrIndex.add(ind);
-            ind=true;
-        }
-        int c=0;
-        for(boolean i:arrIndex){
-            if(i==true){
-                System.out.println(c*32);
-            }
-c++;
-        }
-        System.out.println(arrIndex);
+        arrLaser=new Array<Laser>(11*10);
 
 
 
@@ -439,7 +419,6 @@ c++;
             nave.setX(nave.getX() + velocidadNave);
             nave.setY(nave.getY() + (float)presed);
             progresoX =(nave.getX()*817/ANCHO_MAPA)+nave.getX()-380;
-            xx+=32;
 
 
 
@@ -593,35 +572,11 @@ c++;
 
 
     }
-    private void colisionesIndex(int xxx, int yyy) {
-        TiledMapTileLayer capa = (TiledMapTileLayer) mapa.getLayers().get("uno");
-        int cx = (int)(xxx) / 32;
-        int cy = (int)(yyy) / 32;
-        int cx2 =(int)(xxx+31) / 32;
-        int cy2 =(int)(yyy+31) / 32;
-        TiledMapTileLayer.Cell celda = capa.getCell(cx, cy);
-        TiledMapTileLayer.Cell celda2 = capa.getCell(cx, cy2);
-        TiledMapTileLayer.Cell celda3 = capa.getCell(cx2, cy);
-        TiledMapTileLayer.Cell celda4 = capa.getCell(cx2, cy2);
-        if (celda != null || celda2!=null || celda3 != null || celda4!=null) {
-            System.out.println("j");
-            Laser laser1=new Laser(new Texture("TercerNivel/jl.png"),xxx+320,yyy,3);
-            arrLaser.add(laser1);
 
-        }
-    }
 
 
     private void verificarColisiones() {
-        int c=0;
-        for(boolean i:arrIndex){
-            if(i==true){
-                //colisionesIndex((int)xx,c*32);
 
-
-            }
-            c++;
-        }
 
 
         colisionesMapa(9,23,17,52);
