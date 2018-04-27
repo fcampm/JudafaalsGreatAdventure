@@ -228,14 +228,14 @@ class TercerNivel extends Pantalla {
     }
 
     private void cargarEnemigos(){
-       /* arrEnemigo=new Array<Enemigo>(11*10);
+        arrEnemigo=new Array<Enemigo>(11*10);
         for(int i =0; i<5; i++){
             for(int j=0; j<12;j++){
-                Enemigo enemy = new Enemigo(random.nextInt((int) (ANCHO_MAPA+7000 - (3500))) + (3500)+j*100,random.nextInt((int) (ALTO-150 - (100))) + (100)+i*100-250);
+                Enemigo enemy = new Enemigo(random.nextInt((int) (ANCHO_MAPA+10000 - (ANCHO_MAPA+3500))) + (ANCHO_MAPA+3500)+j*100,random.nextInt((int) (ALTO-150 - (100))) + (100)+i*100-250);
                 arrEnemigo.add(enemy);
                 //ANCHO_MAPA+j*1000-1000
             }
-        }*/
+        }
         arrLaser=new Array<Laser>(10);
 
         arrIndex=new Array<Boolean>(22);
@@ -326,7 +326,7 @@ c++;
             }
         }
         if (estado == EstadoJuego.JUGANDO) {
-            //moverEnemigos(true);
+            moverEnemigos(true);
             actualizarObjetos(delta, true);
             if(musicaActivada) {
                 musicaFondo.play();
@@ -351,9 +351,9 @@ c++;
         render.setView(camara);
         render.render();
         batch.begin();
-        //for(Enemigo enemigo: arrEnemigo){
-           // enemigo.render(batch);
-       // }
+        for(Enemigo enemigo: arrEnemigo){
+            enemigo.render(batch);
+        }
         for(Laser laser:arrLaser){
             if(laser.getEstado()!= Laser.EstadoLaser.Vacio){
 
@@ -652,6 +652,21 @@ c++;
 
 
         }
+
+        for (Enemigo enemy : arrEnemigo) {
+            if (enemy.estaColisionando(nave)) {
+                vida--;
+                cadenaVida = "Vida: " + vida;
+                if(vida<=0) {
+                    estado = EstadoJuego.PERDIDO;
+                    cadenaVida = "You lose!";
+                }
+
+            }
+
+        }
+
+
         if(control.estaColisionando(nave)){
             controlTomado=true;
             control.set(2,ALTO*2);
