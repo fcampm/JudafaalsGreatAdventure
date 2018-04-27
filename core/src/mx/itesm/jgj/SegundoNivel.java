@@ -53,7 +53,7 @@ class SegundoNivel extends Pantalla {
 
 
     private Personaje nave;
-    private float velocidadNave=5;
+    private float velocidadNave=6;
     private Texture progresoBarra;
     private Texture progresoIndicador;
     private float progresoX;
@@ -395,9 +395,9 @@ class SegundoNivel extends Pantalla {
         }
         verificarColisiones(true);
         if(nave.getEstado()==EstadoNave.CHOQUE){
-            if(tiempoChoque >50){
+            if(tiempoChoque >40){
                 nave.normal();
-                velocidadNave=5;
+                velocidadNave=6;
                 tiempoChoque =0;
             }
             else{

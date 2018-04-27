@@ -447,7 +447,7 @@ c++;
 
         verificarColisiones();
         if(nave.getEstado()==EstadoNave.CHOQUE){
-            if(tiempoChoque >50){
+            if(tiempoChoque >40){
                 nave.normal();
                 velocidadNave=5;
                 tiempoChoque =0;
@@ -603,7 +603,7 @@ c++;
             }
             c++;
         }
-/*
+
 
         colisionesMapa(9,23,17,52);
         colisionesMapa(18,48,28,52);
@@ -613,7 +613,7 @@ c++;
         colisionesMapa(67,19,118,26);
         colisionesMapa(67,12,106,19);
         colisionesMapa(107,16,128,19);
-*/
+
         for(Laser laser:arrLaser){
             if(laser.getEstado()== Laser.EstadoLaser.Disparando){
                 if(laser.choque((int)nave.getY())){
