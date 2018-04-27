@@ -22,24 +22,24 @@ public class Laser {
     public Laser(Texture textura, float x, float y,int tipo){
         TextureRegion region=new TextureRegion(textura);
         if(tipo==1) {
-            TextureRegion[][] frames = region.split(1320, 300);
-            animacionNormal = new Animation(0.2f, frames[0][0], frames[0][0], frames[0][0]);
-            animacionNormal.setPlayMode(Animation.PlayMode.LOOP);
-            animacionDisparando = new Animation(0.2f, frames[0][1], frames[0][1], frames[0][1]);
+            TextureRegion[][] frames = region.split(1350, 300);
+            animacionNormal = new Animation(0.15f, frames[0][0], frames[0][1], frames[0][2], frames[0][3], frames[0][4], frames[0][5], frames[0][6]);
+            animacionNormal.setPlayMode(Animation.PlayMode.NORMAL);
+            animacionDisparando = new Animation(0.2f, frames[0][19], frames[0][19], frames[0][19]);
             animacionDisparando.setPlayMode(Animation.PlayMode.LOOP);
         }
         else if(tipo==2){
-            TextureRegion[][] frames = region.split(1320, 150);
-            animacionNormal = new Animation(0.2f, frames[0][0], frames[0][0], frames[0][0]);
-            animacionNormal.setPlayMode(Animation.PlayMode.LOOP);
-            animacionDisparando = new Animation(0.2f, frames[0][1], frames[0][1], frames[0][1]);
+            TextureRegion[][] frames = region.split(1350, 150);
+            animacionNormal = new Animation(0.15f, frames[0][0], frames[0][1], frames[0][2], frames[0][3], frames[0][4], frames[0][5], frames[0][6]);
+            animacionNormal.setPlayMode(Animation.PlayMode.NORMAL);
+            animacionDisparando = new Animation(0.2f, frames[0][19], frames[0][19], frames[0][19]);
             animacionDisparando.setPlayMode(Animation.PlayMode.LOOP);
         }
         else if(tipo==3){
-            TextureRegion[][] frames = region.split(1320, 75);
-            animacionNormal = new Animation(0.2f, frames[0][0], frames[0][0], frames[0][0]);
-            animacionNormal.setPlayMode(Animation.PlayMode.LOOP);
-            animacionDisparando = new Animation(0.2f, frames[0][1], frames[0][1], frames[0][1]);
+            TextureRegion[][] frames = region.split(1350, 75);
+            animacionNormal = new Animation(0.15f, frames[0][0], frames[0][1], frames[0][2], frames[0][3], frames[0][4], frames[0][5], frames[0][6]);
+            animacionNormal.setPlayMode(Animation.PlayMode.NORMAL);
+            animacionDisparando = new Animation(0.2f, frames[0][19], frames[0][19], frames[0][19]);
             animacionDisparando.setPlayMode(Animation.PlayMode.LOOP);
         }
         else if(tipo==4){

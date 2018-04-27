@@ -282,7 +282,7 @@ c++;
 
     }
     private void arregloLaser(int x,int y, int tipo){
-        Laser i=new Laser(new Texture("TercerNivel/jl.png"),x,y,tipo);
+        Laser i=new Laser(new Texture("TercerNivel/rayo2.png"),x,y,tipo);
         arrLaser.add(i);
     }
     private void moverEnemigos(boolean bandera){
