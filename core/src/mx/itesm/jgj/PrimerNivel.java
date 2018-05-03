@@ -2,6 +2,7 @@ package mx.itesm.jgj;
 
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
@@ -122,6 +123,7 @@ class PrimerNivel extends Pantalla {
 
         cargarMapa();
         Gdx.input.setInputProcessor(new ProcesadorEntrada());
+        Gdx.input.setCatchBackKey(true);
         Gdx.input.setInputProcessor(escenaHUD);
     }
 
@@ -309,6 +311,12 @@ class PrimerNivel extends Pantalla {
         //CamaraHUD
         batch.setProjectionMatrix(camaraHUD.combined);
         escenaHUD.draw();
+
+        if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
+            estado = EstadoJuego.PAUSADO;
+            escenaPausa = new EscenaPausa(vistaHUD, batch);
+            Gdx.input.setInputProcessor(escenaPausa);
+        }
 
     }
 

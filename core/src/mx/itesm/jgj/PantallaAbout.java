@@ -1,6 +1,7 @@
 package mx.itesm.jgj;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
@@ -56,6 +57,7 @@ class PantallaAbout extends Pantalla {
         cargarTextos();
         cargarEscena();
         Gdx.input.setInputProcessor(escenaAbout);
+        Gdx.input.setCatchBackKey(true);
     }
 
     private void cargarEscena() {
@@ -113,6 +115,10 @@ class PantallaAbout extends Pantalla {
         batch.end();
 
         escenaAbout.draw();
+
+        if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
+            jga.setScreen(new PantallaCargando(jga, Pantalla.MENU));
+        }
     }
 
     @Override

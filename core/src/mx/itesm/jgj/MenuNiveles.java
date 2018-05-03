@@ -1,6 +1,7 @@
 package mx.itesm.jgj;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
@@ -52,6 +53,7 @@ class MenuNiveles extends Pantalla {
     public void show() {
         cargarTexturas();
         crearMenu();
+        Gdx.input.setCatchBackKey(true);
         Gdx.input.setInputProcessor(escenaMenuNivel);
     }
 
@@ -105,7 +107,6 @@ class MenuNiveles extends Pantalla {
             }
         });
         escenaMenuNivel.addActor(btnBack);
-
     }
 
     private void cargarTexturas() {
@@ -132,6 +133,10 @@ class MenuNiveles extends Pantalla {
         batch.draw(naveFondo, ANCHO / 2 - naveFondo.getWidth() / 2, ALTO / 2 - naveFondo.getHeight() / 2 - 174);
         batch.end();
         escenaMenuNivel.draw();
+
+        if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
+            jga.setScreen(new PantallaCargando(jga, Pantalla.MENU));
+        }
     }
 
     @Override
