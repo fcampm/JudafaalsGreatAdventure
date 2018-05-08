@@ -21,9 +21,11 @@ public class PantallaCargando extends Pantalla {
     private float tiempo;
 
     // Texturas a usar.
+    private Texture splashArt;
     private Texture texturaRelojCarga;
     private Sprite spriteRelojCarga;
     private int screen;
+    private boolean counter = true;
 
     // Asset Manager
     private AssetManager assetManager;
@@ -38,6 +40,7 @@ public class PantallaCargando extends Pantalla {
     public void show() {
         tiempo = 0;
         texturaRelojCarga = new Texture("pruebas/cargando.png");
+        splashArt = new Texture("Fondos/SplashArt.png");
         spriteRelojCarga = new Sprite(texturaRelojCarga);
         spriteRelojCarga.setPosition(ANCHO/2 - spriteRelojCarga.getWidth()/2, ALTO/2 - spriteRelojCarga.getHeight()/2);
         cargarRecursos();
@@ -46,6 +49,7 @@ public class PantallaCargando extends Pantalla {
     private void cargarRecursos() {
         switch(screen){
             case MENU:
+            case SPLASHART:
                 // Cargamos las texturas a usar.
                 assetManager.load("Fondos/Pantalla principal.jpg", Texture.class);
                 assetManager.load("Botones/BotonPlay.png", Texture.class);
@@ -173,19 +177,29 @@ public class PantallaCargando extends Pantalla {
     @Override
     public void render(float delta) {
         actualizarCarga();
-        borrarPantalla();
+        if (screen == Pantalla.SPLASHART) {
+            borrarPantalla(25/255f,50/255f,140/255f);
+            batch.setProjectionMatrix(camara.combined);
 
-        // Animación de la carga
-
-        spriteRelojCarga.setRotation(spriteRelojCarga.getRotation() + 10);
-
-        batch.setProjectionMatrix(camara.combined);
-
-        batch.begin();
-        if(tiempo > 0.25f) {
-            spriteRelojCarga.draw(batch);
+            batch.begin();
+            batch.draw(splashArt, ANCHO/2 - splashArt.getWidth()/2, ALTO/2 - splashArt.getHeight()/2);
+            batch.end();
         }
-        batch.end();
+        else {
+            borrarPantalla();
+
+            // Animación de la carga
+
+            spriteRelojCarga.setRotation(spriteRelojCarga.getRotation() + 10);
+
+            batch.setProjectionMatrix(camara.combined);
+
+            batch.begin();
+            if (tiempo > 0.25f) {
+                spriteRelojCarga.draw(batch);
+            }
+            batch.end();
+        }
     }
 
     private void actualizarCarga() {
@@ -194,6 +208,7 @@ public class PantallaCargando extends Pantalla {
         if(assetManager.update()){
             switch(screen){
                 case MENU:
+                case SPLASHART:
                     jga.setScreen(new MenuJudafaals(jga));
                     break;
                 case SETTINGS:

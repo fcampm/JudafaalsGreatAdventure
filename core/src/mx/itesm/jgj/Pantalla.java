@@ -18,7 +18,7 @@ public abstract class Pantalla implements Screen
     public static final float ANCHO = 1280;
     public static final float ALTO = 720;
     public static final int MENU = 0, SETTINGS = 1, NIVELES = 2, ABOUT = 3,
-            PRIMERNIVEL = 4, SEGUNDONIVEL = 5, TERCERNIVEL = 6, AYUDA = 7;
+            PRIMERNIVEL = 4, SEGUNDONIVEL = 5, TERCERNIVEL = 6, AYUDA = 7, SPLASHART = 8;
 
     // Atributos disponibles en las subclases
     // Todas las pantallas tienen una cámara y la vista

@@ -26,7 +26,7 @@ public class JudafaalsGreatAdventure extends Game {
 	    prefs.flush();
 
 		// Pone Pantalla inicial.
-		setScreen(new PantallaCargando(this, Pantalla.MENU)); // Solo objetos de Game pueden correr este comando
+		setScreen(new PantallaCargando(this, Pantalla.SPLASHART)); // Solo objetos de Game pueden correr este comando
 	}
 
 	public AssetManager getAssetManager(){
