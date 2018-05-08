@@ -100,17 +100,17 @@ class PantallaAbout extends Pantalla {
 
         // Se dibujan el fondo y las fotos de los desarrolladores.
         batch.draw(fondoPantallaAbout, 0, 0);
-        batch.draw(fabianCamp, ANCHO - ANCHO/6, 2.1f * ALTO/4);
-        batch.draw(darwinJomair, ANCHO - ANCHO/6, 1.4f * ALTO/4);
-        batch.draw(juanAguilar, ANCHO - ANCHO/6, 0.7f * ALTO/4);
-        batch.draw(alfonsoAlquicer, ANCHO - ANCHO/6, 0.0f * ALTO/4);
+        batch.draw(fabianCamp, ANCHO - ANCHO/6, 2.3f * ALTO/4);
+        batch.draw(darwinJomair, ANCHO - ANCHO/3, 1.6f * ALTO/4);
+        batch.draw(juanAguilar, ANCHO - ANCHO/6, 0.9f * ALTO/4);
+        batch.draw(alfonsoAlquicer, ANCHO - ANCHO/3, 0.2f * ALTO/4);
 
         // Se dibujan los mensajes a mostrar en la pantalla de about.
         texto.mostrarMensaje(batch, "Desarrolladores:", ANCHO/2 - ANCHO/6, 3.5f * ALTO/4);
-        texto.mostrarMensaje(batch, "Fabian Camp Mussa - ISC", ANCHO/2 - ANCHO/6 - 30, 2.5f * ALTO/4);
-        texto.mostrarMensaje(batch, "Darwin Chavez Salas - ISC", ANCHO/2 - ANCHO/6, 1.8f * ALTO/4);
-        texto.mostrarMensaje(batch, "Juan Jose Aguilar Hernandez - LAD", ANCHO/2 - ANCHO/6, 1.1f * ALTO/4);
-        texto.mostrarMensaje(batch, "Alfonso Alquicer Mendez - ISC", ANCHO/2 - ANCHO/6, 0.4f * ALTO/4);
+        texto.mostrarMensaje(batch, "Fabián Camp Mussa - ISC", ANCHO/2 - ANCHO/6 - 30, 2.9f * ALTO/4);
+        texto.mostrarMensaje(batch, "Darwin Chávez Salas - ISC", ANCHO/2 - ANCHO/6, 2.2f * ALTO/4);
+        texto.mostrarMensaje(batch, "Juan José Aguilar Hernández - LAD", ANCHO/2 - ANCHO/6, 1.5f * ALTO/4);
+        texto.mostrarMensaje(batch, "Alfonso Alquícer Méndez - ISC", ANCHO/2 - ANCHO/6, 0.8f * ALTO/4);
 
         batch.end();
 
