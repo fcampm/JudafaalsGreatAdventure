@@ -71,6 +71,8 @@ public class PantallaCargando extends Pantalla {
                 assetManager.load("Botones/sonido.png", Texture.class);
                 assetManager.load("Botones/noSonido.png", Texture.class);
                 assetManager.load("Botones/FlechaAtras.png", Texture.class);
+                assetManager.load("Botones/reinicio.png", Texture.class);
+                assetManager.load("Botones/reinicioOnClick.png", Texture.class);
                 break;
             case NIVELES:
                 // Cargamos las texturas a usar.

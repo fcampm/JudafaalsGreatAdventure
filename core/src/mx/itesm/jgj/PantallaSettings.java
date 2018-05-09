@@ -36,12 +36,16 @@ class PantallaSettings extends Pantalla {
     private Texture texturaSonido;
     private Texture texturaNoSonido;
     private Texture texturaAtras;
+    private Texture texturaReinicio;
+    private Texture texturaReinicioOnClick;
     private TextureRegionDrawable imagenSonido;
     private TextureRegionDrawable imagenNoSonido;
     private TextureRegionDrawable imagenAtras;
+    private TextureRegionDrawable imagenReinicio;
+    private TextureRegionDrawable imagenReinicioOnClick;
 
     // Preferencias del ususario.
-    private Preferences soundPreferences = Gdx.app.getPreferences("usersPreferences");
+    private Preferences levelPreferences = Gdx.app.getPreferences("usersPreferences");
 
     // Escenas de la pantalla de Settings.
     private Stage escenaSettings;
@@ -65,14 +69,14 @@ class PantallaSettings extends Pantalla {
         // Creación de la animación de los botones de sonido y no sonido.
         final ImageButton btnSonido = new ImageButton(imagenSonido);
         final ImageButton btnNoSonido = new ImageButton(imagenNoSonido);
-        btnSonido.setPosition(ANCHO/2 - btnSonido.getWidth()/2, ALTO/2 - btnSonido.getHeight()/2);
-        btnNoSonido.setPosition(ANCHO/2 - btnSonido.getWidth()/2, ALTO/2 - btnSonido.getHeight()/2);
+        btnSonido.setPosition(ANCHO/2 - (btnSonido.getWidth() + 100), ALTO/2 - btnSonido.getHeight()/2);
+        btnNoSonido.setPosition(ANCHO/2 - (btnSonido.getWidth() + 100), ALTO/2 - btnSonido.getHeight()/2);
         btnSonido.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y){
                 super.clicked(event, x, y);
-                soundPreferences.putBoolean("soundOn", false);
-                soundPreferences.flush();
+                levelPreferences.putBoolean("soundOn", false);
+                levelPreferences.flush();
                 btnSonido.remove();
                 escenaSettings.addActor(btnNoSonido);
             }
@@ -83,8 +87,8 @@ class PantallaSettings extends Pantalla {
             @Override
             public void clicked(InputEvent event, float x, float y){
                 super.clicked(event, x, y);
-                soundPreferences.putBoolean("soundOn", true);
-                soundPreferences.flush();
+                levelPreferences.putBoolean("soundOn", true);
+                levelPreferences.flush();
                 btnNoSonido.remove();
                 escenaSettings.addActor(btnSonido);
             }
@@ -101,7 +105,21 @@ class PantallaSettings extends Pantalla {
             }
         });
 
-        if (soundPreferences.getBoolean("soundOn")){
+        // Creación del boton reiniciar.
+        ImageButton btnReinicio = new ImageButton(imagenReinicio, imagenReinicioOnClick);
+        btnReinicio.setPosition(ANCHO - (btnReinicio.getWidth() + 100), ALTO/2 - btnReinicio.getHeight()/2);
+        btnReinicio.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                levelPreferences.putBoolean("firstLevelPassed", false);
+                levelPreferences.putBoolean("secondLevelPassed", false);
+                levelPreferences.flush();
+            }
+        });
+        escenaSettings.addActor(btnReinicio);
+
+        if (levelPreferences.getBoolean("soundOn")){
             escenaSettings.addActor(btnSonido);
         }
         else{
@@ -116,9 +134,13 @@ class PantallaSettings extends Pantalla {
         texturaSonido = assetManager.get("Botones/sonido.png");
         texturaNoSonido = assetManager.get("Botones/noSonido.png");
         texturaAtras = assetManager.get("Botones/FlechaAtras.png");
+        texturaReinicio = assetManager.get("Botones/reinicio.png");
+        texturaReinicioOnClick = assetManager.get("Botones/reinicioOnClick.png");
         imagenSonido = new TextureRegionDrawable(new TextureRegion(texturaSonido));
         imagenNoSonido = new TextureRegionDrawable(new TextureRegion(texturaNoSonido));
         imagenAtras = new TextureRegionDrawable(new TextureRegion(texturaAtras));
+        imagenReinicio = new TextureRegionDrawable(new TextureRegion(texturaReinicio));
+        imagenReinicioOnClick = new TextureRegionDrawable(new TextureRegion(texturaReinicioOnClick));
     }
 
     @Override

@@ -42,7 +42,6 @@ class SegundoNivel extends Pantalla {
     // Preferencias del ususario del sonido
     private Preferences levelPreferences = Gdx.app.getPreferences("usersPreferences");
     boolean musicaActivada = levelPreferences.getBoolean("soundOn");
-    boolean levelPassed = levelPreferences.getBoolean("secondLevelPassed");
 
     private Random random = new Random();
     private boolean bombaTomada= false;
