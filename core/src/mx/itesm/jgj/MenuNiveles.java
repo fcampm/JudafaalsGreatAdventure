@@ -3,6 +3,7 @@ package mx.itesm.jgj;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
@@ -44,6 +45,9 @@ class MenuNiveles extends Pantalla {
     // Escenas
     private Stage escenaMenuNivel;
 
+    // Preferencias de los niveles.
+    private Preferences levelPreferences= Gdx.app.getPreferences("usersPreferences");
+
     public MenuNiveles(JudafaalsGreatAdventure judafaalsGreatAdventure) {
         this.jga = judafaalsGreatAdventure;
         assetManager = jga.getAssetManager();
@@ -79,7 +83,9 @@ class MenuNiveles extends Pantalla {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                jga.setScreen(new PantallaCargando(jga, Pantalla.SEGUNDONIVEL));
+                if(levelPreferences.getBoolean("firstLevelPassed")) {
+                    jga.setScreen(new PantallaCargando(jga, Pantalla.SEGUNDONIVEL));
+                }
             }
         });
         escenaMenuNivel.addActor(btnSegundoNivel);
@@ -91,7 +97,9 @@ class MenuNiveles extends Pantalla {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                jga.setScreen(new PantallaCargando(jga, Pantalla.TERCERNIVEL));
+                if(levelPreferences.getBoolean("secondLevelPassed")) {
+                    jga.setScreen(new PantallaCargando(jga, Pantalla.TERCERNIVEL));
+                }
             }
         });
         escenaMenuNivel.addActor(btnTercerNivel);
@@ -113,8 +121,18 @@ class MenuNiveles extends Pantalla {
         fondoMenuNiveles = assetManager.get("Fondos/Pantalla principal.jpg");
         naveFondo = assetManager.get("Naveinicio.png");
         texturaPrimerNivel = assetManager.get("Botones/BotonNivelUno.png");
-        texturaSegundoNivel = assetManager.get("Botones/BotonNivelDos.png");
-        texturaTecerNivel = assetManager.get("Botones/BotonNivelTres.png");
+        if(levelPreferences.getBoolean("firstLevelPassed")) {
+            texturaSegundoNivel = assetManager.get("Botones/BotonNivelDos.png");
+        }
+        else{
+            texturaSegundoNivel = assetManager.get("Botones/NoBotonNivelDos.png");
+        }
+        if(levelPreferences.getBoolean("secondLevelPassed")){
+            texturaTecerNivel = assetManager.get("Botones/BotonNivelTres.png");
+        }
+        else{
+            texturaTecerNivel = assetManager.get("Botones/NoBotonNivelTres.png");
+        }
         texturaBack = assetManager.get("Botones/FlechaAtras.png");
         imagenPrimerNivel = new TextureRegionDrawable(new TextureRegion(texturaPrimerNivel));
         imagenSegundoNivel = new TextureRegionDrawable(new TextureRegion(texturaSegundoNivel));

@@ -40,8 +40,9 @@ class SegundoNivel extends Pantalla {
     private AssetManager assetManager;
 
     // Preferencias del ususario del sonido
-    private Preferences soundPreferences = Gdx.app.getPreferences("usersPreferences");
-    boolean musicaActivada = soundPreferences.getBoolean("soundOn");
+    private Preferences levelPreferences = Gdx.app.getPreferences("usersPreferences");
+    boolean musicaActivada = levelPreferences.getBoolean("soundOn");
+    boolean levelPassed = levelPreferences.getBoolean("secondLevelPassed");
 
     private Random random = new Random();
     private boolean bombaTomada= false;
@@ -382,6 +383,8 @@ class SegundoNivel extends Pantalla {
                 texto2.mostrarMensaje(batch, "Level Completed", ANCHO_MAPA - 650, ALTO - 20);
                 estado = EstadoJuego.GANADO;
                 musicaFondo.dispose();
+                levelPreferences.putBoolean("secondLevelPassed", true);
+                levelPreferences.flush();
             } else{
                 estado = EstadoJuego.PERDIDO;
                 texto2.mostrarMensaje(batch, "You forgot the bomb!", ANCHO_MAPA - 650, ALTO - 20);

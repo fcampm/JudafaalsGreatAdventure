@@ -41,8 +41,8 @@ class TercerNivel extends Pantalla {
     private JudafaalsGreatAdventure jga;
     private AssetManager assetManager;
 
-    private Preferences soundPreferences = Gdx.app.getPreferences("usersPreferences");
-    boolean musicaActivada = soundPreferences.getBoolean("soundOn");
+    private Preferences levelPreferences = Gdx.app.getPreferences("usersPreferences");
+    boolean musicaActivada = levelPreferences.getBoolean("soundOn");
 
     //Enemigos
     private Array<Enemigo> arrEnemigo;

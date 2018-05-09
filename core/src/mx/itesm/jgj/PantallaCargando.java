@@ -78,7 +78,9 @@ public class PantallaCargando extends Pantalla {
                 assetManager.load("Naveinicio.png", Texture.class);
                 assetManager.load("Botones/BotonNivelUno.png", Texture.class);
                 assetManager.load("Botones/BotonNivelDos.png", Texture.class);
+                assetManager.load("Botones/NoBotonNivelDos.png", Texture.class);
                 assetManager.load("Botones/BotonNivelTres.png", Texture.class);
+                assetManager.load("Botones/NoBotonNivelTres.png", Texture.class);
                 assetManager.load("Botones/FlechaAtras.png", Texture.class);
                 break;
             case AYUDA:

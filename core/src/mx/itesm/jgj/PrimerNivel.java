@@ -42,8 +42,9 @@ class PrimerNivel extends Pantalla {
     private AssetManager assetManager;
 
     // Preferencias del usuario
-    private Preferences soundPreferences = Gdx.app.getPreferences("usersPreferences");
-    boolean musicaActivada = soundPreferences.getBoolean("soundOn");
+    private Preferences levelPreferences = Gdx.app.getPreferences("usersPreferences");
+    boolean musicaActivada = levelPreferences.getBoolean("soundOn");
+    boolean levelPassed = levelPreferences.getBoolean("firstLevelPassed");
 
 
     private Personaje nave;
@@ -341,6 +342,8 @@ class PrimerNivel extends Pantalla {
         if (nave.getX() >= ANCHO_MAPA - 150) {
             texto2.mostrarMensaje(batch, "Level Completed", ANCHO_MAPA - 650, ALTO - 20);
             estado= EstadoJuego.GANADO;
+            levelPreferences.putBoolean("firstLevelPassed", true);
+            levelPreferences.flush();
             musicaFondo.dispose();
 
         }
@@ -677,6 +680,25 @@ class PrimerNivel extends Pantalla {
             });
 
             this.addActor(restartBtn);
+
+            textureNextLevel = assetManager.get("Botones/nextLevel.png");
+            TextureRegionDrawable nextLevel = new TextureRegionDrawable(new TextureRegion(textureNextLevel));
+            ImageButton btnNextLevel = new ImageButton(nextLevel);
+
+            btnNextLevel.setPosition(ANCHO/2 - btnNextLevel.getWidth()/2, 150);
+            btnNextLevel.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    super.clicked(event, x, y);
+                    if(musicaActivada){
+                        musicaFondo.stop();
+                    }
+                    jga.setScreen(new PantallaCargando(jga, Pantalla.SEGUNDONIVEL));
+                }
+            });
+
+            this.addActor(btnNextLevel);
+
         }
 
     }
