@@ -7,6 +7,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import javax.xml.soap.Text;
 
@@ -108,6 +109,7 @@ public class PantallaCargando extends Pantalla {
                 assetManager.load("PrimerNivel/youFailed.png", Texture.class);
                 assetManager.load("Botones/BotonExitN.png", Texture.class);
                 assetManager.load("Botones/BotonReinicioN.png", Texture.class);
+                assetManager.load("Botones/nextLevel.png", Texture.class);
 
                 // Cargamos todos los sonidos.
                 assetManager.load("Musica/level1.mp3", Music.class);
@@ -133,6 +135,7 @@ public class PantallaCargando extends Pantalla {
                 assetManager.load("PrimerNivel/youFailed.png", Texture.class);
                 assetManager.load("Botones/BotonExitN.png", Texture.class);
                 assetManager.load("Botones/BotonReinicioN.png", Texture.class);
+                assetManager.load("Botones/nextLevel.png", Texture.class);
 
                 // Cargamos todos los sonidos.
                 assetManager.load("Musica/choque.mp3", Sound.class);

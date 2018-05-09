@@ -715,6 +715,7 @@ class SegundoNivel extends Pantalla {
             Texture texturaBtnSalir;
             Texture texturaBtnContinuar;
             Texture restartButton;
+            Texture textureNextLevel;
 
             Pixmap pixmap = new Pixmap((int) (ANCHO * 0.7f), (int) (ALTO * 0.8f), Pixmap.Format.RGBA8888);
             pixmap.setColor(0f, 0f, 0f, 0f);
@@ -773,6 +774,24 @@ class SegundoNivel extends Pantalla {
             });
 
             this.addActor(restartBtn);
+
+            textureNextLevel = assetManager.get("Botones/nextLevel.png");
+            TextureRegionDrawable nextLevel = new TextureRegionDrawable(new TextureRegion(textureNextLevel));
+            ImageButton btnNextLevel = new ImageButton(nextLevel);
+
+            btnNextLevel.setPosition(ANCHO/2 - btnNextLevel.getWidth()/2, 150);
+            btnNextLevel.addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    super.clicked(event, x, y);
+                    if(musicaActivada){
+                        musicaFondo.stop();
+                    }
+                    jga.setScreen(new PantallaCargando(jga, Pantalla.TERCERNIVEL));
+                }
+            });
+
+            this.addActor(btnNextLevel);
         }
 
     }

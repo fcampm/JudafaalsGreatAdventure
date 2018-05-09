@@ -618,6 +618,7 @@ class PrimerNivel extends Pantalla {
             Texture texturaBtnSalir;
             Texture texturaBtnContinuar;
             Texture restartButton;
+            Texture textureNextLevel;
 
             Pixmap pixmap = new Pixmap((int) (ANCHO * 0.7f), (int) (ALTO * 0.8f), Pixmap.Format.RGBA8888);
             pixmap.setColor(0f, 0f, 0f, 0f);
