@@ -23,8 +23,12 @@ public class JudafaalsGreatAdventure extends Game {
 	    assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
         Preferences prefs = Gdx.app.getPreferences("usersPreferences");
 	    prefs.putBoolean("soundON", true);
-	    prefs.putBoolean("firstLevelPassed", false);
-	    prefs.putBoolean("secondLevelPassed", false);
+	    if(!prefs.getBoolean("firstLevelPassed")) {
+			prefs.putBoolean("firstLevelPassed", false);
+		}
+		if(!prefs.getBoolean("secondLevelPassed")) {
+            prefs.putBoolean("secondLevelPassed", false);
+        }
 	    prefs.flush();
 
 		// Pone Pantalla inicial.
