@@ -101,7 +101,7 @@ class PantallaAbout extends Pantalla {
         // Se dibujan el fondo y las fotos de los desarrolladores.
         batch.draw(fondoPantallaAbout, 0, 0);
         batch.draw(fabianCamp, ANCHO - ANCHO/6, 2.3f * ALTO/4);
-        batch.draw(darwinJomair, ANCHO - ANCHO/6, 1.6f * ALTO/4+2);
+        batch.draw(darwinJomair, ANCHO - ANCHO/3, 1.6f * ALTO/4+2);
         batch.draw(juanAguilar, ANCHO - ANCHO/6, 0.9f * ALTO/4);
         batch.draw(alfonsoAlquicer, ANCHO - ANCHO/3, 0.2f * ALTO/4);
 
