@@ -61,6 +61,7 @@ class MenuJudafaals extends Pantalla {
         crearMenu();
         crearMusica();
         Gdx.input.setInputProcessor(escenaMenu);
+        Gdx.input.setCatchBackKey(false);
     }
 
     private void cargarTexturas() {
