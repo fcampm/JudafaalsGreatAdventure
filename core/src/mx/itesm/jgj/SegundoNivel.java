@@ -331,7 +331,7 @@ class SegundoNivel extends Pantalla {
         }
 
         if (estado == EstadoJuego.PERDIDO) {
-            //escenaPerder = new EscenaPerder(vistaHUD, batch);
+            cadenaVida = "You lose!";
             Gdx.input.setInputProcessor(escenaPerder);
             escenaPerder.draw();
         }
@@ -350,7 +350,6 @@ class SegundoNivel extends Pantalla {
         //CamaraHUD
         batch.setProjectionMatrix(camaraHUD.combined);
         escenaHUD.draw();
-        Gdx.app.log("fps", "FPS:" + Gdx.graphics.getFramesPerSecond());
 
         if(Gdx.input.isKeyPressed(Input.Keys.BACK)){
             estado = EstadoJuego.PAUSADO;
@@ -522,6 +521,7 @@ class SegundoNivel extends Pantalla {
             if(musicaActivada) {
                 choque.play();
             }
+            Gdx.input.vibrate(500);
             choque();
 
         }
@@ -606,7 +606,6 @@ class SegundoNivel extends Pantalla {
                     cadenaVida = "Vida: " + vida;
                     if(vida<=0) {
                         estado = EstadoJuego.PERDIDO;
-                        cadenaVida = "You lose!";
                     }
 
                 }

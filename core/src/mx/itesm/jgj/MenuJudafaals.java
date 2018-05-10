@@ -109,7 +109,6 @@ class MenuJudafaals extends Pantalla {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                Gdx.app.log("ClickListener","Hizo click el usuario");
                 // Cambia de pantalla, solo lo puede hacer 'juego' una escena no.
                 musicaFondo.pause(); // Para la reproducción de la música al entrar en la siguiente pantalla.
                 jga.setScreen(screen);
@@ -139,7 +138,6 @@ class MenuJudafaals extends Pantalla {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                Gdx.app.log("ClickListener","Hizo click el usuario");
                 // Cambia de pantalla, solo lo puede hacer 'juego' una escena no.
                 musicaFondo.stop(); // Para la reproducción de la música al entrar en la siguiente pantalla.
                 jga.setScreen(screen);

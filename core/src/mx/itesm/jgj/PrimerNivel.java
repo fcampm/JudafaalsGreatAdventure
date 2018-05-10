@@ -31,7 +31,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
 import java.util.Random;
 
 class PrimerNivel extends Pantalla {
@@ -45,7 +44,6 @@ class PrimerNivel extends Pantalla {
     private Preferences levelPreferences = Gdx.app.getPreferences("usersPreferences");
     boolean musicaActivada = levelPreferences.getBoolean("soundOn");
     boolean levelPassed = levelPreferences.getBoolean("firstLevelPassed");
-
 
     private Personaje nave;
     private float velocidadNave=5;
@@ -289,12 +287,12 @@ class PrimerNivel extends Pantalla {
         GenerarTextosySonidos();
 
         batch.end();
-        Gdx.app.log("FPS: ", "" +(Gdx.graphics.getFramesPerSecond()));
         if (estado == EstadoJuego.PAUSADO) {
             escenaPausa.draw();
         }
 
         if (estado == EstadoJuego.PERDIDO) {
+            cadenaVida = "You lose!";
             Gdx.input.setInputProcessor(escenaPerder);
 
             escenaPerder.draw();
@@ -368,6 +366,7 @@ class PrimerNivel extends Pantalla {
             if(musicaActivada) {
                 choque.play();
             }
+            Gdx.input.vibrate(500);
             choque();
 
         }

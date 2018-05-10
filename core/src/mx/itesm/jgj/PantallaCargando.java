@@ -243,7 +243,6 @@ public class PantallaCargando extends Pantalla {
         }
         else{
             tiempo += Gdx.graphics.getDeltaTime();
-            Gdx.app.log("Tiempo", String.valueOf(tiempo));
         }
     }
 

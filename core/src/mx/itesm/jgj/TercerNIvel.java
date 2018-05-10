@@ -362,8 +362,8 @@ class TercerNivel extends Pantalla {
         }
 
         if (estado == EstadoJuego.PERDIDO) {
+            cadenaVida = "You loose";
             Gdx.input.setInputProcessor(escenaPerder);
-
             escenaPerder.draw();
         }
 
@@ -387,7 +387,6 @@ class TercerNivel extends Pantalla {
             Gdx.input.setInputProcessor(escenaPausa);
         }
 
-        Gdx.app.log("FPS", "FPS: " + Gdx.graphics.getFramesPerSecond());
     }
 
     private void actualizarCamara() {
@@ -605,6 +604,7 @@ class TercerNivel extends Pantalla {
 
                     }
                     cadenaVida = "Vida: " + vida;
+                    Gdx.input.vibrate(500);
                 }
             }
         }

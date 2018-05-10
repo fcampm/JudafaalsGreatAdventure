@@ -113,7 +113,6 @@ class PantallaAbout extends Pantalla {
         texto.mostrarMensaje(batch, "Darwin Chávez Salas - ISC", ANCHO/2 - ANCHO/6, 2.2f * ALTO/4);
         texto.mostrarMensaje(batch, "Juan José Aguilar Hernández - LAD", ANCHO/2 - ANCHO/6, 1.5f * ALTO/4);
         texto.mostrarMensaje(batch, "Alfonso Alquícer Méndez - ISC", ANCHO/2 - ANCHO/6, 0.8f * ALTO/4);
-        texto.mostrarMensaje(batch, "Campus CEM", ANCHO - ANCHO/8, 100);
 
         batch.end();
 
